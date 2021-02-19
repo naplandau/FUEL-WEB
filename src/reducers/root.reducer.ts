@@ -1,7 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-const rootReducer = combineReducers({
+import stationReducer from './station.reducer';
 
+const rootReducer = combineReducers({
+    stationReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

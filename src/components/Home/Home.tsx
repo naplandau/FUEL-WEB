@@ -23,11 +23,30 @@ import LockOpenOutlined from '@material-ui/icons/LockOpenOutlined';
 import { Button, IconButton, TextField } from "@material-ui/core";
 
 import paths from "../../configs/paths.config";
+import { RootState } from "../../reducers/root.reducer";
+import { fetchListStations } from "../../reducers/station.reducer"
 
 import '../../styles/Home/Home.scss';
 
-const Home = () => {
+const statesToProps = (state: RootState) => ({
+    stations: state.stationReducer.listStations,
+});
+
+const dispatchToProps = {
+    fetchListStations,
+};
+
+const connector = connect(statesToProps, dispatchToProps);
+
+type HomeProps = ConnectedProps<typeof connector> & HistoryProps;
+
+const Home = ({ stations, fetchListStations }: HomeProps) => {
     const [selected, setSelected] = useState(0);
+
+    useEffect(() => {
+        fetchListStations();
+    }, []);
+
     return (
         <div className='container'>
             <div className='sidebar'>
