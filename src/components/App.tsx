@@ -9,12 +9,14 @@ import paths from '../configs/paths.config';
 //import Home from './Home/Home';
 import Login from './Login';
 import Page404 from './common/Page404';
+import Home from './Home/Home';
 
 const App = () => {
     return (
         <Router basename={paths.base}>
             <Switch>
                 <Route path={paths.base} exact component={Login} />
+                <Route path={paths.home} exact component={Home} />
                 <Route component={Page404} />
             </Switch>
         </Router>
