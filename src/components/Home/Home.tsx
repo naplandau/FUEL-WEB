@@ -23,6 +23,7 @@ import LockOpenOutlined from '@material-ui/icons/LockOpenOutlined';
 import { Button, IconButton, TextField } from "@material-ui/core";
 
 import paths from "../../configs/paths.config";
+import HistoryProps from "../../types/HistoryProps.type";
 import { RootState } from "../../reducers/root.reducer";
 import { fetchListStations } from "../../reducers/station.reducer"
 
@@ -45,6 +46,7 @@ const Home = ({ stations, fetchListStations }: HomeProps) => {
 
     useEffect(() => {
         fetchListStations();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
