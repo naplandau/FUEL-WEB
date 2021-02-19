@@ -10,7 +10,7 @@ import paths from "../configs/paths.config";
 
 const Login = () => {
     const [error, setError] = useState('');
-    const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
     const [logging, isLogging] = useState(false)
 
@@ -25,12 +25,12 @@ const Login = () => {
 
                         <TextField
                             className="Login__text-field"
-                            label="Email"
+                            label="Số điện thoại"
                             variant="outlined"
                             type="email"
                             required
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
                         />
 
                         <TextField

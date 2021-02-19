@@ -43,7 +43,10 @@ const connector = connect(statesToProps, dispatchToProps);
 
 type HomeProps = ConnectedProps<typeof connector>;
 
-const Home = ({ stations, fetchListStations }: HomeProps) => {
+const Home = ({
+    stations,
+    fetchListStations,
+    deleteStation }: HomeProps) => {
     const [selected, setSelected] = useState(0);
 
     useEffect(() => {
@@ -116,7 +119,8 @@ const Home = ({ stations, fetchListStations }: HomeProps) => {
                                             onClick={() => handleDeleteStation(row)}
                                             color="secondary"
                                         >
-                                            <DeleteIcon /></IconButton>
+                                            <DeleteIcon />
+                                        </IconButton>
                                     </TableCell>
                                 </TableRow>
                             )
