@@ -3,14 +3,14 @@ import endpoints from '../configs/endpoints.config';
 import ResponseError from "../types/ResponseError.type";
 import ResponseSuccess from '../types/ResponseSuccess.type';
 
-const getAllStationsApi = async () => {
+const deleteStationApi = async (stationId: string) => {
     try {
-        const res = await api.get(endpoints.getListStations());
-        const allStations: ResponseSuccess = {
+        const res = await api.delete(endpoints.deleteStation(stationId));
+        const station: ResponseSuccess = {
             code: res.status,
             data: res.data,
         };
-        return allStations;
+        return station;
     } catch (err) {
         const errorObj: ResponseError = {
             code: err.response.status,
@@ -20,4 +20,4 @@ const getAllStationsApi = async () => {
     }
 }
 
-export default getAllStationsApi;
+export default deleteStationApi;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect, ConnectedProps } from 'react-redux';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import ImportContacts from '@material-ui/icons/ImportContacts';
+import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
 import CategoryOutlined from '@material-ui/icons/CategoryOutlined';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -21,13 +21,14 @@ import EditOutlined from '@material-ui/icons/EditOutlined';
 import LockOutlined from '@material-ui/icons/LockOutlined';
 import LockOpenOutlined from '@material-ui/icons/LockOpenOutlined';
 import { Button, IconButton, TextField } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 
 import paths from "../../configs/paths.config";
-import HistoryProps from "../../types/HistoryProps.type";
+import StationDetails from "../../types/Station.type";
 import { RootState } from "../../reducers/root.reducer";
-import { fetchListStations } from "../../reducers/station.reducer"
+import { fetchListStations, deleteStation } from "../../reducers/station.reducer"
 
-import '../../styles/Home/Home.scss';
+import '../../styles/components/Home/Home.scss';
 
 const statesToProps = (state: RootState) => ({
     stations: state.stationReducer.listStations,
@@ -35,19 +36,25 @@ const statesToProps = (state: RootState) => ({
 
 const dispatchToProps = {
     fetchListStations,
+    deleteStation
 };
 
 const connector = connect(statesToProps, dispatchToProps);
 
-type HomeProps = ConnectedProps<typeof connector> & HistoryProps;
+type HomeProps = ConnectedProps<typeof connector>;
 
 const Home = ({ stations, fetchListStations }: HomeProps) => {
     const [selected, setSelected] = useState(0);
 
     useEffect(() => {
         fetchListStations();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const handleDeleteStation = (station: StationDetails) => {
+        if (window.confirm(`Are you sure you want to delete ${station.name}?`)) {
+            deleteStation(station._id);
+        };
+    }
 
     return (
         <div className='container'>
@@ -67,25 +74,59 @@ const Home = ({ stations, fetchListStations }: HomeProps) => {
                     <p style={selected === 0 ? { color: '#e73e3e' } : {}} className='text'>Users</p>
                 </div>
                 <div style={selected === 1 ? { borderColor: '#e73e3e' } : {}} onClick={() => setSelected(1)} className='sideOptions'>
-                    <ImportContacts style={Object.assign({}, {
+                    <LocalGasStationIcon style={Object.assign({}, {
                         width: '5vh',
                         height: '5vh'
                     }, selected === 1 ? { color: '#e73e3e' } : {})} className='icon' />
-                    <p style={selected === 1 ? { color: '#e73e3e' } : {}} className='text'>Courses</p>
+                    <p style={selected === 1 ? { color: '#e73e3e' } : {}} className='text'>Stations</p>
                 </div>
-                <div style={selected === 2 ? { borderColor: '#e73e3e' } : {}} onClick={() => setSelected(2)} className='sideOptions'>
+                {/* <div style={selected === 2 ? { borderColor: '#e73e3e' } : {}} onClick={() => setSelected(2)} className='sideOptions'>
                     <CategoryOutlined style={Object.assign({}, {
                         width: '5vh',
                         height: '5vh'
                     }, selected === 2 ? { color: '#e73e3e' } : {})} className='icon' />
                     <p style={selected === 2 ? { color: '#e73e3e' } : {}} className='text'>Categories</p>
-                </div>
+                </div> */}
             </div>
             <div className='content'>
-
+                {selected === 1 && <TableContainer component={Paper}>
+                    <Table stickyHeader className='table' aria-label="simple table">
+                        <TableHead className='header-table'>
+                            <TableRow>
+                                <TableCell align="center">Name</TableCell>
+                                <TableCell align="center">Description</TableCell>
+                                <TableCell align="center">Total Tank</TableCell>
+                                <TableCell align="center">Available Tanks</TableCell>
+                                <TableCell align="center">Address</TableCell>
+                                <TableCell align="center">Working Time</TableCell>
+                                <TableCell align="center">Options</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        {stations.length > 0 && <TableBody>
+                            {stations.map((row) => (
+                                <TableRow key={row._id}>
+                                    <TableCell align="center">{row.name}</TableCell>
+                                    <TableCell align="center">{row.description}</TableCell>
+                                    <TableCell align="center">{row.total_tank}</TableCell>
+                                    <TableCell align="center">{row.available_tanks}</TableCell>
+                                    <TableCell align="center">{row.address}</TableCell>
+                                    <TableCell align="center">{row.working_hour_from}h to {row.working_hour_to}h</TableCell>
+                                    <TableCell align="center">
+                                        <IconButton
+                                            onClick={() => handleDeleteStation(row)}
+                                            color="secondary"
+                                        >
+                                            <DeleteIcon /></IconButton>
+                                    </TableCell>
+                                </TableRow>
+                            )
+                            )}
+                        </TableBody>}
+                    </Table>
+                </TableContainer>}
             </div>
         </div>
     )
 }
 
-export default Home;
+export default withRouter(connector(Home));

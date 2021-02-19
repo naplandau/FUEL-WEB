@@ -1,19 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import getAllStationsApi from '../apis/getAllStations.api';
+import deleteStationApi from '../apis/deleteStation.api';
 import { AppThunk } from '../configs/store.config';
 import { isResponseError } from '../types/ResponseError.type';
-import StationType from '../types/Station.type';
+import StationDetails from '../types/Station.type';
 
 const initialState = {
-    listStations: Array<StationType>(),
+    listStations: Array<StationDetails>(),
 };
 
-const stationSlice = createSlice({
-    name: 'stationSlice',
+const listStationsSlice = createSlice({
+    name: 'stationReducer',
     initialState,
     reducers: {
         setListStations(state, action: PayloadAction<{
-            listStations: Array<StationType>,
+            listStations: Array<StationDetails>,
         }>) {
             state.listStations = action.payload.listStations;
         },
@@ -26,12 +27,9 @@ const stationSlice = createSlice({
 export const {
     setListStations,
     clearListStations,
-} = stationSlice.actions;
+} = listStationsSlice.actions;
 
-export const fetchListStations = (): AppThunk => async (dispatch, getState) => {
-    //const state = getState();
-    //const { authenticationReducer } = state;
-
+export const fetchListStations = (): AppThunk => async (dispatch) => {
     const response = await getAllStationsApi();
 
     if (isResponseError(response)) {
@@ -39,8 +37,20 @@ export const fetchListStations = (): AppThunk => async (dispatch, getState) => {
     }
 
     dispatch(setListStations({
-        listStations: response.data.stations,
+        listStations: response.data.data,
     }));
 };
 
-export default stationSlice.reducer;
+export const deleteStation = (stationId: string): AppThunk => async (dispatch, getState) => {
+    const state = getState();
+    const { stationReducer } = state;
+
+    const response = await deleteStationApi(stationId);
+    if (!isResponseError(response)) {
+        dispatch(setListStations({
+            listStations: stationReducer.listStations.filter(station => station._id !== stationId),
+        }));
+    }
+}
+
+export default listStationsSlice.reducer;

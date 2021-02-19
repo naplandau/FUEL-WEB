@@ -1,8 +1,9 @@
-const base: string = 'http://localhost:3000/api';
+const base: string = 'http://localhost:8080/api';
 
 const endpoints = {
     base: base,
-    getListStation: () => `${base}/stations`,
+    getListStations: () => `${base}/stations`,
+    deleteStation: (stationId: string) => `${base}/stations/${stationId}`,
 };
 
 export default endpoints;
