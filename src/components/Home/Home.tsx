@@ -27,16 +27,19 @@ import paths from "../../configs/paths.config";
 import StationDetails from "../../types/Station.type";
 import { RootState } from "../../reducers/root.reducer";
 import { fetchListStations, deleteStation } from "../../reducers/station.reducer"
+import { getUsers } from "../../reducers/user.reducer";
 
 import '../../styles/components/Home/Home.scss';
 
 const statesToProps = (state: RootState) => ({
     stations: state.stationReducer.listStations,
+    users: state.usersReducer.listUsers,
 });
 
 const dispatchToProps = {
     fetchListStations,
-    deleteStation
+    deleteStation,
+    getUsers
 };
 
 const connector = connect(statesToProps, dispatchToProps);
@@ -45,12 +48,15 @@ type HomeProps = ConnectedProps<typeof connector>;
 
 const Home = ({
     stations,
+    users,
     fetchListStations,
-    deleteStation }: HomeProps) => {
+    deleteStation,
+    getUsers }: HomeProps) => {
     const [selected, setSelected] = useState(0);
 
     useEffect(() => {
         fetchListStations();
+        getUsers();
     }, []);
 
     const handleDeleteStation = (station: StationDetails) => {
@@ -92,6 +98,27 @@ const Home = ({
                 </div> */}
             </div>
             <div className='content'>
+                {selected === 0 && <TableContainer component={Paper}>
+                    <Table stickyHeader className='table' aria-label="simple table">
+                        <TableHead className='header-table'>
+                            <TableRow>
+                                <TableCell align="center">Name</TableCell>
+                                <TableCell align="center">Email</TableCell>
+                                <TableCell align="center">Role</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        {users.length > 0 && <TableBody>
+                            {users.map((row) => (
+                                <TableRow key={row._id}>
+                                    <TableCell align="center">{row.name}</TableCell>
+                                    <TableCell align="center">{row.email}</TableCell>
+                                    <TableCell align="center">{row.role}</TableCell>
+                                </TableRow>
+                            )
+                            )}
+                        </TableBody>}
+                    </Table>
+                </TableContainer>}
                 {selected === 1 && <TableContainer component={Paper}>
                     <Table stickyHeader className='table' aria-label="simple table">
                         <TableHead className='header-table'>
@@ -99,7 +126,6 @@ const Home = ({
                                 <TableCell align="center">Name</TableCell>
                                 <TableCell align="center">Description</TableCell>
                                 <TableCell align="center">Total Tank</TableCell>
-                                <TableCell align="center">Available Tanks</TableCell>
                                 <TableCell align="center">Address</TableCell>
                                 <TableCell align="center">Working Time</TableCell>
                                 <TableCell align="center">Options</TableCell>
@@ -111,7 +137,6 @@ const Home = ({
                                     <TableCell align="center">{row.name}</TableCell>
                                     <TableCell align="center">{row.description}</TableCell>
                                     <TableCell align="center">{row.total_tank}</TableCell>
-                                    <TableCell align="center">{row.available_tanks}</TableCell>
                                     <TableCell align="center">{row.address}</TableCell>
                                     <TableCell align="center">{row.working_hour_from}h to {row.working_hour_to}h</TableCell>
                                     <TableCell align="center">

@@ -46,7 +46,7 @@ export const deleteStation = (stationId: string): AppThunk => async (dispatch, g
     const { stationReducer } = state;
 
     const response = await deleteStationApi(stationId);
-    console.log(response);
+
     if (!isResponseError(response)) {
         dispatch(setListStations({
             listStations: stationReducer.listStations.filter(station => station._id !== stationId),

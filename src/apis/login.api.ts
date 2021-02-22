@@ -6,6 +6,7 @@ import ResponseSuccess from '../types/ResponseSuccess.type';
 export type LoginBody = {
     phoneNumber: string;
     password: string;
+    otpCode: string;
 };
 
 const LoginApi = async (credentials: LoginBody) => {
