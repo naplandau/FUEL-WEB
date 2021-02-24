@@ -9,7 +9,7 @@ const initialState = {
 };
 
 const userSlice = createSlice({
-    name: 'usersReducer',
+    name: 'userReducer',
     initialState,
     reducers: {
         setUsers(state, action: PayloadAction<Array<User>>) {
@@ -24,16 +24,21 @@ export const {
 
 export const getUsers = (): AppThunk => async (dispatch, getState) => {
     const state = getState();
+
     const { authenticationReducer } = state;
     const { accessToken } = authenticationReducer;
-    console.log(accessToken)
+
+    if (!accessToken) {
+        return;
+    }
+
     const response = await getAllUsersApi(accessToken);
 
     if (isResponseError(response)) {
         return dispatch(setUsers([]));
     }
 
-    dispatch(setUsers(response.data.data.filter((user: User) => user.role !== 1)));
+    dispatch(setUsers(response.data.data.filter((user: User) => user.role !== 0)));
 }
 
 export default userSlice.reducer;

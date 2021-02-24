@@ -26,22 +26,22 @@ type LoginProps = ConnectedProps<typeof connector>;
 
 const Login = (props: LoginProps) => {
     const [error, setError] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [isLogging, setIsLogging] = useState(false);
     const [isLoginSuccess, setIsLoginSuccess] = useState(false);
 
     const validateData = () => {
-        if (!phoneNumber) {
+        if (!userName) {
             return 'Phone number is required!';
         }
 
-        if (phoneNumber.length > 10) {
+        if (userName.length > 10) {
             return 'Phone number can not contain more than 10 numbers!';
         }
 
         const vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
-        if (!vnf_regex.test(phoneNumber)) {
+        if (!vnf_regex.test(userName)) {
             return 'Phone number is invalid!';
         }
 
@@ -63,10 +63,10 @@ const Login = (props: LoginProps) => {
         setIsLogging(true);
 
         props.login({
-            phoneNumber,
+            userName,
             password,
-            otpCode: "000000"
         });
+
         setIsLoginSuccess(true);
 
     };
@@ -77,10 +77,9 @@ const Login = (props: LoginProps) => {
         setIsLoginSuccess(false);
     }, [props.loginError]);
 
-    if (isLoginSuccess) {
-        <Redirect push to={paths.home} />
+    if (props.refreshToken) {
+        return <Redirect to={paths.home} />
     }
-
     return (
         <div className="Login">
             <Grid container>
@@ -96,8 +95,8 @@ const Login = (props: LoginProps) => {
                             variant="outlined"
                             type="email"
                             required
-                            value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            value={userName}
+                            onChange={(e) => setUserName(e.target.value)}
                         />
 
                         <TextField

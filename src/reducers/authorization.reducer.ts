@@ -38,9 +38,9 @@ export const {
   loginFailed
 } = authorizationSlice.actions;
 
-export const login = (credentials: LoginBody): AppThunk => async (dispatch) => {
+export const login = (credentials: LoginBody): AppThunk => async (dispatch, getState) => {
   const response = await loginApi(credentials);
-  console.log(response);
+
   if (isResponseError(response)) {
     return dispatch(loginFailed(response.error));
   }

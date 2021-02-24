@@ -3,9 +3,13 @@ import endpoints from '../configs/endpoints.config';
 import ResponseError from "../types/ResponseError.type";
 import ResponseSuccess from '../types/ResponseSuccess.type';
 
-const getAllStationsApi = async () => {
+const getAllStationsApi = async (accessToken: string) => {
     try {
-        const res = await api.get(endpoints.getListStations());
+        const res = await api.get(endpoints.getListStations(), {
+            headers: {
+                'authorization': "Bearer " + accessToken,
+            },
+        });
         const allStations: ResponseSuccess = {
             code: res.status,
             data: res.data,

@@ -7,7 +7,7 @@ const getAllUsersApi = async (accessToken: string) => {
     try {
         const res = await api.get(endpoints.getListUsers(), {
             headers: {
-                'authorization': accessToken,
+                'authorization': "Bearer " + accessToken,
             },
         });
         const allUsers: ResponseSuccess = {

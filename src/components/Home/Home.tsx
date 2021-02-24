@@ -33,7 +33,7 @@ import '../../styles/components/Home/Home.scss';
 
 const statesToProps = (state: RootState) => ({
     stations: state.stationReducer.listStations,
-    users: state.usersReducer.listUsers,
+    users: state.userReducer.listUsers,
 });
 
 const dispatchToProps = {

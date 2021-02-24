@@ -29,8 +29,15 @@ export const {
     clearListStations,
 } = listStationsSlice.actions;
 
-export const fetchListStations = (): AppThunk => async (dispatch) => {
-    const response = await getAllStationsApi();
+export const fetchListStations = (): AppThunk => async (dispatch, getState) => {
+    const state = getState();
+    const { authenticationReducer } = state;
+    const { accessToken } = authenticationReducer;
+    if (!accessToken) {
+        return;
+    }
+
+    const response = await getAllStationsApi(accessToken);
 
     if (isResponseError(response)) {
         return dispatch(clearListStations());
