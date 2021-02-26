@@ -5,12 +5,12 @@ import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableFooter from '@material-ui/core/TableFooter';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import Add from '@material-ui/icons/Add';
 import EditOutlined from '@material-ui/icons/EditOutlined';
 import LockOutlined from '@material-ui/icons/LockOutlined';
@@ -23,7 +23,8 @@ import StationDetails from "../../types/Station.type";
 import { RootState } from "../../reducers/root.reducer";
 import { fetchListStations, deleteStation } from "../../reducers/station.reducer"
 import { getUsers } from "../../reducers/user.reducer";
-import AddStationDialog from "./AddStationDialog"
+import AddStationDialog from "./AddStationDialog";
+import EditStationDialog from "./EditStationDialog";
 
 import '../../styles/components/Home/Home.scss';
 
@@ -51,6 +52,33 @@ const Home = ({
     const [selected, setSelected] = useState(0);
     const [addStationDialog, setAddStationDialog] = useState(false);
     const [editStationDialog, setEditStationDialog] = useState(false);
+    const [selectedStation, setSelectedStation] = useState<StationDetails>({
+        isActive: false,
+        description: '',
+        total_tank: null,
+        available_tanks: null,
+        _id: '',
+        name: '',
+        address: '',
+        long: null,
+        lat: null,
+        working_hour_from: '',
+        working_hour_to: '',
+        tank: [{
+            _id: '',
+            station_id: '',
+            tank_position: null,
+            fuel_type: null,
+            isActive: false,
+        }],
+        pool: [{
+            _id: '',
+            fuel_amount: null,
+            type_name: '',
+        }],
+        createdAt: '',
+        updatedAt: '',
+    })
 
     useEffect(() => {
         fetchListStations();
@@ -65,14 +93,14 @@ const Home = ({
         setAddStationDialog(false);
     }
 
-    // const openEditCatDialog = (cat: Category) => {
-    //     setSelectedCat(cat);
-    //     setEditCatDialog(true);
-    // }
+    const openEditStationDialog = (station: StationDetails) => {
+        setSelectedStation(station);
+        setEditStationDialog(true);
+    }
 
-    // const closeEditCatDialog = () => {
-    //     setEditCatDialog(false);
-    // }
+    const closeEditStationDialog = () => {
+        setEditStationDialog(false);
+    }
 
     const handleDeleteStation = (station: StationDetails) => {
         if (window.confirm(`Are you sure you want to delete ${station.name}?`)) {
@@ -156,6 +184,12 @@ const Home = ({
                                     <TableCell align="center">{station.working_hour_from}h to {station.working_hour_to}h</TableCell>
                                     <TableCell align="center">
                                         <IconButton
+                                            onClick={() => openEditStationDialog(station)}
+                                            color="secondary"
+                                        >
+                                            <EditIcon />
+                                        </IconButton>
+                                        <IconButton
                                             onClick={() => handleDeleteStation(station)}
                                             color="secondary"
                                         >
@@ -173,6 +207,7 @@ const Home = ({
                 </div>
             </div>
             <AddStationDialog open={addStationDialog} onClose={closeAddStationDialog} />
+            <EditStationDialog open={editStationDialog} station={selectedStation} onClose={closeEditStationDialog} />
         </div>
     )
 }

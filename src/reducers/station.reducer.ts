@@ -41,7 +41,7 @@ const listStationsSlice = createSlice({
                         working_hour_to: action.payload.working_hour_to
                     }
                 }
-                return station
+                return station;
             })
             state.error = '';
         },
@@ -98,7 +98,15 @@ export const createStation = (station: AddEditStation): AppThunk => async (dispa
     dispatch(addStation(response.data.data));
 }
 
-export const updateStation = (station: AddEditStation, stationId: string): AppThunk => async (dispatch, getState) => {
+export const updateStation = (station = {
+    name: '',
+    address: '',
+    description: '',
+    long: 0,
+    lat: 0,
+    working_hour_from: '',
+    working_hour_to: ''
+}, stationId: string): AppThunk => async (dispatch, getState) => {
     const state = getState();
     const { authenticationReducer } = state;
     const { accessToken } = authenticationReducer;
@@ -107,6 +115,7 @@ export const updateStation = (station: AddEditStation, stationId: string): AppTh
     }
 
     const response = await updateStationApi(stationId, accessToken, station);
+    console.log(response);
 
     if (isResponseError(response)) {
         return dispatch(setError(response.error));

@@ -2,15 +2,24 @@ import api from '../configs/api.config';
 import endpoints from '../configs/endpoints.config';
 import ResponseError from "../types/ResponseError.type";
 import ResponseSuccess from '../types/ResponseSuccess.type';
-import AddEditStation from '../types/AddEditStation.type';
 
-const updateStationApi = async (stationId: string, accessToken: string, data: AddEditStation) => {
+const updateStationApi = async (stationId: string, accessToken: string,
+    data = {
+        name: '',
+        address: '',
+        description: '',
+        long: 0,
+        lat: 0,
+        working_hour_from: '',
+        working_hour_to: ''
+    }) => {
     try {
         const res = await api.patch(endpoints.updateStation(stationId), data, {
             headers: {
                 'authorization': "Bearer " + accessToken,
             },
         });
+        console.log(res);
         const station: ResponseSuccess = {
             code: res.status,
             data: res.data,

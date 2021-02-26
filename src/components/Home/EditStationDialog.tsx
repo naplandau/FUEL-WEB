@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { Grid, Typography } from '@material-ui/core';
@@ -66,32 +67,6 @@ const EditStationDialog = ({
     }
 
     const validateData = () => {
-        if (!name) {
-            return "Station's name is required!";
-        }
-        if (!description) {
-            return 'Description is required!';
-        }
-
-        if (!address) {
-            return 'Address is required!';
-        }
-
-        if (!long) {
-            return 'Longitude is required!';
-        }
-
-        if (!lat) {
-            return 'Latitude is required!';
-        }
-
-        if (!workingHourTo) {
-            return 'Working Hour To is required!';
-        }
-
-        if (!workingHourFrom) {
-            return 'Working Hour From is required!';
-        }
 
         if (long < -180 || long > 180) {
             return "Longitude's value must be between -180 and 180!";
@@ -103,6 +78,18 @@ const EditStationDialog = ({
 
         return '';
     };
+
+    useEffect(() => {
+        if (station) {
+            setName(station.name);
+            setDescription(station.description);
+            setLong(station.long);
+            setLat(station.lat);
+            setAddress(station.address);
+            setWorkingHourTo(station.working_hour_to);
+            setWorkingHourFrom(station.working_hour_from);
+        }
+    }, [station])
 
     return (
         <div className="AddStation">
