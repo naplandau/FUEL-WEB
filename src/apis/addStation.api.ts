@@ -2,10 +2,11 @@ import api from '../configs/api.config';
 import endpoints from '../configs/endpoints.config';
 import ResponseError from "../types/ResponseError.type";
 import ResponseSuccess from '../types/ResponseSuccess.type';
+import AddEditStation from '../types/AddEditStation.type';
 
-const deleteStationApi = async (stationId: string, accessToken: string) => {
+const addStationApi = async (accessToken: string, credentials: AddEditStation) => {
     try {
-        const res = await api.delete(endpoints.deleteStation(stationId), {
+        const res = await api.post(endpoints.addStation(), credentials, {
             headers: {
                 'authorization': "Bearer " + accessToken,
             },
@@ -24,4 +25,4 @@ const deleteStationApi = async (stationId: string, accessToken: string) => {
     }
 }
 
-export default deleteStationApi;
+export default addStationApi;

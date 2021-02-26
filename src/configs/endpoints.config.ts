@@ -6,6 +6,8 @@ const endpoints = {
     deleteStation: (stationId: string) => `${base}/stations/${stationId}`,
     login: () => `${base}/admin/auth`,
     getListUsers: () => `${base}/users/detail`,
+    addStation: () => `${base}/stations`,
+    updateStation: (stationId: string) => `${base}/stations/${stationId}`,
 };
 
 export default endpoints;

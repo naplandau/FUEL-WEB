@@ -29,11 +29,13 @@ const Login = (props: LoginProps) => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [isLogging, setIsLogging] = useState(false);
-    const [isLoginSuccess, setIsLoginSuccess] = useState(false);
 
     const validateData = () => {
         if (!userName) {
             return 'Phone number is required!';
+        }
+        if (!password) {
+            return 'Password is required!';
         }
 
         if (userName.length > 10) {
@@ -66,15 +68,11 @@ const Login = (props: LoginProps) => {
             userName,
             password,
         });
-
-        setIsLoginSuccess(true);
-
     };
 
     useEffect(() => {
         setError(props.loginError);
         setIsLogging(false);
-        setIsLoginSuccess(false);
     }, [props.loginError]);
 
     if (props.refreshToken) {

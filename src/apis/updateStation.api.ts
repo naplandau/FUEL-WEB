@@ -2,10 +2,11 @@ import api from '../configs/api.config';
 import endpoints from '../configs/endpoints.config';
 import ResponseError from "../types/ResponseError.type";
 import ResponseSuccess from '../types/ResponseSuccess.type';
+import AddEditStation from '../types/AddEditStation.type';
 
-const deleteStationApi = async (stationId: string, accessToken: string) => {
+const updateStationApi = async (stationId: string, accessToken: string, data: AddEditStation) => {
     try {
-        const res = await api.delete(endpoints.deleteStation(stationId), {
+        const res = await api.patch(endpoints.updateStation(stationId), data, {
             headers: {
                 'authorization': "Bearer " + accessToken,
             },
@@ -24,4 +25,4 @@ const deleteStationApi = async (stationId: string, accessToken: string) => {
     }
 }
 
-export default deleteStationApi;
+export default updateStationApi;

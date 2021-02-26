@@ -4,8 +4,8 @@ type StationDetails = {
     total_tank: number;
     available_tanks: number;
     _id: string;
-    name: number;
-    address: number;
+    name: string;
+    address: string;
     long: number;
     lat: number;
     working_hour_from: string;

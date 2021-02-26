@@ -99,7 +99,7 @@
     background-color: transparent;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-end;
 }
 
 .button {
@@ -128,6 +128,13 @@
     padding: 0px !important;
 }
 
-.sub-cat {
-    color: $primary-color;
+.Home__buttons {
+    width: 100% !important;
+    background-color: $primary-color !important;
+    color: white !important;
+    padding: 10px !important;
+}
+
+.Home__buttons-custom {
+    margin-top: 10px;
 }

@@ -38,7 +38,7 @@ export const getUsers = (): AppThunk => async (dispatch, getState) => {
         return dispatch(setUsers([]));
     }
 
-    dispatch(setUsers(response.data.data.filter((user: User) => user.role !== 0)));
+    dispatch(setUsers(response.data.data.filter((user: User) => user.role !== 1)));
 }
 
 export default userSlice.reducer;
