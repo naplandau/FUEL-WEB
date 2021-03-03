@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import getAllStationsApi from '../apis/getAllStations.api';
 import deleteStationApi from '../apis/deleteStation.api';
+import getStationDetailsApi from '../apis/getStationDetails.api';
 import { AppThunk } from '../configs/store.config';
 import { isResponseError } from '../types/ResponseError.type';
 import StationDetails from '../types/Station.type';
@@ -9,6 +10,7 @@ import updateStationApi from '../apis/updateStation.api';
 import AddEditStation from '../types/AddEditStation.type';
 
 const initialState = {
+    station: null as StationDetails,
     listStations: Array<StationDetails>(),
     error: ''
 };
@@ -17,6 +19,16 @@ const listStationsSlice = createSlice({
     name: 'stationReducer',
     initialState,
     reducers: {
+        setStationDetails(state, action: PayloadAction<{
+            station: StationDetails,
+            error: string,
+        }>) {
+            state.station = action.payload.station;
+            state.error = action.payload.error;
+        },
+        resetStation(state) {
+            state.station = null;
+        },
         setListStations(state, action: PayloadAction<{
             listStations: Array<StationDetails>,
         }>) {
@@ -55,11 +67,13 @@ const listStationsSlice = createSlice({
 });
 
 export const {
+    setStationDetails,
     setListStations,
     clearListStations,
     setError,
     addStation,
-    editStation
+    editStation,
+    resetStation
 } = listStationsSlice.actions;
 
 export const fetchListStations = (): AppThunk => async (dispatch, getState) => {
@@ -80,6 +94,27 @@ export const fetchListStations = (): AppThunk => async (dispatch, getState) => {
         listStations: response.data.data,
     }));
 };
+
+export const fetchStationDetails = (stationId: string): AppThunk => async (dispatch, getState) => {
+    const state = getState();
+    const { authenticationReducer } = state;
+    const { accessToken } = authenticationReducer;
+    if (!accessToken) {
+        return;
+    }
+
+    const response = await getStationDetailsApi(accessToken, stationId);
+    console.log(response);
+
+    if (isResponseError(response)) {
+        return dispatch(setStationDetails({ station: null, error: response.error }));
+    }
+
+    dispatch(setStationDetails({
+        station: response.data.data,
+        error: ''
+    }));
+}
 
 export const createStation = (station: AddEditStation): AppThunk => async (dispatch, getState) => {
     const state = getState();

@@ -10,6 +10,8 @@ import paths from '../configs/paths.config';
 import Login from './Login';
 import Page404 from './common/Page404';
 import Home from './Home/Home';
+import StationDetail from './ListStations/StationDetails';
+import ListStations from './ListStations/ListStations'
 
 const App = () => {
     return (
@@ -17,6 +19,8 @@ const App = () => {
             <Switch>
                 <Route path={paths.base} exact component={Login} />
                 <Route path={paths.home} exact component={Home} />
+                <Route path={`${paths.listStations()}/:id`} exact component={StationDetail} />
+                <Route path={paths.listStations()} exact component={ListStations} />
                 <Route component={Page404} />
             </Switch>
         </Router>

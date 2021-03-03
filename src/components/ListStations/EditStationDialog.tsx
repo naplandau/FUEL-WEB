@@ -95,7 +95,7 @@ const EditStationDialog = ({
         <div className="AddStation">
             <Grid container>
                 <Dialog className="AddStation__wrapper" open={open} onClose={onClose} aria-labelledby="form-dialog-title">
-                    <DialogTitle className="AddStation__title" id="form-dialog-title">Edit Station</DialogTitle>
+                    <DialogTitle className="AddStation__title" id="form-dialog-title">Chỉnh sửa cây xăng</DialogTitle>
                     <DialogContent style={{
                         flexDirection: 'column'
                     }}>
@@ -104,7 +104,7 @@ const EditStationDialog = ({
                             variant='outlined'
                             className="AddStation__text-field"
                             autoFocus
-                            label="Station's name"
+                            label="Tên cây xăng"
                             fullWidth
                             value={name}
                             onChange={(e) => setName(e.target.value)}
@@ -112,7 +112,7 @@ const EditStationDialog = ({
                         <TextField
                             variant='outlined'
                             className="AddStation__text-field"
-                            label="Description"
+                            label="Mô tả"
                             value={description}
                             fullWidth
                             onChange={(e) => setDescription(e.target.value)}
@@ -120,7 +120,7 @@ const EditStationDialog = ({
                         <TextField
                             variant='outlined'
                             className="AddStation__text-field"
-                            label="Address"
+                            label="Địa chỉ"
                             value={address}
                             fullWidth
                             onChange={(e) => setAddress(e.target.value)}
@@ -131,7 +131,7 @@ const EditStationDialog = ({
                                     variant="outlined"
                                     className="AddStation__text-field"
                                     type="number"
-                                    label="Longitude"
+                                    label="Kinh độ"
                                     required
                                     value={long}
                                     onChange={(e) => setLong(parseFloat(e.target.value))}
@@ -142,7 +142,7 @@ const EditStationDialog = ({
                                     variant="outlined"
                                     className="AddStation__text-field"
                                     type="number"
-                                    label="Latitude"
+                                    label="Vĩ độ"
                                     required
                                     value={lat}
                                     onChange={(e) => setLat(parseFloat(e.target.value))}
@@ -155,7 +155,7 @@ const EditStationDialog = ({
                                     variant="outlined"
                                     className="AddStation__text-field "
                                     type="number"
-                                    label="Woking Hour From"
+                                    label="Hoạt động từ"
                                     required
                                     value={workingHourFrom}
                                     onChange={(e) => setWorkingHourFrom(e.target.value)}
@@ -166,7 +166,7 @@ const EditStationDialog = ({
                                     variant="outlined"
                                     className="AddStation__text-field"
                                     type="number"
-                                    label="Woking Hour To"
+                                    label="Hoạt động đến"
                                     required
                                     value={workingHourTo}
                                     onChange={(e) => setWorkingHourTo(e.target.value)}

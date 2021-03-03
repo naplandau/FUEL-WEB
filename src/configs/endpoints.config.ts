@@ -8,6 +8,7 @@ const endpoints = {
     getListUsers: () => `${base}/users/detail`,
     addStation: () => `${base}/stations`,
     updateStation: (stationId: string) => `${base}/stations/${stationId}`,
+    getStationDetails: (stationId: string) => `${base}/stations/${stationId}`
 };
 
 export default endpoints;
