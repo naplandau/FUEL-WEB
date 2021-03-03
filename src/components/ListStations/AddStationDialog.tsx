@@ -105,7 +105,7 @@ const StationDialog = ({
         <div className="AddStation">
             <Grid container>
                 <Dialog className="AddStation__wrapper" open={open} onClose={onClose} aria-labelledby="form-dialog-title">
-                    <DialogTitle className="AddStation__title" id="form-dialog-title">New Station</DialogTitle>
+                    <DialogTitle className="AddStation__title" id="form-dialog-title">Cây xăng mới</DialogTitle>
                     <DialogContent style={{
                         flexDirection: 'column'
                     }}>
@@ -114,22 +114,21 @@ const StationDialog = ({
                             variant='outlined'
                             className="AddStation__text-field"
                             autoFocus
-                            label="Station's name"
+                            label="Tên cây xăng"
                             fullWidth
                             onChange={(e) => setName(e.target.value)}
                         />
                         <TextField
                             variant='outlined'
                             className="AddStation__text-field"
-                            label="Description"
-                            value={description}
+                            label="Mô tả"
                             fullWidth
                             onChange={(e) => setDescription(e.target.value)}
                         />
                         <TextField
                             variant='outlined'
                             className="AddStation__text-field"
-                            label="Address"
+                            label="Địa chỉ"
                             fullWidth
                             onChange={(e) => setAddress(e.target.value)}
                         />
@@ -139,9 +138,8 @@ const StationDialog = ({
                                     variant="outlined"
                                     className="AddStation__text-field"
                                     type="number"
-                                    label="Longitude"
+                                    label="Kinh độ"
                                     required
-                                    value={long}
                                     onChange={(e) => setLong(parseFloat(e.target.value))}
                                 />
                             </Grid>
@@ -150,9 +148,8 @@ const StationDialog = ({
                                     variant="outlined"
                                     className="AddStation__text-field"
                                     type="number"
-                                    label="Latitude"
+                                    label="Vĩ độ"
                                     required
-                                    value={lat}
                                     onChange={(e) => setLat(parseFloat(e.target.value))}
                                 />
                             </Grid>
@@ -163,9 +160,8 @@ const StationDialog = ({
                                     variant="outlined"
                                     className="AddStation__text-field "
                                     type="number"
-                                    label="Woking Hour From"
+                                    label="Hoạt động từ"
                                     required
-                                    value={workingHourFrom}
                                     onChange={(e) => setWorkingHourFrom(e.target.value)}
                                 />
                             </Grid>
@@ -174,9 +170,8 @@ const StationDialog = ({
                                     variant="outlined"
                                     className="AddStation__text-field"
                                     type="number"
-                                    label="Woking Hour To"
+                                    label="Hoạt động đến"
                                     required
-                                    value={workingHourTo}
                                     onChange={(e) => setWorkingHourTo(e.target.value)}
                                 />
                             </Grid>

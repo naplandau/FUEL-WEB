@@ -10,14 +10,14 @@ type StationDetails = {
     lat: number;
     working_hour_from: string;
     working_hour_to: string;
-    tank: [{
+    tanks: [{
         _id: string;
         station_id: string;
         tank_position: number;
         fuel_type: string;
         isActive: boolean;
     }];
-    pool: [{
+    pools: [{
         _id: string;
         fuel_amount: number;
         type_name: string;
