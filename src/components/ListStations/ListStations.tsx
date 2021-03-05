@@ -12,12 +12,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Add from '@material-ui/icons/Add';
-import { Button, IconButton, TextField } from "@material-ui/core";
-import { withRouter, Redirect } from "react-router-dom";
+import { Button, IconButton } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 import RouterProps from '../../types/RouterProps.type';
-import PageWrapper from "../common/PageWrapper";
-import { NavBarLink } from "../common/NavBar";
-import paths from "../../configs/paths.config";
 
 import StationDetails from "../../types/Station.type";
 import { RootState } from "../../reducers/root.reducer";
@@ -30,7 +27,6 @@ import '../../styles/components/Home/Home.scss';
 
 const statesToProps = (state: RootState) => ({
     stations: state.stationReducer.listStations,
-    selected: state.sidebarReducer.selected
 });
 
 const dispatchToProps = {
@@ -45,7 +41,6 @@ type ListStationsProps = ConnectedProps<typeof connector> & RouterProps;
 const ListStations = ({
     history,
     stations,
-    selected,
     fetchListStations,
     deleteStation }: ListStationsProps) => {
     const [addStationDialog, setAddStationDialog] = useState(false);
@@ -71,6 +66,7 @@ const ListStations = ({
         }],
         pools: [{
             _id: '',
+            station_id: '',
             fuel_amount: null,
             type_name: '',
         }],

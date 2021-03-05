@@ -9,7 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { RootState } from '../../reducers/root.reducer';
 import { createStation } from '../../reducers/station.reducer';
 
-import '../../styles/components/Home/StationDialog.scss';
+import '../../styles/components/ListStations/StationDialog.scss';
 import { useState } from 'react';
 
 const stateToProps = (state: RootState) => ({
@@ -95,7 +95,7 @@ const StationDialog = ({
         }
 
         if (lat < -90 || lat > 90) {
-            return "Latitude's value must be between -180 and 180!";
+            return "Latitude's value must be between -90 and 90!";
         }
 
         return '';

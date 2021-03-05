@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 //import { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 //import { connect, ConnectedProps } from 'react-redux';
 
 import paths from '../configs/paths.config';

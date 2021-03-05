@@ -10,7 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { RootState } from '../../reducers/root.reducer';
 import { updateStation } from '../../reducers/station.reducer';
 
-import '../../styles/components/Home/StationDialog.scss';
+import '../../styles/components/ListStations/StationDialog.scss';
 import { useState } from 'react';
 import StationDetails from '../../types/Station.type';
 

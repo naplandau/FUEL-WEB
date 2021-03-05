@@ -13,8 +13,16 @@
 
 .stationDetail__paper {
     padding: 20px;
-    margin-bottom: 10px;
-    text-align: center;
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.stationDetail__buttons {
+    width: 100px !important;
+    background-color: $primary-color !important;
+    color: white !important;
+    padding: 10px !important;
+    margin-top: 10px;
 }
 
 .content {
@@ -22,13 +30,17 @@
     flex: 1;
     padding: 5vh;
     background-color: transparent;
-    flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-end;
     overflow: auto;
+    margin-bottom: 10px;
 }
 
 .StationDetail__text-field {
     width: 100%;
     margin-bottom: 20px !important;
+}
+
+.StationDetail__input-lable {
+    width: 100%;
+    margin-bottom: 10px !important;
 }

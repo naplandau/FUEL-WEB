@@ -2,7 +2,7 @@ import { Button, Grid, Paper, TextField, Typography } from "@material-ui/core"
 import { connect, ConnectedProps } from 'react-redux';
 import { useEffect, useState } from "react";
 
-import { Link, Redirect, withRouter } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import loading from '../assets/loadings/small-secondary.loading.gif';
 
 import '../styles/components/Login.scss';
