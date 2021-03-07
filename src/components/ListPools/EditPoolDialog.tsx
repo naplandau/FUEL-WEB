@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { connect, ConnectedProps } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { Grid, Typography } from '@material-ui/core';
@@ -8,35 +9,34 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { FormControl, Select, InputLabel, MenuItem } from '@material-ui/core';
 import { RootState } from '../../reducers/root.reducer';
-import { createPool } from '../../reducers/station.reducer';
+import PoolDetails from '../../types/Pool.type';
+import { updatePool } from '../../reducers/station.reducer';
 
 import '../../styles/components/ListPools/PoolDialog.scss';
 import { useState } from 'react';
-import StationDetails from '../../types/Station.type';
 
 const stateToProps = (state: RootState) => ({
 })
 
-
 const dispatchToProps = {
-    createPool,
+    updatePool,
 };
 
 const connector = connect(stateToProps, dispatchToProps);
 
 type BasicProps = {
+    pool: PoolDetails;
     open: boolean;
-    onClose: () => void;
-    station: StationDetails;
+    onClose: () => void
 }
 
 type PoolProps = ConnectedProps<typeof connector> & BasicProps;
 
 const PoolDialog = ({
-    station,
+    pool,
     open,
     onClose,
-    createPool,
+    updatePool,
 }: PoolProps) => {
     const [typeName, setTypeName] = useState('');
     const [fuelAmount, setFuelAmount] = useState(0);
@@ -50,63 +50,54 @@ const PoolDialog = ({
             return false;
         }
 
-        createPool({
-            station_id: station._id,
+        updatePool({
             type_name: typeName,
-            fuel_amount: fuelAmount
-        });
+            fuel_amount: fuelAmount,
+        }, pool._id);
         onClose();
     }
 
     const validateData = () => {
-        if (!typeName) {
-            return "Điền vào kiểu nhiên liệu!";
-        }
-        if (fuelAmount < 0) {
-            return 'Điền vào số lượng nhiên liệu (lít)!';
-        }
-
-        const isPoolExist = station.pools.find(pool => pool.type_name === typeName);
-
-        if (isPoolExist) {
-            return 'Kiểu nhiên liệu đã tồn tại';
-        }
-
         return '';
     };
+
+    useEffect(() => {
+        if (pool) {
+            setTypeName(pool.type_name);
+            setFuelAmount(pool.fuel_amount);
+        }
+    }, [pool])
 
     return (
         <div className="AddPool">
             <Grid container>
                 <Dialog className="AddPool__wrapper" open={open} onClose={onClose} aria-labelledby="form-dialog-title">
-                    <DialogTitle className="AddPool__title" id="form-dialog-title">Bồn chứa mới</DialogTitle>
+                    <DialogTitle className="AddPool__title" id="form-dialog-title">Chỉnh sửa bồn chứa</DialogTitle>
                     <DialogContent style={{
                         flexDirection: 'column'
                     }}>
                         {error && <Typography className="error" variant="body1">{error}</Typography>}
-                        <FormControl variant="outlined" className="AddPool__text-field" required>
+                        {/* <FormControl variant="outlined" className="AddPool__text-field" required>
                             <InputLabel>Chọn loại nhiên liệu</InputLabel>
                             <Select
                                 label="Chọn loại nhiên liệu"
+                                value={typeName}
                                 onChange={(e: React.ChangeEvent<{ value: unknown }>) => setTypeName(e.target.value as string)}
                             >
                                 <MenuItem value="Xăng RON 95-III">Xăng RON 95-III</MenuItem>
                                 <MenuItem value="Xăng E5 RON 92-II">Xăng E5 RON 92-II</MenuItem>
                                 <MenuItem value="Dầu DO 0,05S-II">Dầu DO 0,05S-II</MenuItem>
                                 <MenuItem value="Dầu KO">Dầu KO</MenuItem>
-
                             </Select>
-                        </FormControl>
-
+                        </FormControl> */}
                         <TextField
                             variant='outlined'
                             className="AddPool__text-field"
-                            autoFocus
                             label="Số lượng nhiên liệu (lít)"
+                            value={fuelAmount}
                             fullWidth
                             onChange={(e) => setFuelAmount(parseFloat(e.target.value))}
                         />
-
 
                     </DialogContent>
                     <DialogActions>

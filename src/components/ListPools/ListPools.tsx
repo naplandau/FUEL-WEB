@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import DeleteIcon from '@material-ui/icons/Delete';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Add from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 import { Button, IconButton } from "@material-ui/core";
 
 import { RootState } from "../../reducers/root.reducer";
@@ -16,6 +17,7 @@ import { RootState } from "../../reducers/root.reducer";
 import '../../styles/components/ListStations/StationDetail.scss';
 
 import AddPoolDialog from '../ListPools/AddPoolDialog';
+import EditPoolDialog from '../ListPools/EditPoolDialog';
 import StationDetails from '../../types/Station.type';
 import PoolDetails from '../../types/Pool.type';
 import { deletePool } from '../../reducers/station.reducer';
@@ -40,6 +42,13 @@ const ListPools = ({
     deletePool }: ListPoolsProps) => {
     const [addPoolDialog, setAddPoolDialog] = useState(false);
     const [pools, setPools] = useState([]);
+    const [editPoolDialog, setEditPoolDialog] = useState(false);
+    const [selectedPool, setSelectedPool] = useState<PoolDetails>({
+        _id: '',
+        station_id: '',
+        fuel_amount: null,
+        type_name: '',
+    })
 
     const openAddPoolDialog = () => {
         setAddPoolDialog(true);
@@ -47,6 +56,15 @@ const ListPools = ({
 
     const closeAddPoolDialog = () => {
         setAddPoolDialog(false);
+    }
+
+    const openEditPoolDialog = (pool: PoolDetails) => {
+        setSelectedPool(pool);
+        setEditPoolDialog(true);
+    }
+
+    const closeEditPoolDialog = () => {
+        setEditPoolDialog(false);
     }
 
     useEffect(() => {
@@ -80,6 +98,12 @@ const ListPools = ({
                                 <TableCell align="center">{pool.fuel_amount}</TableCell>
                                 <TableCell align="center">
                                     <IconButton
+                                        onClick={() => openEditPoolDialog(pool)}
+                                        color="secondary"
+                                    >
+                                        <EditIcon />
+                                    </IconButton>
+                                    <IconButton
                                         color="default"
                                         onClick={() => handleDeletePool(pool)}
                                     >
@@ -102,6 +126,7 @@ const ListPools = ({
             </TableContainer>
             <Button className='stationDetail__buttons' onClick={openAddPoolDialog} ><Add /></Button>
             <AddPoolDialog open={addPoolDialog} station={station} onClose={closeAddPoolDialog} />
+            <EditPoolDialog open={editPoolDialog} pool={selectedPool} onClose={closeEditPoolDialog} />
         </div>
     )
 }

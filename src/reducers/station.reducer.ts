@@ -16,6 +16,8 @@ import addTankApi from '../apis/addTank.api';
 import addPoolApi from '../apis/addPool.api';
 import deletePoolApi from '../apis/deletePool.api';
 import deleteTankApi from '../apis/deleteTank.api';
+import updateTankApi from '../apis/updateTank.api';
+import updatePoolApi from '../apis/updatePool.api';
 
 const initialState = {
     station: null as StationDetails,
@@ -167,7 +169,6 @@ export const updateStation = (station = {
     }
 
     const response = await updateStationApi(stationId, accessToken, station);
-    console.log(response);
 
     if (isResponseError(response)) {
         return dispatch(setError(response.error));
@@ -243,10 +244,13 @@ export const createTank = (tank: AddEditTank): AppThunk => async (dispatch, getS
     const response = await addTankApi(accessToken, tank);
 
     if (isResponseError(response)) {
-        return dispatch(setError(response.error));
+        return dispatch(setStationDetails({ station: null, error: response.error }));
     }
 
-    dispatch(addTank(response.data.data));
+    dispatch(setStationDetails({
+        station: response.data.data,
+        error: ''
+    }));
 }
 
 export const createPool = (pool: AddEditPool): AppThunk => async (dispatch, getState) => {
@@ -260,10 +264,59 @@ export const createPool = (pool: AddEditPool): AppThunk => async (dispatch, getS
     const response = await addPoolApi(accessToken, pool);
 
     if (isResponseError(response)) {
-        return dispatch(setError(response.error));
+        return dispatch(setStationDetails({ station: null, error: response.error }));
     }
 
-    dispatch(addPool(response.data.data));
+    dispatch(setStationDetails({
+        station: response.data.data,
+        error: ''
+    }));
+}
+
+export const updateTank = (tank = {
+    fuel_type: '',
+    tank_position: 0,
+}, tankId: string): AppThunk => async (dispatch, getState) => {
+    const state = getState();
+    const { authenticationReducer } = state;
+    const { accessToken } = authenticationReducer;
+    if (!accessToken) {
+        return;
+    }
+
+    const response = await updateTankApi(tankId, accessToken, tank);
+
+    if (isResponseError(response)) {
+        return dispatch(setStationDetails({ station: null, error: response.error }));
+    }
+
+    dispatch(setStationDetails({
+        station: response.data.data,
+        error: ''
+    }));
+}
+
+export const updatePool = (pool = {
+    type_name: '',
+    fuel_amount: 0,
+}, poolId: string): AppThunk => async (dispatch, getState) => {
+    const state = getState();
+    const { authenticationReducer } = state;
+    const { accessToken } = authenticationReducer;
+    if (!accessToken) {
+        return;
+    }
+
+    const response = await updatePoolApi(poolId, accessToken, pool);
+
+    if (isResponseError(response)) {
+        return dispatch(setStationDetails({ station: null, error: response.error }));
+    }
+
+    dispatch(setStationDetails({
+        station: response.data.data,
+        error: ''
+    }));
 }
 
 export default listStationsSlice.reducer;

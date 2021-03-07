@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import DeleteIcon from '@material-ui/icons/Delete';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Add from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 import { Button, IconButton } from "@material-ui/core";
 
 import { RootState } from "../../reducers/root.reducer";
@@ -16,6 +17,7 @@ import { RootState } from "../../reducers/root.reducer";
 import '../../styles/components/ListStations/StationDetail.scss';
 
 import AddTankDialog from '../ListTanks/AddTankDialog';
+import EditTankDialog from '../ListTanks/EditTankDialog';
 import StationDetails from "../../types/Station.type";
 import TankDetails from '../../types/Tank.type';
 import { deleteTank } from '../../reducers/station.reducer';
@@ -40,6 +42,14 @@ const ListTanks = ({
     deleteTank }: ListTanksProps) => {
     const [addTankDialog, setAddTankDialog] = useState(false);
     const [tanks, setTanks] = useState([]);
+    const [editTankDialog, setEditTankDialog] = useState(false);
+    const [selectedTank, setSelectedTank] = useState<TankDetails>({
+        _id: '',
+        station_id: '',
+        tank_position: 0,
+        fuel_type: null,
+        isActive: false,
+    })
 
     const openAddTankDialog = () => {
         setAddTankDialog(true);
@@ -47,6 +57,15 @@ const ListTanks = ({
 
     const closeAddTankDialog = () => {
         setAddTankDialog(false);
+    }
+
+    const openEditTankDialog = (tank: TankDetails) => {
+        setSelectedTank(tank);
+        setEditTankDialog(true);
+    }
+
+    const closeEditTankDialog = () => {
+        setEditTankDialog(false);
     }
 
     useEffect(() => {
@@ -82,6 +101,12 @@ const ListTanks = ({
                                 <TableCell align="center">{tank.isActive ? "Hoạt động" : "Không hoạt động"}</TableCell>
                                 <TableCell align="center">
                                     <IconButton
+                                        onClick={() => openEditTankDialog(tank)}
+                                        color="secondary"
+                                    >
+                                        <EditIcon />
+                                    </IconButton>
+                                    <IconButton
                                         color="default"
                                         onClick={() => handleDeleteTank(tank)}
                                     >
@@ -104,6 +129,7 @@ const ListTanks = ({
             </TableContainer>
             <Button className='stationDetail__buttons' onClick={openAddTankDialog} ><Add /></Button>
             <AddTankDialog open={addTankDialog} onClose={closeAddTankDialog} />
+            <EditTankDialog open={editTankDialog} tank={selectedTank} onClose={closeEditTankDialog} />
         </div>
     )
 }

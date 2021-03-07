@@ -5,6 +5,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import HistoryIcon from '@material-ui/icons/History';
+import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
 import { setSelected, setSideBarSelected } from '../../reducers/sidebar.reducer';
 import HistoryProps from "../../types/HistoryProps.type";
 
@@ -60,6 +61,13 @@ const SideBar = ({
                     height: '5vh'
                 }, selected === 3 ? { color: '#e73e3e' } : {})} className='icon' />
                 <p style={selected === 3 ? { color: '#e73e3e' } : {}} className='text'>Quản lý lịch sử</p>
+            </div>
+            <div style={selected === 4 ? { borderColor: '#e73e3e' } : {}} onClick={() => setSelected(4)} className='sideOptions'>
+                <CardGiftcardIcon style={Object.assign({}, {
+                    width: '5vh',
+                    height: '5vh'
+                }, selected === 4 ? { color: '#e73e3e' } : {})} className='icon' />
+                <p style={selected === 4 ? { color: '#e73e3e' } : {}} className='text'>Quản lý thẻ quà tặng</p>
             </div>
         </div>
     )
