@@ -1,39 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { connect, ConnectedProps } from 'react-redux';
 import SideBar from '../Home/SideBar';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import { Paper, Grid, Typography } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import Add from '@material-ui/icons/Add';
-import { Button, IconButton, TextField } from "@material-ui/core";
+import { Paper, Grid, Typography, InputLabel } from '@material-ui/core';
+import { Button, TextField } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 
-import StationDetails from "../../types/Station.type";
 import { RootState } from "../../reducers/root.reducer";
-import { fetchStationDetails, resetStation } from "../../reducers/station.reducer"
-import { getUsers } from "../../reducers/user.reducer";
-import AddStationDialog from "./AddStationDialog";
-import EditStationDialog from "./EditStationDialog";
+import { fetchStationDetails, resetStation, updateStation } from "../../reducers/station.reducer"
 import RouterProps from '../../types/RouterProps.type';
 
-import '../../styles/components/Home/StationDetail.scss';
+import '../../styles/components/ListStations/StationDetail.scss';
+
+import ListTanks from '../ListTanks/ListTanks';
+import ListPools from '../ListPools/ListPools';
 
 const statesToProps = (state: RootState) => ({
-    selected: state.sidebarReducer.selected,
     station: state.stationReducer.station,
     accessToken: state.authenticationReducer.accessToken,
 });
 
 const dispatchToProps = {
     fetchStationDetails,
-    resetStation
+    resetStation,
+    updateStation
 };
 
 const connector = connect(statesToProps, dispatchToProps);
@@ -43,8 +32,8 @@ type StationDetailsProps = ConnectedProps<typeof connector> & RouterProps;
 const StationDetail = ({
     station,
     fetchStationDetails,
+    updateStation,
     resetStation,
-    selected,
     accessToken,
     history
 }: StationDetailsProps) => {
@@ -55,9 +44,43 @@ const StationDetail = ({
     const [workingHourFrom, setWorkingHourFrom] = useState('');
     const [workingHourTo, setWorkingHourTo] = useState('');
     const [address, setAddress] = useState('');
-    const [tanks, setTanks] = useState([]);
-    const [pools, setPools] = useState([]);
     const [stationId, setStationId] = useState('');
+    const [error, setError] = useState('');
+
+    const handleConfirm = () => {
+        const errorMessage = validateData();
+        setError(errorMessage);
+
+        if (errorMessage) {
+            return false;
+        }
+
+        updateStation({
+            name: name,
+            address: address,
+            description: description,
+            long: long,
+            lat: lat,
+            working_hour_from: workingHourFrom,
+            working_hour_to: workingHourTo
+        }, station._id);
+
+        window.alert("Update station success");
+    }
+
+    const validateData = () => {
+
+        if (long < -180 || long > 180) {
+            return "Longitude's value must be between -180 and 180!";
+        }
+
+        if (lat < -90 || lat > 90) {
+            return "Latitude's value must be between -180 and 180!";
+        }
+
+        return '';
+    };
+
 
     useEffect(() => {
         if (stationId) {
@@ -85,8 +108,6 @@ const StationDetail = ({
             setAddress(station.address);
             setWorkingHourTo(station.working_hour_to);
             setWorkingHourFrom(station.working_hour_from);
-            setTanks(station.tanks);
-            setPools(station.pools);
         }
     }, [station]);
 
@@ -96,6 +117,7 @@ const StationDetail = ({
             <div className="content">
                 <Grid container>
                     <Grid item xs={12} sm={12} md={12} lg={12} className="stationDetail__wrapper">
+                        {error && <Typography className="error" variant="body1">{error}</Typography>}
                         <Paper className="stationDetail__paper">
                             <TextField
                                 variant='outlined'
@@ -170,94 +192,19 @@ const StationDetail = ({
                                     />
                                 </Grid>
                             </Grid>
+                            <Button className="stationDetail__buttons"
+                                onClick={handleConfirm}
+                                color='primary'>
+                                Update
+                            </Button>
                         </Paper>
+                        <InputLabel className="StationDetail__input-lable">Danh sách bồn chứa:</InputLabel>
                         <Paper className="stationDetail__paper">
-                            <TableContainer>
-                                <Table stickyHeader className='table' aria-label="simple table">
-                                    <TableHead className='header-table'>
-                                        <TableRow>
-                                            <TableCell align="center">Vị trí trụ bơm</TableCell>
-                                            <TableCell align="center">Loại xăng/dầu</TableCell>
-                                            <TableCell align="center">Tình trạng</TableCell>
-                                            <TableCell align="center">Tuỳ chỉnh</TableCell>
-                                            <TableCell align="center"></TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    {tanks.length > 0 && <TableBody>
-                                        {tanks.map((tank) => (
-                                            <TableRow key={tank._id}>
-                                                <TableCell align="center">{tank.tank_position}</TableCell>
-                                                <TableCell align="center">{tank.fuel_type}</TableCell>
-                                                <TableCell align="center">{tank.isActive ? "Hoạt động" : "Không hoạt động"}</TableCell>
-                                                <TableCell align="center">
-                                                    <IconButton
-                                                        color="secondary"
-                                                    >
-                                                        <EditIcon />
-                                                    </IconButton>
-                                                    <IconButton
-                                                        color="default"
-                                                    >
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                </TableCell>
-                                                <TableCell align="center">
-                                                    <IconButton
-                                                    // onClick={() => {
-                                                    //     history.push(`stations/${station._id}`)
-                                                    // }}
-                                                    >
-                                                        <NavigateNextIcon />
-                                                    </IconButton>
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>}
-                                </Table>
-                            </TableContainer>
+                            <ListPools station={station} />
                         </Paper>
+                        <InputLabel className="StationDetail__input-lable">Danh sách trụ bơm:</InputLabel>
                         <Paper className="stationDetail__paper">
-                            <TableContainer>
-                                <Table stickyHeader className='table' aria-label="simple table">
-                                    <TableHead className='header-table'>
-                                        <TableRow>
-                                            <TableCell align="center">Loại xăng/dầu</TableCell>
-                                            <TableCell align="center">Lượng xăng/dầu trong bồn</TableCell>
-                                            <TableCell align="center">Tuỳ chỉnh</TableCell>
-                                            <TableCell align="center"></TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    {pools.length > 0 && <TableBody>
-                                        {pools.map((pool) => (
-                                            <TableRow key={pool._id}>
-                                                <TableCell align="center">{pool.type_name}</TableCell>
-                                                <TableCell align="center">{pool.fuel_amount}</TableCell>
-                                                <TableCell align="center">
-                                                    <IconButton
-                                                        color="secondary"
-                                                    >
-                                                        <EditIcon />
-                                                    </IconButton>
-                                                    <IconButton
-                                                        color="default"
-                                                    >
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                </TableCell>
-                                                <TableCell align="center">
-                                                    <IconButton
-                                                    // onClick={() => {
-                                                    //     history.push(`stations/${station._id}`)
-                                                    // }}
-                                                    >
-                                                        <NavigateNextIcon />
-                                                    </IconButton>
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>}
-                                </Table>
-                            </TableContainer>
+                            <ListTanks station={station} />
                         </Paper>
                     </Grid>
                 </Grid>

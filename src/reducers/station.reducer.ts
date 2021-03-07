@@ -5,9 +5,19 @@ import getStationDetailsApi from '../apis/getStationDetails.api';
 import { AppThunk } from '../configs/store.config';
 import { isResponseError } from '../types/ResponseError.type';
 import StationDetails from '../types/Station.type';
+import TankDetails from '../types/Tank.type';
+import PoolDetails from '../types/Pool.type';
 import addStationApi from '../apis/addStation.api';
 import updateStationApi from '../apis/updateStation.api';
 import AddEditStation from '../types/AddEditStation.type';
+import AddEditTank from '../types/AddEditTank.type';
+import AddEditPool from '../types/AddEditPool.type';
+import addTankApi from '../apis/addTank.api';
+import addPoolApi from '../apis/addPool.api';
+import deletePoolApi from '../apis/deletePool.api';
+import deleteTankApi from '../apis/deleteTank.api';
+import updateTankApi from '../apis/updateTank.api';
+import updatePoolApi from '../apis/updatePool.api';
 
 const initialState = {
     station: null as StationDetails,
@@ -57,6 +67,14 @@ const listStationsSlice = createSlice({
             })
             state.error = '';
         },
+        addTank(state, action: PayloadAction<TankDetails>) {
+            state.station.tanks.push(action.payload);
+            state.error = '';
+        },
+        addPool(state, action: PayloadAction<PoolDetails>) {
+            state.station.pools.push(action.payload);
+            state.error = '';
+        },
         clearListStations(state) {
             state.listStations = [];
         },
@@ -73,7 +91,9 @@ export const {
     setError,
     addStation,
     editStation,
-    resetStation
+    resetStation,
+    addTank,
+    addPool,
 } = listStationsSlice.actions;
 
 export const fetchListStations = (): AppThunk => async (dispatch, getState) => {
@@ -104,7 +124,6 @@ export const fetchStationDetails = (stationId: string): AppThunk => async (dispa
     }
 
     const response = await getStationDetailsApi(accessToken, stationId);
-    console.log(response);
 
     if (isResponseError(response)) {
         return dispatch(setStationDetails({ station: null, error: response.error }));
@@ -150,7 +169,6 @@ export const updateStation = (station = {
     }
 
     const response = await updateStationApi(stationId, accessToken, station);
-    console.log(response);
 
     if (isResponseError(response)) {
         return dispatch(setError(response.error));
@@ -174,6 +192,131 @@ export const deleteStation = (stationId: string): AppThunk => async (dispatch, g
             listStations: stationReducer.listStations.filter(station => station._id !== stationId),
         }));
     }
+}
+
+export const deletePool = (poolId: string): AppThunk => async (dispatch, getState) => {
+    const state = getState();
+    const { authenticationReducer } = state;
+    const { accessToken } = authenticationReducer;
+    if (!accessToken) {
+        return;
+    }
+
+    const response = await deletePoolApi(poolId, accessToken);
+
+    if (isResponseError(response)) {
+        return dispatch(setStationDetails({ station: null, error: response.error }));
+    }
+
+    dispatch(setStationDetails({
+        station: response.data.data,
+        error: ''
+    }))
+}
+
+export const deleteTank = (tankId: string): AppThunk => async (dispatch, getState) => {
+    const state = getState();
+    const { authenticationReducer } = state;
+    const { accessToken } = authenticationReducer;
+    if (!accessToken) {
+        return;
+    }
+
+    const response = await deleteTankApi(tankId, accessToken);
+
+    if (isResponseError(response)) {
+        return dispatch(setStationDetails({ station: null, error: response.error }));
+    }
+    dispatch(setStationDetails({
+        station: response.data.data,
+        error: ''
+    }))
+}
+
+export const createTank = (tank: AddEditTank): AppThunk => async (dispatch, getState) => {
+    const state = getState();
+    const { authenticationReducer } = state;
+    const { accessToken } = authenticationReducer;
+    if (!accessToken) {
+        return;
+    }
+
+    const response = await addTankApi(accessToken, tank);
+
+    if (isResponseError(response)) {
+        return dispatch(setStationDetails({ station: null, error: response.error }));
+    }
+
+    dispatch(setStationDetails({
+        station: response.data.data,
+        error: ''
+    }));
+}
+
+export const createPool = (pool: AddEditPool): AppThunk => async (dispatch, getState) => {
+    const state = getState();
+    const { authenticationReducer } = state;
+    const { accessToken } = authenticationReducer;
+    if (!accessToken) {
+        return;
+    }
+
+    const response = await addPoolApi(accessToken, pool);
+
+    if (isResponseError(response)) {
+        return dispatch(setStationDetails({ station: null, error: response.error }));
+    }
+
+    dispatch(setStationDetails({
+        station: response.data.data,
+        error: ''
+    }));
+}
+
+export const updateTank = (tank = {
+    fuel_type: '',
+    tank_position: 0,
+}, tankId: string): AppThunk => async (dispatch, getState) => {
+    const state = getState();
+    const { authenticationReducer } = state;
+    const { accessToken } = authenticationReducer;
+    if (!accessToken) {
+        return;
+    }
+
+    const response = await updateTankApi(tankId, accessToken, tank);
+
+    if (isResponseError(response)) {
+        return dispatch(setStationDetails({ station: null, error: response.error }));
+    }
+
+    dispatch(setStationDetails({
+        station: response.data.data,
+        error: ''
+    }));
+}
+
+export const updatePool = (pool = {
+    type_name: '',
+    fuel_amount: 0,
+}, poolId: string): AppThunk => async (dispatch, getState) => {
+    const state = getState();
+    const { authenticationReducer } = state;
+    const { accessToken } = authenticationReducer;
+    if (!accessToken) {
+        return;
+    }
+
+    const response = await updatePoolApi(poolId, accessToken, pool);
+
+    if (isResponseError(response)) {
+        return dispatch(setStationDetails({ station: null, error: response.error }));
+    }
+
+    dispatch(setStationDetails({
+        station: response.data.data,
+        error: ''
+    }));
 }
 
 export default listStationsSlice.reducer;

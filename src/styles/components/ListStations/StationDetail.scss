@@ -1,0 +1,46 @@
+@import "../../config.scss";
+
+.container {
+    display: flex;
+    flex: 1;
+    height: 100vh;
+    background-color: #eeeeee;
+}
+
+.stationDetail__wrapper {
+    max-height: 100%;
+}
+
+.stationDetail__paper {
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.stationDetail__buttons {
+    width: 100px !important;
+    background-color: $primary-color !important;
+    color: white !important;
+    padding: 10px !important;
+    margin-top: 10px;
+}
+
+.content {
+    display: flex;
+    flex: 1;
+    padding: 5vh;
+    background-color: transparent;
+    justify-content: flex-start;
+    overflow: auto;
+    margin-bottom: 10px;
+}
+
+.StationDetail__text-field {
+    width: 100%;
+    margin-bottom: 20px !important;
+}
+
+.StationDetail__input-lable {
+    width: 100%;
+    margin-bottom: 10px !important;
+}
