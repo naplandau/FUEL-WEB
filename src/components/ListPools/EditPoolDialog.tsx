@@ -7,7 +7,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { FormControl, Select, InputLabel, MenuItem } from '@material-ui/core';
 import { RootState } from '../../reducers/root.reducer';
 import PoolDetails from '../../types/Pool.type';
 import { updatePool } from '../../reducers/station.reducer';

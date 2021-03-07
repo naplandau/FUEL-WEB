@@ -97,7 +97,10 @@ const StationDialog = ({
 
         if (lat < -90 || lat > 90) {
             return "Latitude's value must be between -90 and 90!";
+        }
+
         return '';
+
     };
 
     return (
