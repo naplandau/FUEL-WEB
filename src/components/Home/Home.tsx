@@ -18,6 +18,7 @@ import '../../styles/components/Home/Home.scss';
 
 const statesToProps = (state: RootState) => ({
     users: state.userReducer.listUsers,
+    selected: state.sidebarReducer.selected
 });
 
 const dispatchToProps = {

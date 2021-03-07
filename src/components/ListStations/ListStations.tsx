@@ -112,9 +112,9 @@ const ListStations = ({
                             <TableRow>
                                 <TableCell align="center">Tên cây xăng</TableCell>
                                 <TableCell align="center">Mô tả</TableCell>
-                                <TableCell align="center">Số trụ bơm</TableCell>
+                                <TableCell align="center">Số lượng trụ xăng</TableCell>
                                 <TableCell align="center">Địa chỉ</TableCell>
-                                <TableCell align="center">Giờ hoạt động</TableCell>
+                                <TableCell align="center">Thời gian hoạt động</TableCell>
                                 <TableCell align="center">Trạng thái</TableCell>
                                 <TableCell align="center">Tuỳ chỉnh</TableCell>
                                 <TableCell align="center"></TableCell>
