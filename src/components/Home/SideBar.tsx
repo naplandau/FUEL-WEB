@@ -34,21 +34,30 @@ const SideBar = ({
             </div>
             <img alt='avatar' className='avatar' />
             <p className='name'>Họ tên</p>
-            <div style={selected === 0 ? { borderColor: '#e73e3e' } : {}} onClick={() => { history.push(`/home`); setSideBarSelected(0) }} className='sideOptions'>
+            <div style={selected === 0 ? { borderColor: '#e73e3e' } : {}} onClick={() => {
+                history.push(`/home`);
+                setSideBarSelected(0);
+            }} className='sideOptions'>
                 <AccountCircle style={Object.assign({}, {
                     width: '5vh',
                     height: '5vh'
                 }, selected === 0 ? { color: '#e73e3e' } : {})} className='icon' />
                 <p style={selected === 0 ? { color: '#e73e3e' } : {}} className='text'>Quản lý người dùng</p>
             </div>
-            <div style={selected === 1 ? { borderColor: '#e73e3e' } : {}} onClick={() => { history.push(`/stations`); setSideBarSelected(1) }} className='sideOptions'>
+            <div style={selected === 1 ? { borderColor: '#e73e3e' } : {}} onClick={() => {
+                history.push(`/stations`);
+                setSideBarSelected(1);
+            }} className='sideOptions'>
                 <LocalGasStationIcon style={Object.assign({}, {
                     width: '5vh',
                     height: '5vh'
                 }, selected === 1 ? { color: '#e73e3e' } : {})} className='icon' />
                 <p style={selected === 1 ? { color: '#e73e3e' } : {}} className='text'>Quản lý cây xăng</p>
             </div>
-            <div style={selected === 2 ? { borderColor: '#e73e3e' } : {}} onClick={() => setSelected(2)} className='sideOptions'>
+            <div style={selected === 2 ? { borderColor: '#e73e3e' } : {}} onClick={() => {
+                history.push(`/transactions`);
+                setSideBarSelected(2);
+            }} className='sideOptions'>
                 <ReceiptIcon style={Object.assign({}, {
                     width: '5vh',
                     height: '5vh'

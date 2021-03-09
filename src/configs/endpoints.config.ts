@@ -1,4 +1,4 @@
-const base: string = 'http://localhost:8080/api';
+const base: string = 'http://localhost:3000/api';
 
 const endpoints = {
     base: base,
@@ -15,6 +15,8 @@ const endpoints = {
     addPool: () => `${base}/stations/pools`,
     updateTank: (tankId: string) => `${base}/stations/tanks/${tankId}`,
     updatePool: (poolId: string) => `${base}/stations/pools/${poolId}`,
+    getListTransactions: () => `${base}/transactions`,
+    getMe: () => `${base}/users/me`
 };
 
 export default endpoints;
