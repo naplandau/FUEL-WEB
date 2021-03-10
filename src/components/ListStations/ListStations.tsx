@@ -102,6 +102,8 @@ const ListStations = ({
         };
     }
 
+    console.log(stations)
+
     return (
         <div className='container'>
             <SideBar history={history} />
