@@ -90,7 +90,6 @@ export const fetchUserDetails = (userId: string): AppThunk => async (dispatch, g
         error: ''
     }))
 }
-
 export const getMe = (): AppThunk => async (dispatch, getState) => {
     const state = getState();
 
