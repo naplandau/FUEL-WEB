@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect, ConnectedProps } from 'react-redux';
-import SideBar from './SideBar';
+import SideBar from '../Home/SideBar';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,12 +9,14 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { withRouter } from "react-router-dom";
+import { IconButton } from "@material-ui/core";
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 import { RootState } from "../../reducers/root.reducer";
 import { getUsers } from "../../reducers/user.reducer";
 import HistoryProps from "../../types/HistoryProps.type";
 
-import '../../styles/components/Home/Home.scss';
+import '../../styles/components/ListUsers/ListUsers.scss';
 
 const statesToProps = (state: RootState) => ({
     users: state.userReducer.listUsers,
@@ -36,7 +38,9 @@ const Home = ({
 
     useEffect(() => {
         getUsers();
-    }, [getUsers]);
+    }, []);
+
+    console.log(users)
 
 
     return (
@@ -50,14 +54,25 @@ const Home = ({
                                 <TableCell align="center">Họ Tên</TableCell>
                                 <TableCell align="center">Số điện thoại</TableCell>
                                 <TableCell align="center">Vai trò</TableCell>
+                                <TableCell align="center"></TableCell>
                             </TableRow>
                         </TableHead>
                         {users.length > 0 && <TableBody>
                             {users.map((user) => (
-                                <TableRow key={user._id}>
+                                <TableRow key={user.id} >
                                     <TableCell align="center">{user.name}</TableCell>
                                     <TableCell align="center">{user.phoneNumber}</TableCell>
                                     <TableCell align="center">{user.role === 0 ? "Người dùng" : "Quản trị viên"}</TableCell>
+                                    <TableCell align="center">
+                                        <IconButton
+                                            onClick={() => {
+                                                history.push(`users/${user.id}`)
+                                            }}
+                                        >
+                                            <NavigateNextIcon />
+                                        </IconButton>
+
+                                    </TableCell>
                                 </TableRow>
                             )
                             )}
@@ -65,7 +80,7 @@ const Home = ({
                     </Table>
                 </TableContainer>
             </div>
-        </div>
+        </div >
     )
 }
 

@@ -198,13 +198,13 @@ const StationDetail = ({
                                 Update
                             </Button>
                         </Paper>
-                        <InputLabel className="StationDetail__input-lable">Danh sách bồn chứa:</InputLabel>
-                        <Paper className="stationDetail__paper">
-                            <ListPools station={station} />
-                        </Paper>
                         <InputLabel className="StationDetail__input-lable">Danh sách trụ bơm:</InputLabel>
                         <Paper className="stationDetail__paper">
                             <ListTanks station={station} />
+                        </Paper>
+                        <InputLabel className="StationDetail__input-lable">Danh sách bồn chứa:</InputLabel>
+                        <Paper className="stationDetail__paper">
+                            <ListPools station={station} />
                         </Paper>
                     </Grid>
                 </Grid>

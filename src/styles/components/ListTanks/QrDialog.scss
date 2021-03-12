@@ -1,0 +1,17 @@
+@import "../../config.scss";
+
+.Qr__wrapper {
+    margin: 30px auto !important;
+}
+
+.Qr__title {
+    text-align: center !important;
+    margin-top: 10px !important;
+}
+
+.Qr__buttons {
+    width: 100% !important;
+    background-color: $primary-color !important;
+    color: white !important;
+    padding: 10px !important;
+}

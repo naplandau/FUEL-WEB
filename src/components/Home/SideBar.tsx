@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../reducers/root.reducer';
-import '../../styles/components/Home/Home.scss';
+import '../../styles/components/Home/SideBar.scss';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
 import ReceiptIcon from '@material-ui/icons/Receipt';
@@ -43,9 +43,9 @@ const SideBar = ({
                 <p className='title-admin'>Quản trị viên</p>
             </div>
             <img alt='avatar' className='avatar' />
-            <p className='name'>{me.name ? me.name : "Họ tên"}</p>
+            {/* <p className='name'>{me.name ? me.name : "Họ tên"}</p> */}
             <div style={selected === 0 ? { borderColor: '#e73e3e' } : {}} onClick={() => {
-                history.push(`/home`);
+                history.push(`/users`);
                 setSideBarSelected(0);
             }} className='sideOptions'>
                 <AccountCircle style={Object.assign({}, {

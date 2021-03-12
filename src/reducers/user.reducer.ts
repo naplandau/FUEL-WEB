@@ -4,8 +4,10 @@ import getMeApi from '../apis/getMe.api';
 import { AppThunk } from '../configs/store.config';
 import { isResponseError } from '../types/ResponseError.type';
 import User from '../types/User.type';
+import getUserDetailsApi from '../apis/getUserDetails.api';
 
 const initialState = {
+    user: null as User,
     me: null as User,
     listUsers: Array<User>(),
     error: ''
@@ -15,6 +17,16 @@ const userSlice = createSlice({
     name: 'userReducer',
     initialState,
     reducers: {
+        setUserDetails(state, action: PayloadAction<{
+            user: User,
+            error: string,
+        }>) {
+            state.user = action.payload.user;
+            state.error = action.payload.error;
+        },
+        resetUser(state) {
+            state.user = null
+        },
         setUsers(state, action: PayloadAction<Array<User>>) {
             state.listUsers = action.payload;
         },
@@ -29,8 +41,10 @@ const userSlice = createSlice({
 });
 
 export const {
+    setUserDetails,
     setUsers,
-    setMe
+    setMe,
+    resetUser
 } = userSlice.actions;
 
 export const getUsers = (): AppThunk => async (dispatch, getState) => {
@@ -52,6 +66,31 @@ export const getUsers = (): AppThunk => async (dispatch, getState) => {
     dispatch(setUsers(response.data.data.filter((user: User) => user.role !== 1)));
 }
 
+export const fetchUserDetails = (userId: string): AppThunk => async (dispatch, getState) => {
+    const state = getState();
+
+    const { authenticationReducer } = state;
+    const { accessToken } = authenticationReducer;
+
+    if (!accessToken) {
+        return;
+    }
+
+    const response = await getUserDetailsApi(accessToken, userId);
+
+    if (isResponseError(response)) {
+        return dispatch(setUserDetails({
+            user: null,
+            error: response.error
+        }))
+    }
+
+    dispatch(setUserDetails({
+        user: response.data.data,
+        error: ''
+    }))
+}
+
 export const getMe = (): AppThunk => async (dispatch, getState) => {
     const state = getState();
 
@@ -63,7 +102,6 @@ export const getMe = (): AppThunk => async (dispatch, getState) => {
     }
 
     const response = await getMeApi(accessToken);
-    console.log(response)
 
     if (isResponseError(response)) {
         return dispatch(setMe({
