@@ -10,8 +10,9 @@ import paths from '../configs/paths.config';
 //import Home from './Home/Home';
 import Login from './Login';
 import Page404 from './common/Page404';
-import Home from './Home/Home';
-import StationDetail from './ListStations/StationDetails';
+import ListUsers from './ListUsers/ListUsers';
+import StationDetails from './ListStations/StationDetails';
+import UserDetails from './ListUsers/UserDetails';
 import ListStations from './ListStations/ListStations';
 import { getMe } from '../reducers/user.reducer';
 import HistoryProps from "../types/HistoryProps.type";
@@ -38,10 +39,11 @@ const App = () => {
         <Router basename={paths.base}>
             <Switch>
                 <Route path={paths.base} exact component={Login} />
-                <Route path={paths.home} exact component={Home} />
-                <Route path={`${paths.listStations()}/:id`} exact component={StationDetail} />
+                <Route path={paths.listUsers()} exact component={ListUsers} />
+                <Route path={`${paths.listStations()}/:id`} exact component={StationDetails} />
                 <Route path={paths.listStations()} exact component={ListStations} />
                 <Route path={paths.listTransactions()} exact component={ListTransactions} />
+                <Route path={`${paths.listUsers()}/:id`} exact component={UserDetails} />
                 <Route component={Page404} />
             </Switch>
         </Router>

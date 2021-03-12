@@ -23,7 +23,7 @@ import { getUsers } from "../../reducers/user.reducer";
 import AddStationDialog from "./AddStationDialog";
 import EditStationDialog from "./EditStationDialog";
 
-import '../../styles/components/Home/Home.scss';
+import '../../styles/components/ListStations/ListStations.scss';
 
 const statesToProps = (state: RootState) => ({
     stations: state.stationReducer.listStations,

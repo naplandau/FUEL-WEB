@@ -18,9 +18,11 @@ import '../../styles/components/ListStations/StationDetail.scss';
 
 import AddTankDialog from '../ListTanks/AddTankDialog';
 import EditTankDialog from '../ListTanks/EditTankDialog';
+import QrDialog from '../ListTanks/QrDialog';
 import StationDetails from "../../types/Station.type";
 import TankDetails from '../../types/Tank.type';
 import { deleteTank } from '../../reducers/station.reducer';
+import { setSideBarSelected } from "../../reducers/sidebar.reducer";
 
 const statesToProps = (state: RootState) => ({
 });
@@ -43,6 +45,8 @@ const ListTanks = ({
     const [addTankDialog, setAddTankDialog] = useState(false);
     const [tanks, setTanks] = useState([]);
     const [editTankDialog, setEditTankDialog] = useState(false);
+    const [qrDialog, setQrDialog] = useState(false);
+    const [selectedTankId, setSelectedTankId] = useState('');
     const [selectedTank, setSelectedTank] = useState<TankDetails>({
         _id: '',
         station_id: '',
@@ -66,6 +70,15 @@ const ListTanks = ({
 
     const closeEditTankDialog = () => {
         setEditTankDialog(false);
+    }
+
+    const openQrDialog = (tankId: string) => {
+        setSelectedTankId(tankId);
+        setQrDialog(true);
+    }
+
+    const closeQrDialog = () => {
+        setQrDialog(false);
     }
 
     useEffect(() => {
@@ -115,9 +128,7 @@ const ListTanks = ({
                                 </TableCell>
                                 <TableCell align="center">
                                     <IconButton
-                                    // onClick={() => {
-                                    //     history.push(`stations/${station._id}`)
-                                    // }}
+                                        onClick={() => openQrDialog(tank._id)}
                                     >
                                         <NavigateNextIcon />
                                     </IconButton>
@@ -130,6 +141,7 @@ const ListTanks = ({
             <Button className='stationDetail__buttons' onClick={openAddTankDialog} ><Add /></Button>
             <AddTankDialog open={addTankDialog} onClose={closeAddTankDialog} />
             <EditTankDialog open={editTankDialog} tank={selectedTank} onClose={closeEditTankDialog} />
+            <QrDialog open={qrDialog} tankId={selectedTankId} onClose={closeQrDialog} />
         </div>
     )
 }

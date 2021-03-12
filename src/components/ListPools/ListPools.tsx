@@ -88,7 +88,6 @@ const ListPools = ({
                             <TableCell align="center">Loại nhiên liệu</TableCell>
                             <TableCell align="center">Lượng nhiên liệu trong bồn</TableCell>
                             <TableCell align="center">Tuỳ chỉnh</TableCell>
-                            <TableCell align="center"></TableCell>
                         </TableRow>
                     </TableHead>
                     {pools.length > 0 && <TableBody>
@@ -108,15 +107,6 @@ const ListPools = ({
                                         onClick={() => handleDeletePool(pool)}
                                     >
                                         <DeleteIcon />
-                                    </IconButton>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <IconButton
-                                    // onClick={() => {
-                                    //     history.push(`stations/${station._id}`)
-                                    // }}
-                                    >
-                                        <NavigateNextIcon />
                                     </IconButton>
                                 </TableCell>
                             </TableRow>

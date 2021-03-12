@@ -76,7 +76,7 @@ const Login = (props: LoginProps) => {
     }, [props.loginError]);
 
     if (props.refreshToken) {
-        return <Redirect to={paths.home} />
+        return <Redirect to={paths.listUsers()} />
     }
     return (
         <div className="Login">

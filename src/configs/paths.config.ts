@@ -1,7 +1,6 @@
 const paths = {
   base: '/',
-  home: '/home',
-  stationDetail: (courseId: string) => '/stationDetail/:id',
+  listUsers: () => '/users',
   listStations: () => '/stations',
   listTransactions: () => '/transactions'
 };

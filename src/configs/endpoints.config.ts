@@ -16,7 +16,8 @@ const endpoints = {
     updateTank: (tankId: string) => `${base}/stations/tanks/${tankId}`,
     updatePool: (poolId: string) => `${base}/stations/pools/${poolId}`,
     getListTransactions: () => `${base}/transactions`,
-    getMe: () => `${base}/users/me`
+    getMe: () => `${base}/users/me`,
+    getUserDetails: (userId: string) => `${base}/users/${userId}`,
 };
 
 export default endpoints;
