@@ -7,17 +7,6 @@
     background-color: #eeeeee;
 }
 
-.sidebar {
-    width: 20%;
-    height: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    background-color: white;
-    box-shadow: 0 0 3px 0 #000000;
-}
-
 .title-admin {
     font-size: 4vh;
     color: $primary-color;

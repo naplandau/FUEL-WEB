@@ -1,0 +1,35 @@
+@import "../../config.scss";
+
+.ListTransactions {
+    display: flex;
+    flex: 1;
+    height: 100vh;
+    background-color: #eeeeee;
+    margin: 35px;
+}
+
+.ListTransactions__title {
+    font-size: $m-font-size !important;
+    margin: 10px 0 10px 0 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    text-align: center;
+    color: $primary-color;
+}
+
+.ListTransaction__wrapper {
+    max-height: 100%;
+    margin-bottom: 20px;
+    overflow: auto;
+}
+
+.ListTransaction__paper {
+    padding: 20px;
+    margin-bottom: 20px !important;
+    text-align: left;
+    background-color: #ffd5cd;
+}
