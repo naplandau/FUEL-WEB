@@ -7,11 +7,13 @@ type TransactionDetails = {
     qrData: Object;
     data: {
         station: {
-            id: string;
-            name: string;
-            address: string;
-            tank_id: string;
-            fuel_type: string;
+            data: {
+                id: string;
+                name: string;
+                address: string;
+                tank_id: string;
+                fuel_type: string;
+            }
         };
     }
     isComplete: boolean;

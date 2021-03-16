@@ -22,6 +22,7 @@ import { fetchListStations, deleteStation } from "../../reducers/station.reducer
 import { getUsers } from "../../reducers/user.reducer";
 import AddStationDialog from "./AddStationDialog";
 import EditStationDialog from "./EditStationDialog";
+import BarChart from './BarChart';
 
 import '../../styles/components/ListStations/ListStations.scss';
 
@@ -164,6 +165,7 @@ const ListStations = ({
                 <div className="Home__buttons-custom">
                     <Button className='Home__buttons' onClick={openAddStationDialog} ><Add /></Button>
                 </div>
+                <BarChart />
             </div>
             <AddStationDialog open={addStationDialog} onClose={closeAddStationDialog} />
             <EditStationDialog open={editStationDialog} station={selectedStation} onClose={closeEditStationDialog} />

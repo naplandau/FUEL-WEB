@@ -38,12 +38,14 @@ export const {
   loginFailed
 } = authorizationSlice.actions;
 
-export const login = (credentials: LoginBody): AppThunk => async (dispatch, getState) => {
+export const login = (credentials: LoginBody): AppThunk => async (dispatch) => {
   const response = await loginApi(credentials);
 
   if (isResponseError(response)) {
     return dispatch(loginFailed(response.error));
   }
+
+  console.log(response)
 
   localStorage.setItem(localStorageKeys.refreshToken, response.data.data.refreshToken);
   localStorage.setItem(localStorageKeys.accessToken, response.data.data.accessToken);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect, ConnectedProps } from 'react-redux';
-import { Paper, Grid, Typography, InputLabel } from '@material-ui/core';
-import { Button, TextField } from "@material-ui/core";
+import { Paper, Grid } from '@material-ui/core';
+import { TextField } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 
 import { RootState } from "../../reducers/root.reducer";
