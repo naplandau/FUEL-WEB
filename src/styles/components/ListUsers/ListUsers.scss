@@ -118,3 +118,12 @@
 .Home__buttons-custom {
     margin-top: 5px;
 }
+
+.ListUsers__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ListUsers__search-courses {
+    flex-grow: 1;
+}
