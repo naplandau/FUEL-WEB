@@ -11,7 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import { withRouter } from "react-router-dom";
 import { IconButton } from "@material-ui/core";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import { Button, TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 
 import { RootState } from "../../reducers/root.reducer";
 import { getUsers } from "../../reducers/user.reducer";
@@ -32,7 +32,7 @@ const connector = connect(statesToProps, dispatchToProps);
 
 type HomeProps = ConnectedProps<typeof connector> & HistoryProps;
 
-const Home = ({
+const ListUsers = ({
     history,
     users,
     getUsers }: HomeProps) => {
@@ -43,16 +43,15 @@ const Home = ({
 
     const [searchPattern, changeSearchPattern] = useState('');
 
-
     return (
         <div className='container'>
             <SideBar history={history} />
             <div className='content'>
-                <div className="ListUsers__header">
+                <div className="search-view">
                     <TextField
                         variant="outlined"
-                        label="Search your user by phone"
-                        className="ListUsers__search-courses-courses"
+                        label="Tìm người dùng theo số điện thoại"
+                        className="ListUsers__search-users"
                         value={searchPattern}
                         onChange={(e) => changeSearchPattern(e.target.value)}
                     />
@@ -98,4 +97,4 @@ const Home = ({
     )
 }
 
-export default withRouter(connector(Home));
+export default withRouter(connector(ListUsers));

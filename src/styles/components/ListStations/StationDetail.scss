@@ -13,13 +13,18 @@
 
 .stationDetail__paper {
     padding: 20px;
-    margin-bottom: 20px;
     text-align: right;
 }
 
+.StationDetail__button-paper {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
 .stationDetail__buttons {
-    width: 100px !important;
-    background-color: $primary-color !important;
+    width: fit-content !important;
+    background-color: #228b22 !important;
     color: white !important;
     padding: 10px !important;
     margin-top: 10px;

@@ -7,44 +7,6 @@
     background-color: #eeeeee;
 }
 
-.sidebar {
-    width: 20%;
-    height: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    background-color: white;
-    box-shadow: 0 0 3px 0 #000000;
-}
-
-.title-admin {
-    font-size: 4vh;
-    color: $primary-color;
-    margin: 0;
-}
-
-.logo {
-    width: 8vh;
-    height: 8vh;
-    margin-right: 10px;
-}
-
-.avatar {
-    width: 10vh;
-    height: 10vh;
-    border-radius: 999px;
-    border-width: 3px;
-    border-color: $primary-color;
-    border-style: solid;
-    margin-top: 10px;
-}
-
-.name {
-    font-size: 3vh;
-    color: $primary-color;
-}
-
 .text {
     color: black;
     width: 100%;
@@ -70,10 +32,6 @@
     align-items: flex-end;
 }
 
-.button {
-    color: $primary-color;
-}
-
 .search-view {
     display: flex;
     justify-content: flex-start;
@@ -96,19 +54,30 @@
     padding: 0px !important;
 }
 
-.Home__buttons {
+.ListPools__buttons {
     width: 100% !important;
-    background-color: white !important;
+    background-color: $add-button !important;
     color: white !important;
     padding: 10px !important;
 }
 
-.Home__buttons-custom {
-    margin-top: 5px;
+.ListPools__buttons-custom {
+    margin-bottom: 2px;
+}
+
+.ListPools__label {
+    padding-top: 15px;
+}
+
+.ListPools__header {
     display: flex;
-    flex: 1;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
-    margin-bottom: 10px;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.ListPools__search-pools {
+    width: 265px;
+    margin: 2px 3px 2px 0;
+    padding: 5px;
 }

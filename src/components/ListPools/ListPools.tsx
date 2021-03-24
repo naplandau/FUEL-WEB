@@ -7,14 +7,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DeleteIcon from '@material-ui/icons/Delete';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Add from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
-import { Button, IconButton } from "@material-ui/core";
+import { Button, IconButton, Paper, TextField } from "@material-ui/core";
 
 import { RootState } from "../../reducers/root.reducer";
 
-import '../../styles/components/ListStations/StationDetail.scss';
+import '../../styles/components/ListPools/ListPools.scss';
 
 import AddPoolDialog from '../ListPools/AddPoolDialog';
 import EditPoolDialog from '../ListPools/EditPoolDialog';
@@ -80,8 +79,24 @@ const ListPools = ({
     }
 
     return (
-        <div>
-            <TableContainer>
+        <div className='content'>
+            <div className='ListPools__header'>
+                <div className='ListTanks__label'>
+                    Danh sách bồn chứa
+                </div>
+                <div className="ListPools__search-pools">
+                    <TextField
+                        variant="outlined"
+                        label="Tìm theo loại nhiên liệu"
+                    // value={searchPattern}
+                    // onChange={(e) => changeSearchPattern(e.target.value)}
+                    />
+                </div>
+                <div className='ListPools__buttons-custom'>
+                    <Button className='ListPools__buttons' onClick={openAddPoolDialog} ><Add /></Button>
+                </div>
+            </div>
+            <TableContainer component={Paper}>
                 <Table stickyHeader className='table' aria-label="simple table">
                     <TableHead className='header-table'>
                         <TableRow>
@@ -114,7 +129,6 @@ const ListPools = ({
                     </TableBody>}
                 </Table>
             </TableContainer>
-            <Button className='stationDetail__buttons' onClick={openAddPoolDialog} ><Add /></Button>
             <AddPoolDialog open={addPoolDialog} station={station} onClose={closeAddPoolDialog} />
             <EditPoolDialog open={editPoolDialog} pool={selectedPool} onClose={closeEditPoolDialog} />
         </div>

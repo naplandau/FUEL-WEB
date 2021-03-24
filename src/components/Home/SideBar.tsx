@@ -10,6 +10,8 @@ import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
 import { setSelected, setSideBarSelected } from '../../reducers/sidebar.reducer';
 import HistoryProps from "../../types/HistoryProps.type";
 import { getMe } from "../../reducers/user.reducer";
+import { Button } from '@material-ui/core';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const stateToProps = (state: RootState) => ({
     me: state.userReducer.me,
@@ -44,6 +46,7 @@ const SideBar = ({
             </div>
             <img alt='avatar' className='avatar' />
             {/* <p className='name'>{me.name ? me.name : "Họ tên"}</p> */}
+            <p className='name'>Vĩnh</p>
             <div style={selected === 0 ? { borderColor: '#e73e3e' } : {}} onClick={() => {
                 history.push(`/users`);
                 setSideBarSelected(0);
@@ -72,7 +75,7 @@ const SideBar = ({
                     width: '5vh',
                     height: '5vh'
                 }, selected === 2 ? { color: '#e73e3e' } : {})} className='icon' />
-                <p style={selected === 2 ? { color: '#e73e3e' } : {}} className='text'>Quản lý hoá đơn</p>
+                <p style={selected === 2 ? { color: '#e73e3e' } : {}} className='text'>Quản lý giao dịch</p>
             </div>
             <div style={selected === 3 ? { borderColor: '#e73e3e' } : {}} onClick={() => setSelected(3)} className='sideOptions'>
                 <HistoryIcon style={Object.assign({}, {
@@ -81,12 +84,22 @@ const SideBar = ({
                 }, selected === 3 ? { color: '#e73e3e' } : {})} className='icon' />
                 <p style={selected === 3 ? { color: '#e73e3e' } : {}} className='text'>Quản lý lịch sử</p>
             </div>
-            <div style={selected === 4 ? { borderColor: '#e73e3e' } : {}} onClick={() => setSelected(4)} className='sideOptions'>
+            <div style={selected === 4 ? { borderColor: '#e73e3e' } : {}} onClick={() => {
+                history.push(`/vouchers`);
+                setSideBarSelected(4);
+            }} className='sideOptions'>
                 <CardGiftcardIcon style={Object.assign({}, {
                     width: '5vh',
                     height: '5vh'
                 }, selected === 4 ? { color: '#e73e3e' } : {})} className='icon' />
                 <p style={selected === 4 ? { color: '#e73e3e' } : {}} className='text'>Quản lý thẻ quà tặng</p>
+            </div>
+
+            <div className='Home__buttons-custom'>
+                <Button className='Home__buttons'>
+                    <ExitToAppIcon />
+                    Đăng xuất
+                </Button>
             </div>
         </div>
     )

@@ -1,12 +1,5 @@
 @import "../../config.scss";
 
-.container {
-    display: flex;
-    flex: 1;
-    height: 90vh;
-    background-color: #eeeeee;
-}
-
 .text {
     color: black;
     width: 100%;
@@ -25,10 +18,7 @@
 .content {
     display: flex;
     flex: 1;
-    padding: 5vh;
     background-color: transparent;
-    flex-direction: column;
-    justify-content: flex-start;
 }
 
 .search-view {
@@ -39,38 +29,42 @@
     width: 100%;
 }
 
+.input {
+    width: 50vw;
+    background-color: white;
+}
+
 .header-table th {
     color: white;
-    background-color: $primary-color;
 }
 
 .collapse {
     padding: 0px !important;
 }
 
-.ListStations__buttons {
+.ListTanks__buttons {
     width: 100% !important;
-    background-color: #1e90ff !important;
+    background-color: $add-button !important;
     color: white !important;
     padding: 10px !important;
 }
 
-.ListStations__buttons-custom {
+.ListTanks__buttons-custom {
     margin-bottom: 2px;
 }
 
-.ListStations__label {
+.ListTanks__label {
     padding-top: 15px;
 }
 
-.ListStations__header {
+.ListTanks__header {
     display: flex;
     align-items: center;
     width: 100%;
     justify-content: space-between;
 }
 
-.ListStations__search-stations {
+.ListTanks__search-tanks {
     width: 265px;
     margin: 2px 3px 2px 0;
     padding: 5px;

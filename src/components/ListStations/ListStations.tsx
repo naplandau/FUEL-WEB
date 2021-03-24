@@ -12,7 +12,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Add from '@material-ui/icons/Add';
-import { Button, IconButton } from "@material-ui/core";
+import { Button, IconButton, TextField } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import RouterProps from '../../types/RouterProps.type';
 
@@ -98,27 +98,40 @@ const ListStations = ({
     }
 
     const handleDeleteStation = (station: StationDetails) => {
-        if (window.confirm(`Are you sure you want to delete ${station.name}?`)) {
+        if (window.confirm(`Bạn có muốn xoá cây xăng ${station.name} không?`)) {
             deleteStation(station._id);
         };
     }
-
-    console.log(stations)
 
     return (
         <div className='container'>
             <SideBar history={history} />
             <div className='content'>
+                <div className='ListStations__header'>
+                    <div className="search-view">
+                        <TextField
+                            variant="outlined"
+                            label="Tìm cây xăng theo tên"
+                            className="ListStations__search-stations"
+                        // value={searchPattern}
+                        // onChange={(e) => changeSearchPattern(e.target.value)}
+                        />
+
+                    </div>
+                    <div className="ListStations__buttons-custom">
+                        <Button className='ListStations__buttons' onClick={openAddStationDialog} ><Add /></Button>
+                    </div>
+                </div>
+
                 <TableContainer component={Paper}>
                     <Table stickyHeader className='table' aria-label="simple table">
                         <TableHead className='header-table'>
                             <TableRow>
                                 <TableCell align="center">Tên cây xăng</TableCell>
-                                <TableCell align="center">Mô tả</TableCell>
-                                <TableCell align="center">Số lượng trụ xăng</TableCell>
-                                <TableCell align="center">Địa chỉ</TableCell>
-                                <TableCell align="center">Thời gian hoạt động</TableCell>
                                 <TableCell align="center">Trạng thái</TableCell>
+                                <TableCell align="center">Địa chỉ</TableCell>
+                                <TableCell align="center">Số lượng trụ xăng</TableCell>
+                                <TableCell align="center">Thời gian hoạt động</TableCell>
                                 <TableCell align="center">Tuỳ chỉnh</TableCell>
                                 <TableCell align="center"></TableCell>
                             </TableRow>
@@ -127,11 +140,10 @@ const ListStations = ({
                             {stations.map((station) => (
                                 <TableRow key={station._id}>
                                     <TableCell align="center">{station.name}</TableCell>
-                                    <TableCell align="center">{station.description}</TableCell>
-                                    <TableCell align="center">{station.total_tank}</TableCell>
-                                    <TableCell align="center">{station.address}</TableCell>
-                                    <TableCell align="center">Từ {station.working_hour_from} đến {station.working_hour_to} (GMT+7)</TableCell>
                                     <TableCell align="center">{station.isActive ? "Hoạt động" : "Không hoạt động"}</TableCell>
+                                    <TableCell align="center">{station.address}</TableCell>
+                                    <TableCell align="center">{station.total_tank}</TableCell>
+                                    <TableCell align="center">Từ {station.working_hour_from} đến {station.working_hour_to} (GMT+7)</TableCell>
                                     <TableCell align="center">
                                         <IconButton
                                             onClick={() => openEditStationDialog(station)}
@@ -162,14 +174,11 @@ const ListStations = ({
                         </TableBody>}
                     </Table>
                 </TableContainer>
-                <div className="Home__buttons-custom">
-                    <Button className='Home__buttons' onClick={openAddStationDialog} ><Add /></Button>
-                </div>
-                <BarChart />
+                {/* <BarChart /> */}
             </div>
             <AddStationDialog open={addStationDialog} onClose={closeAddStationDialog} />
             <EditStationDialog open={editStationDialog} station={selectedStation} onClose={closeEditStationDialog} />
-        </div>
+        </div >
     )
 }
 

@@ -45,8 +45,6 @@ export const login = (credentials: LoginBody): AppThunk => async (dispatch) => {
     return dispatch(loginFailed(response.error));
   }
 
-  console.log(response)
-
   localStorage.setItem(localStorageKeys.refreshToken, response.data.data.refreshToken);
   localStorage.setItem(localStorageKeys.accessToken, response.data.data.accessToken);
 

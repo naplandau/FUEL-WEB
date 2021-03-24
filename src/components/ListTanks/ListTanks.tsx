@@ -10,11 +10,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Add from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
-import { Button, IconButton } from "@material-ui/core";
+import { Button, IconButton, Paper, TextField } from "@material-ui/core";
 
 import { RootState } from "../../reducers/root.reducer";
 
-import '../../styles/components/ListStations/StationDetail.scss';
+import '../../styles/components/ListTanks/ListTanks.scss';
 
 import AddTankDialog from '../ListTanks/AddTankDialog';
 import EditTankDialog from '../ListTanks/EditTankDialog';
@@ -22,7 +22,6 @@ import QrDialog from '../ListTanks/QrDialog';
 import StationDetails from "../../types/Station.type";
 import TankDetails from '../../types/Tank.type';
 import { deleteTank } from '../../reducers/station.reducer';
-import { setSideBarSelected } from "../../reducers/sidebar.reducer";
 
 const statesToProps = (state: RootState) => ({
 });
@@ -94,8 +93,25 @@ const ListTanks = ({
     }
 
     return (
-        <div>
-            <TableContainer>
+        <div className='content'>
+            <div className='ListTanks__header'>
+                <div className='ListTanks__label'>
+                    Danh sách trụ bơm
+                </div>
+                <div className="ListTanks__search-tanks">
+                    <TextField
+                        variant="outlined"
+                        label="Tìm theo vị trí trụ bơm"
+
+                    // value={searchPattern}
+                    // onChange={(e) => changeSearchPattern(e.target.value)}
+                    />
+                </div>
+                <div className='ListTanks__buttons-custom'>
+                    <Button className='ListTanks__buttons' onClick={openAddTankDialog} ><Add /></Button>
+                </div>
+            </div>
+            <TableContainer component={Paper}>
                 <Table stickyHeader className='table' aria-label="simple table">
                     <TableHead className='header-table'>
                         <TableRow>
@@ -138,7 +154,6 @@ const ListTanks = ({
                     </TableBody>}
                 </Table>
             </TableContainer>
-            <Button className='stationDetail__buttons' onClick={openAddTankDialog} ><Add /></Button>
             <AddTankDialog open={addTankDialog} onClose={closeAddTankDialog} />
             <EditTankDialog open={editTankDialog} tank={selectedTank} onClose={closeEditTankDialog} />
             <QrDialog open={qrDialog} tankId={selectedTankId} onClose={closeQrDialog} />
