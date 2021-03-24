@@ -119,15 +119,29 @@ const StationDetail = ({
                     <Grid item xs={12} sm={12} md={12} lg={12} className="stationDetail__wrapper">
                         {error && <Typography className="error" variant="body1">{error}</Typography>}
                         <Paper className="stationDetail__paper">
-                            <TextField
-                                variant='outlined'
-                                className="StationDetail__text-field"
-                                autoFocus
-                                label="Tên cây xăng"
-                                fullWidth
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                            />
+                            <Grid container spacing={2}>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        variant='outlined'
+                                        className="StationDetail__text-field"
+                                        autoFocus
+                                        label="Tên cây xăng"
+                                        fullWidth
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <TextField
+                                        variant='outlined'
+                                        className="StationDetail__text-field"
+                                        label="Địa chỉ"
+                                        value={address}
+                                        fullWidth
+                                        onChange={(e) => setAddress(e.target.value)}
+                                    />
+                                </Grid>
+                            </Grid>
                             <TextField
                                 variant='outlined'
                                 className="StationDetail__text-field"
@@ -136,16 +150,8 @@ const StationDetail = ({
                                 fullWidth
                                 onChange={(e) => setDescription(e.target.value)}
                             />
-                            <TextField
-                                variant='outlined'
-                                className="StationDetail__text-field"
-                                label="Địa chỉ"
-                                value={address}
-                                fullWidth
-                                onChange={(e) => setAddress(e.target.value)}
-                            />
                             <Grid container spacing={2} style={{ marginTop: '10px' }}>
-                                <Grid item xs={6}>
+                                <Grid item xs={3}>
                                     <TextField
                                         variant="outlined"
                                         className="StationDetail__text-field"
@@ -156,7 +162,7 @@ const StationDetail = ({
                                         onChange={(e) => setLong(parseFloat(e.target.value))}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={3}>
                                     <TextField
                                         variant="outlined"
                                         className="StationDetail__text-field"
@@ -167,9 +173,7 @@ const StationDetail = ({
                                         onChange={(e) => setLat(parseFloat(e.target.value))}
                                     />
                                 </Grid>
-                            </Grid>
-                            <Grid container spacing={2} style={{ marginTop: '10px' }}>
-                                <Grid item xs={6}>
+                                <Grid item xs={3}>
                                     <TextField
                                         variant="outlined"
                                         className="StationDetail__text-field "
@@ -180,7 +184,7 @@ const StationDetail = ({
                                         onChange={(e) => setWorkingHourFrom(e.target.value)}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
+                                <Grid item xs={3}>
                                     <TextField
                                         variant="outlined"
                                         className="StationDetail__text-field"
@@ -192,20 +196,16 @@ const StationDetail = ({
                                     />
                                 </Grid>
                             </Grid>
+                        </Paper>
+                        <div className='StationDetail__button-paper'>
                             <Button className="stationDetail__buttons"
                                 onClick={handleConfirm}
                                 color='primary'>
-                                Update
+                                Cập nhật
                             </Button>
-                        </Paper>
-                        <InputLabel className="StationDetail__input-lable">Danh sách trụ bơm:</InputLabel>
-                        <Paper className="stationDetail__paper">
-                            <ListTanks station={station} />
-                        </Paper>
-                        <InputLabel className="StationDetail__input-lable">Danh sách bồn chứa:</InputLabel>
-                        <Paper className="stationDetail__paper">
-                            <ListPools station={station} />
-                        </Paper>
+                        </div>
+                        <ListTanks station={station} />
+                        <ListPools station={station} />
                     </Grid>
                 </Grid>
             </div>

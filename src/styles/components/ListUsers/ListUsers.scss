@@ -34,29 +34,6 @@
     color: $primary-color;
 }
 
-.sideOptions {
-    margin-top: 1vh;
-    width: 100%;
-    cursor: pointer;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    border-width: 0;
-    border-left-width: 1vh;
-    border-color: white;
-    border-style: solid;
-    outline: none;
-}
-
-.sideOptions:hover {
-    border-color: $primary-color;
-}
-
-.sideOptions:hover > .text,
-.sideOptions:hover > .icon {
-    color: $primary-color;
-}
-
 .text {
     color: black;
     width: 100%;
@@ -79,7 +56,6 @@
     background-color: transparent;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-end;
 }
 
 .button {
@@ -117,4 +93,15 @@
 
 .Home__buttons-custom {
     margin-top: 5px;
+}
+
+.ListUsers__header {
+    display: flex;
+    width: auto;
+    justify-content: center;
+    margin-bottom: 3px;
+}
+
+.ListUsers__search-users {
+    flex-grow: 1;
 }

@@ -17,6 +17,7 @@ import ListStations from './ListStations/ListStations';
 import { getMe } from '../reducers/user.reducer';
 import HistoryProps from "../types/HistoryProps.type";
 import ListTransactions from './ListTransactions/ListTransactions';
+import ListVouchers from './ListVouchers.tsx/ListVouchers';
 
 // const stateToProps = (state: RootState) => ({
 //     accessToken: state.authenticationReducer.accessToken,
@@ -44,6 +45,7 @@ const App = () => {
                 <Route path={paths.listStations()} exact component={ListStations} />
                 <Route path={paths.listTransactions()} exact component={ListTransactions} />
                 <Route path={`${paths.listUsers()}/:id`} exact component={UserDetails} />
+                <Route path={paths.listVouchers()} exact component={ListVouchers} />
                 <Route component={Page404} />
             </Switch>
         </Router>

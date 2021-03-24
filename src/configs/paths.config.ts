@@ -2,7 +2,8 @@ const paths = {
   base: '/',
   listUsers: () => '/users',
   listStations: () => '/stations',
-  listTransactions: () => '/transactions'
+  listTransactions: () => '/transactions',
+  listVouchers: () => '/vouchers',
 };
 
 export default paths;

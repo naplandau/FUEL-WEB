@@ -33,3 +33,22 @@
     text-align: left;
     background-color: #ffd5cd;
 }
+
+.search-view {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.ListTransactions__header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.ListTransactions__search-transactions {
+    flex-grow: 1;
+}

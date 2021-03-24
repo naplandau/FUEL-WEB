@@ -5,8 +5,6 @@ import getStationDetailsApi from '../apis/getStationDetails.api';
 import { AppThunk } from '../configs/store.config';
 import { isResponseError } from '../types/ResponseError.type';
 import StationDetails from '../types/Station.type';
-import TankDetails from '../types/Tank.type';
-import PoolDetails from '../types/Pool.type';
 import addStationApi from '../apis/addStation.api';
 import updateStationApi from '../apis/updateStation.api';
 import AddEditStation from '../types/AddEditStation.type';
@@ -18,9 +16,11 @@ import deletePoolApi from '../apis/deletePool.api';
 import deleteTankApi from '../apis/deleteTank.api';
 import updateTankApi from '../apis/updateTank.api';
 import updatePoolApi from '../apis/updatePool.api';
+import getFuelPriceApi from '../apis/getFuelPrices.api';
 
 const initialState = {
     station: null as StationDetails,
+    listPrices: {},
     listStations: Array<StationDetails>(),
     error: ''
 };
@@ -67,13 +67,8 @@ const listStationsSlice = createSlice({
             })
             state.error = '';
         },
-        addTank(state, action: PayloadAction<TankDetails>) {
-            state.station.tanks.push(action.payload);
-            state.error = '';
-        },
-        addPool(state, action: PayloadAction<PoolDetails>) {
-            state.station.pools.push(action.payload);
-            state.error = '';
+        setListPrices(state, action: PayloadAction<Object>) {
+            state.listPrices = action.payload;
         },
         clearListStations(state) {
             state.listStations = [];
@@ -92,8 +87,7 @@ export const {
     addStation,
     editStation,
     resetStation,
-    addTank,
-    addPool,
+    setListPrices
 } = listStationsSlice.actions;
 
 export const fetchListStations = (): AppThunk => async (dispatch, getState) => {
@@ -317,6 +311,16 @@ export const updatePool = (pool = {
         station: response.data.data,
         error: ''
     }));
+}
+
+export const fetchFuelPrices = (): AppThunk => async (dispatch) => {
+    const response = await getFuelPriceApi();
+    console.log(response);
+    if (isResponseError(response)) {
+        return dispatch(setListPrices({}));
+    }
+
+    dispatch(setListPrices(response.data.data));
 }
 
 export default listStationsSlice.reducer;

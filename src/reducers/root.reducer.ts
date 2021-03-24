@@ -6,6 +6,7 @@ import authorizationReducer from './authorization.reducer';
 import authenticationReducer from './authentication.reducer';
 import sidebarReducer from './sidebar.reducer';
 import transactionReducer from './transaction.reducer';
+import voucherReducer from './voucher.reducer';
 
 const rootReducer = combineReducers({
     userReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     authorizationReducer,
     stationReducer,
     sidebarReducer,
-    transactionReducer
+    transactionReducer,
+    voucherReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

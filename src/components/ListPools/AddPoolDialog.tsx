@@ -8,18 +8,21 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { FormControl, Select, InputLabel, MenuItem } from '@material-ui/core';
 import { RootState } from '../../reducers/root.reducer';
-import { createPool } from '../../reducers/station.reducer';
+import { createPool, fetchFuelPrices } from '../../reducers/station.reducer';
+
 
 import '../../styles/components/ListPools/PoolDialog.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import StationDetails from '../../types/Station.type';
 
 const stateToProps = (state: RootState) => ({
+    listFuelPrice: state.stationReducer.listPrices
 })
 
 
 const dispatchToProps = {
     createPool,
+    fetchFuelPrices
 };
 
 const connector = connect(stateToProps, dispatchToProps);
@@ -34,9 +37,11 @@ type PoolProps = ConnectedProps<typeof connector> & BasicProps;
 
 const PoolDialog = ({
     station,
+    listFuelPrice,
     open,
     onClose,
     createPool,
+    fetchFuelPrices
 }: PoolProps) => {
     const [typeName, setTypeName] = useState('');
     const [fuelAmount, setFuelAmount] = useState(0);
@@ -57,6 +62,9 @@ const PoolDialog = ({
         });
         onClose();
     }
+    useEffect(() => {
+        fetchFuelPrices();
+    }, [])
 
     const validateData = () => {
         if (!typeName) {
@@ -90,10 +98,13 @@ const PoolDialog = ({
                                 label="Chọn loại nhiên liệu"
                                 onChange={(e: React.ChangeEvent<{ value: unknown }>) => setTypeName(e.target.value as string)}
                             >
-                                <MenuItem value="Xăng RON 95-III">Xăng RON 95-III</MenuItem>
-                                <MenuItem value="Xăng E5 RON 92-II">Xăng E5 RON 92-II</MenuItem>
+                                {Object.keys(listFuelPrice).map((key) => {
+                                    return <MenuItem value={key}>{key}</MenuItem>
+                                })}
+
+                                {/* <MenuItem value="Xăng E5 RON 92-II">Xăng E5 RON 92-II</MenuItem>
                                 <MenuItem value="Dầu DO 0,05S-II">Dầu DO 0,05S-II</MenuItem>
-                                <MenuItem value="Dầu KO">Dầu KO</MenuItem>
+                                <MenuItem value="Dầu KO">Dầu KO</MenuItem> */}
 
                             </Select>
                         </FormControl>

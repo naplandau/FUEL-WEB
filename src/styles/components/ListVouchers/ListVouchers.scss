@@ -7,17 +7,6 @@
     background-color: #eeeeee;
 }
 
-.sidebar {
-    width: 20%;
-    height: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    background-color: white;
-    box-shadow: 0 0 3px 0 #000000;
-}
-
 .title-admin {
     font-size: 4vh;
     color: $primary-color;
@@ -42,6 +31,29 @@
 
 .name {
     font-size: 3vh;
+    color: $primary-color;
+}
+
+.sideOptions {
+    margin-top: 1vh;
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-width: 0;
+    border-left-width: 1vh;
+    border-color: white;
+    border-style: solid;
+    outline: none;
+}
+
+.sideOptions:hover {
+    border-color: $primary-color;
+}
+
+.sideOptions:hover > .text,
+.sideOptions:hover > .icon {
     color: $primary-color;
 }
 
@@ -98,17 +110,20 @@
 
 .Home__buttons {
     width: 100% !important;
-    background-color: white !important;
+    background-color: $primary-color !important;
     color: white !important;
     padding: 10px !important;
 }
 
 .Home__buttons-custom {
     margin-top: 5px;
+}
+
+.ListVouchers__header {
     display: flex;
-    flex: 1;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
-    margin-bottom: 10px;
+    justify-content: space-between;
+}
+
+.ListVouchers__search-vouchers {
+    flex-grow: 1;
 }

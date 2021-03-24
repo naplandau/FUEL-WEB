@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { connect, ConnectedProps } from 'react-redux';
 import SideBar from '../Home/SideBar';
 import Table from '@material-ui/core/Table';
@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import { withRouter } from "react-router-dom";
 import { IconButton } from "@material-ui/core";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import { TextField } from '@material-ui/core';
 
 import { RootState } from "../../reducers/root.reducer";
 import { getUsers } from "../../reducers/user.reducer";
@@ -31,7 +32,7 @@ const connector = connect(statesToProps, dispatchToProps);
 
 type HomeProps = ConnectedProps<typeof connector> & HistoryProps;
 
-const Home = ({
+const ListUsers = ({
     history,
     users,
     getUsers }: HomeProps) => {
@@ -40,13 +41,22 @@ const Home = ({
         getUsers();
     }, []);
 
-    console.log(users)
-
+    const [searchPattern, changeSearchPattern] = useState('');
 
     return (
         <div className='container'>
             <SideBar history={history} />
             <div className='content'>
+                <div className="search-view">
+                    <TextField
+                        variant="outlined"
+                        label="Tìm người dùng theo số điện thoại"
+                        className="ListUsers__search-users"
+                        value={searchPattern}
+                        onChange={(e) => changeSearchPattern(e.target.value)}
+                    />
+
+                </div>
                 <TableContainer component={Paper}>
                     <Table stickyHeader aria-label="simple table">
                         <TableHead className='header-table'>
@@ -58,24 +68,27 @@ const Home = ({
                             </TableRow>
                         </TableHead>
                         {users.length > 0 && <TableBody>
-                            {users.map((user) => (
-                                <TableRow key={user.id} >
-                                    <TableCell align="center">{user.name}</TableCell>
-                                    <TableCell align="center">{user.phoneNumber}</TableCell>
-                                    <TableCell align="center">{user.role === 0 ? "Người dùng" : "Quản trị viên"}</TableCell>
-                                    <TableCell align="center">
-                                        <IconButton
-                                            onClick={() => {
-                                                history.push(`users/${user.id}`)
-                                            }}
-                                        >
-                                            <NavigateNextIcon />
-                                        </IconButton>
+                            {users.map((user) => {
+                                if (user.phoneNumber.includes(searchPattern)) {
+                                    return <TableRow key={user.id} >
+                                        <TableCell align="center">{user.name}</TableCell>
+                                        <TableCell align="center">{user.phoneNumber}</TableCell>
+                                        <TableCell align="center">{user.role === 0 ? "Người dùng" : "Quản trị viên"}</TableCell>
+                                        <TableCell align="center">
+                                            <IconButton
+                                                onClick={() => {
+                                                    history.push(`users/${user.id}`)
+                                                }}
+                                            >
+                                                <NavigateNextIcon />
+                                            </IconButton>
 
-                                    </TableCell>
-                                </TableRow>
-                            )
-                            )}
+                                        </TableCell>
+                                    </TableRow>
+                                }
+                                return null;
+                            })
+                            }
                         </TableBody>}
                     </Table>
                 </TableContainer>
@@ -84,4 +97,4 @@ const Home = ({
     )
 }
 
-export default withRouter(connector(Home));
+export default withRouter(connector(ListUsers));

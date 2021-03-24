@@ -2,7 +2,10 @@ type TransactionDetails = {
     _id: string;
     status: number;
     userId: string;
-    userInfo: Object;
+    userInfo: {
+        phoneNumber: string;
+        email: string;
+    };
     type: string;
     qrData: Object;
     data: {
