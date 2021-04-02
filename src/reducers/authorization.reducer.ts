@@ -8,7 +8,7 @@ import { setAccessToken } from './authentication.reducer';
 
 const initialState = {
   refreshToken: '',
-  error: '',
+  code: 0,
   isAuthorizing: true,
 };
 
@@ -21,11 +21,11 @@ const authorizationSlice = createSlice({
     },
     loginSuccess(state, action: PayloadAction<string>) {
       state.refreshToken = action.payload;
-      state.error = '';
+      state.code = 200;
       state.isAuthorizing = false;
     },
-    loginFailed(state, action: PayloadAction<string>) {
-      state.error = action.payload;
+    loginFailed(state, action: PayloadAction<number>) {
+      state.code = action.payload;
       state.refreshToken = '';
       state.isAuthorizing = false;
       localStorage.clear();
@@ -42,10 +42,11 @@ export const login = (credentials: LoginBody): AppThunk => async (dispatch) => {
   const response = await loginApi(credentials);
 
   if (isResponseError(response)) {
-    return dispatch(loginFailed(response.error));
+    console.log('bbbbb')
+    return dispatch(loginFailed(response.data.code));
   }
 
-  console.log(response)
+  console.log(response);
 
   localStorage.setItem(localStorageKeys.refreshToken, response.data.data.refreshToken);
   localStorage.setItem(localStorageKeys.accessToken, response.data.data.accessToken);

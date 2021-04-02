@@ -64,7 +64,7 @@ const PoolDialog = ({
     }
     useEffect(() => {
         fetchFuelPrices();
-    }, [])
+    }, [fetchFuelPrices])
 
     const validateData = () => {
         if (!typeName) {

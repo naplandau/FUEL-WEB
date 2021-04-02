@@ -19,7 +19,7 @@ const updateStationApi = async (stationId: string, accessToken: string,
                 'authorization': "Bearer " + accessToken,
             },
         });
-        console.log(res);
+
         const station: ResponseSuccess = {
             code: res.status,
             data: res.data,
@@ -27,8 +27,10 @@ const updateStationApi = async (stationId: string, accessToken: string,
         return station;
     } catch (err) {
         const errorObj: ResponseError = {
-            code: err.response.status,
-            error: err.response.data.error,
+            data: {
+                code: err.response.status,
+                message: err.response.data.error,
+            }
         };
         return errorObj;
     }

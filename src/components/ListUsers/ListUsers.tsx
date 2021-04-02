@@ -39,7 +39,7 @@ const ListUsers = ({
 
     useEffect(() => {
         getUsers();
-    }, []);
+    }, [getUsers]);
 
     const [searchPattern, changeSearchPattern] = useState('');
 

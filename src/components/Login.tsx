@@ -12,7 +12,7 @@ import { RootState } from "../reducers/root.reducer";
 import { login } from "../reducers/authorization.reducer"
 
 const mapStateToProps = (state: RootState) => ({
-    loginError: state.authorizationReducer.error,
+    loginError: state.authorizationReducer.code,
     refreshToken: state.authorizationReducer.refreshToken,
 });
 
@@ -71,13 +71,17 @@ const Login = (props: LoginProps) => {
     };
 
     useEffect(() => {
-        setError(props.loginError);
         setIsLogging(false);
+        if (props.loginError === 404) {
+            console.log('aaaaaa')
+            setError('Unable to login!');
+        }
     }, [props.loginError]);
 
     if (props.refreshToken) {
         return <Redirect to={paths.listUsers()} />
     }
+
     return (
         <div className="Login">
             <Grid container>

@@ -18,8 +18,10 @@ const LoginApi = async (credentials: LoginBody) => {
         return responseUser;
     } catch (error) {
         const errObj: ResponseError = {
-            code: error.response.status,
-            error: error.response.data.error,
+            data: {
+                code: error.response.status,
+                message: error.response.data.error,
+            }
         }
         return errObj;
     }

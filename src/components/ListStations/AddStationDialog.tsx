@@ -118,6 +118,7 @@ const StationDialog = ({
                             autoFocus
                             label="Tên cây xăng"
                             fullWidth
+                            required
                             onChange={(e) => setName(e.target.value)}
                         />
                         <TextField
@@ -125,6 +126,7 @@ const StationDialog = ({
                             className="AddStation__text-field"
                             label="Mô tả"
                             fullWidth
+                            required
                             onChange={(e) => setDescription(e.target.value)}
                         />
                         <TextField
@@ -132,6 +134,7 @@ const StationDialog = ({
                             className="AddStation__text-field"
                             label="Địa chỉ"
                             fullWidth
+                            required
                             onChange={(e) => setAddress(e.target.value)}
                         />
                         <Grid container spacing={2} style={{ marginTop: '10px' }}>
@@ -161,8 +164,11 @@ const StationDialog = ({
                                 <TextField
                                     variant="outlined"
                                     className="AddStation__text-field "
-                                    type="number"
+                                    type="time"
                                     label="Hoạt động từ"
+                                    InputLabelProps={{
+                                        shrink: true
+                                    }}
                                     required
                                     onChange={(e) => setWorkingHourFrom(e.target.value)}
                                 />
@@ -171,8 +177,11 @@ const StationDialog = ({
                                 <TextField
                                     variant="outlined"
                                     className="AddStation__text-field"
-                                    type="number"
+                                    type="time"
                                     label="Hoạt động đến"
+                                    InputLabelProps={{
+                                        shrink: true
+                                    }}
                                     required
                                     onChange={(e) => setWorkingHourTo(e.target.value)}
                                 />

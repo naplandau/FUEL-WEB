@@ -7,7 +7,7 @@ import getAllVouchersApi from '../apis/getAllVouchers.api';
 
 const initialState = {
     listVouchers: Array<Voucher>(),
-    error: ''
+    code: 0
 };
 
 const listVouchersSlice = createSlice({
@@ -18,13 +18,13 @@ const listVouchersSlice = createSlice({
             listVouchers: Array<Voucher>,
         }>) {
             state.listVouchers = action.payload.listVouchers;
-            state.error = '';
+            state.code = 0;
         },
         clearListVouchers(state) {
             state.listVouchers = [];
         },
-        setError(state, action: PayloadAction<string>) {
-            state.error = action.payload;
+        setError(state, action: PayloadAction<number>) {
+            state.code = action.payload;
         },
     }
 });

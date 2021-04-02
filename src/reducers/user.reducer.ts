@@ -10,7 +10,7 @@ const initialState = {
     user: null as User,
     me: null as User,
     listUsers: Array<User>(),
-    error: ''
+    code: 0
 };
 
 const userSlice = createSlice({
@@ -19,10 +19,10 @@ const userSlice = createSlice({
     reducers: {
         setUserDetails(state, action: PayloadAction<{
             user: User,
-            error: string,
+            error: number,
         }>) {
             state.user = action.payload.user;
-            state.error = action.payload.error;
+            state.code = action.payload.error;
         },
         resetUser(state) {
             state.user = null
@@ -32,10 +32,10 @@ const userSlice = createSlice({
         },
         setMe(state, action: PayloadAction<{
             me: User,
-            error: string
+            error: number
         }>) {
             state.me = action.payload.me;
-            state.error = action.payload.error;
+            state.code = action.payload.error;
         }
     },
 });
@@ -81,13 +81,13 @@ export const fetchUserDetails = (userId: string): AppThunk => async (dispatch, g
     if (isResponseError(response)) {
         return dispatch(setUserDetails({
             user: null,
-            error: response.error
+            error: response.data.code
         }))
     }
 
     dispatch(setUserDetails({
         user: response.data.data,
-        error: ''
+        error: 0
     }))
 }
 export const getMe = (): AppThunk => async (dispatch, getState) => {
@@ -105,12 +105,12 @@ export const getMe = (): AppThunk => async (dispatch, getState) => {
     if (isResponseError(response)) {
         return dispatch(setMe({
             me: null,
-            error: response.error
+            error: response.data.code
         }))
     }
     dispatch(setMe({
         me: response.data.data,
-        error: ''
+        error: 0
     }))
 
 

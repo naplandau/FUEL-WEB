@@ -50,7 +50,7 @@ const ListTransactions = ({
 
     useEffect(() => {
         fetchListTransactions();
-    }, [])
+    }, [fetchListTransactions])
     return (
         <div className='container'>
             <SideBar history={history} />

@@ -17,16 +17,19 @@ import SideBar from '../Home/SideBar';
 import '../../styles/components/ListUsers/UserDetails.scss';
 
 import { fetchUserDetails, resetUser } from '../../reducers/user.reducer';
+import { fetchUserListTransactions, clearUserListTransactions } from '../../reducers/transaction.reducer';
 
 const statesToProps = (state: RootState) => ({
     user: state.userReducer.user,
     accessToken: state.authenticationReducer.accessToken,
-    listTransactions: state.transactionReducer.listTransactions,
+    listTransactions: state.transactionReducer.userListTransactions,
 });
 
 const dispatchToProps = {
     fetchUserDetails,
     resetUser,
+    fetchUserListTransactions,
+    clearUserListTransactions
 };
 
 const connector = connect(statesToProps, dispatchToProps);
@@ -38,6 +41,8 @@ const UserDetails = ({
     accessToken,
     listTransactions,
     fetchUserDetails,
+    fetchUserListTransactions,
+    clearUserListTransactions,
     resetUser,
     history,
 }: UserDetailsProps) => {
@@ -66,7 +71,17 @@ const UserDetails = ({
         return () => {
             resetUser();
         }
-    }, [userId, accessToken]);
+    }, [userId, accessToken, fetchUserDetails, resetUser]);
+
+    useEffect(() => {
+        if (userId) {
+            fetchUserListTransactions(userId);
+        }
+
+        return () => {
+            clearUserListTransactions();
+        }
+    }, [clearUserListTransactions, fetchUserListTransactions, userId, accessToken])
 
     useEffect(() => {
         if (history.location.pathname.split('/')[2]) {
@@ -90,6 +105,9 @@ const UserDetails = ({
             <SideBar history={history} />
             <div className='content'>
                 <Grid container>
+                    {/* <div className="avatar">
+                        <img src={user.avatar} alt="" />
+                    </div> */}
                     <Grid item xs={12} sm={12} md={12} lg={12} className="UserDetail__wrapper">
                         <Paper className="UserDetail__paper">
                             <TextField

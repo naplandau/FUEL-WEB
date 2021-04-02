@@ -22,7 +22,7 @@ const initialState = {
     station: null as StationDetails,
     listPrices: {},
     listStations: Array<StationDetails>(),
-    error: ''
+    error_code: 0
 };
 
 const listStationsSlice = createSlice({
@@ -31,10 +31,10 @@ const listStationsSlice = createSlice({
     reducers: {
         setStationDetails(state, action: PayloadAction<{
             station: StationDetails,
-            error: string,
+            error_code: number,
         }>) {
             state.station = action.payload.station;
-            state.error = action.payload.error;
+            state.error_code = action.payload.error_code;
         },
         resetStation(state) {
             state.station = null;
@@ -43,11 +43,11 @@ const listStationsSlice = createSlice({
             listStations: Array<StationDetails>,
         }>) {
             state.listStations = action.payload.listStations;
-            state.error = '';
+            state.error_code = 0;
         },
         addStation(state, action: PayloadAction<StationDetails>) {
             state.listStations.push(action.payload);
-            state.error = '';
+            state.error_code = 0;
         },
         editStation(state, action: PayloadAction<StationDetails>) {
             state.listStations = state.listStations.map(station => {
@@ -65,7 +65,7 @@ const listStationsSlice = createSlice({
                 }
                 return station;
             })
-            state.error = '';
+            state.error_code = 0;
         },
         setListPrices(state, action: PayloadAction<Object>) {
             state.listPrices = action.payload;
@@ -73,8 +73,8 @@ const listStationsSlice = createSlice({
         clearListStations(state) {
             state.listStations = [];
         },
-        setError(state, action: PayloadAction<string>) {
-            state.error = action.payload;
+        setError(state, action: PayloadAction<number>) {
+            state.error_code = action.payload;
         },
     }
 });
@@ -120,12 +120,12 @@ export const fetchStationDetails = (stationId: string): AppThunk => async (dispa
     const response = await getStationDetailsApi(accessToken, stationId);
 
     if (isResponseError(response)) {
-        return dispatch(setStationDetails({ station: null, error: response.error }));
+        return dispatch(setStationDetails({ station: null, error_code: response.data.code }));
     }
 
     dispatch(setStationDetails({
         station: response.data.data,
-        error: ''
+        error_code: 0
     }));
 }
 
@@ -140,7 +140,7 @@ export const createStation = (station: AddEditStation): AppThunk => async (dispa
     const response = await addStationApi(accessToken, station);
 
     if (isResponseError(response)) {
-        return dispatch(setError(response.error));
+        return dispatch(setError(response.data.code));
     }
 
     dispatch(addStation(response.data.data));
@@ -165,7 +165,7 @@ export const updateStation = (station = {
     const response = await updateStationApi(stationId, accessToken, station);
 
     if (isResponseError(response)) {
-        return dispatch(setError(response.error));
+        return dispatch(setError(response.data.code));
     }
 
     dispatch(editStation(response.data.data));
@@ -199,12 +199,12 @@ export const deletePool = (poolId: string): AppThunk => async (dispatch, getStat
     const response = await deletePoolApi(poolId, accessToken);
 
     if (isResponseError(response)) {
-        return dispatch(setStationDetails({ station: null, error: response.error }));
+        return dispatch(setStationDetails({ station: null, error_code: response.data.code }));
     }
 
     dispatch(setStationDetails({
         station: response.data.data,
-        error: ''
+        error_code: 0
     }))
 }
 
@@ -219,11 +219,11 @@ export const deleteTank = (tankId: string): AppThunk => async (dispatch, getStat
     const response = await deleteTankApi(tankId, accessToken);
 
     if (isResponseError(response)) {
-        return dispatch(setStationDetails({ station: null, error: response.error }));
+        return dispatch(setStationDetails({ station: null, error_code: response.data.code }));
     }
     dispatch(setStationDetails({
         station: response.data.data,
-        error: ''
+        error_code: 0
     }))
 }
 
@@ -238,12 +238,12 @@ export const createTank = (tank: AddEditTank): AppThunk => async (dispatch, getS
     const response = await addTankApi(accessToken, tank);
 
     if (isResponseError(response)) {
-        return dispatch(setStationDetails({ station: null, error: response.error }));
+        return dispatch(setStationDetails({ station: null, error_code: response.data.code }));
     }
 
     dispatch(setStationDetails({
         station: response.data.data,
-        error: ''
+        error_code: 0
     }));
 }
 
@@ -258,12 +258,12 @@ export const createPool = (pool: AddEditPool): AppThunk => async (dispatch, getS
     const response = await addPoolApi(accessToken, pool);
 
     if (isResponseError(response)) {
-        return dispatch(setStationDetails({ station: null, error: response.error }));
+        return dispatch(setStationDetails({ station: null, error_code: response.data.code }));
     }
 
     dispatch(setStationDetails({
         station: response.data.data,
-        error: ''
+        error_code: 0
     }));
 }
 
@@ -281,12 +281,12 @@ export const updateTank = (tank = {
     const response = await updateTankApi(tankId, accessToken, tank);
 
     if (isResponseError(response)) {
-        return dispatch(setStationDetails({ station: null, error: response.error }));
+        return dispatch(setStationDetails({ station: null, error_code: response.data.code }));
     }
 
     dispatch(setStationDetails({
         station: response.data.data,
-        error: ''
+        error_code: 0
     }));
 }
 
@@ -304,12 +304,12 @@ export const updatePool = (pool = {
     const response = await updatePoolApi(poolId, accessToken, pool);
 
     if (isResponseError(response)) {
-        return dispatch(setStationDetails({ station: null, error: response.error }));
+        return dispatch(setStationDetails({ station: null, error_code: response.data.code }));
     }
 
     dispatch(setStationDetails({
         station: response.data.data,
-        error: ''
+        error_code: 0
     }));
 }
 

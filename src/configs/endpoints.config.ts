@@ -1,4 +1,4 @@
-const base: string = 'http://api.fuze.life/api';
+const base: string = 'https://api.fuze.life/api';
 
 const endpoints = {
     base: base,
@@ -20,6 +20,7 @@ const endpoints = {
     getUserDetails: (userId: string) => `${base}/users/detail/${userId}`,
     getListVouchers: () => `${base}/promo/all`,
     getFuelPrices: () => `${base}/fuels/price`,
+    getUserListTransactions: (userId: string) => `${base}/users/transactions/${userId}`
 };
 
 export default endpoints;

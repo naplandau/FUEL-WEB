@@ -3,6 +3,7 @@ type User = {
     email: string;
     phoneNumber: string;
     name: string;
+    avatar: string;
     role: 0 | 1;
     status: number;
     userName: string;

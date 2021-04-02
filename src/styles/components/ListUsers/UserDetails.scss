@@ -44,3 +44,13 @@
     width: 100%;
     margin-bottom: 10px !important;
 }
+
+.avatar {
+    width: 10vh;
+    height: 10vh;
+    border-radius: 999px;
+    border-width: 3px;
+    border-color: $primary-color;
+    border-style: solid;
+    margin-top: 10px;
+}

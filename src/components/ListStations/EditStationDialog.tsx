@@ -132,7 +132,6 @@ const EditStationDialog = ({
                                     className="AddStation__text-field"
                                     type="number"
                                     label="Kinh độ"
-                                    required
                                     value={long}
                                     onChange={(e) => setLong(parseFloat(e.target.value))}
                                 />
@@ -143,7 +142,6 @@ const EditStationDialog = ({
                                     className="AddStation__text-field"
                                     type="number"
                                     label="Vĩ độ"
-                                    required
                                     value={lat}
                                     onChange={(e) => setLat(parseFloat(e.target.value))}
                                 />
@@ -154,9 +152,11 @@ const EditStationDialog = ({
                                 <TextField
                                     variant="outlined"
                                     className="AddStation__text-field "
-                                    type="number"
+                                    type="time"
                                     label="Hoạt động từ"
-                                    required
+                                    InputLabelProps={{
+                                        shrink: true
+                                    }}
                                     value={workingHourFrom}
                                     onChange={(e) => setWorkingHourFrom(e.target.value)}
                                 />
@@ -165,9 +165,11 @@ const EditStationDialog = ({
                                 <TextField
                                     variant="outlined"
                                     className="AddStation__text-field"
-                                    type="number"
+                                    type="time"
                                     label="Hoạt động đến"
-                                    required
+                                    InputLabelProps={{
+                                        shrink: true
+                                    }}
                                     value={workingHourTo}
                                     onChange={(e) => setWorkingHourTo(e.target.value)}
                                 />

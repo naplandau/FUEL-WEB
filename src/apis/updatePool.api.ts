@@ -14,7 +14,7 @@ const updatePoolApi = async (poolId: string, accessToken: string,
                 'authorization': "Bearer " + accessToken,
             },
         });
-        console.log(res);
+
         const pool: ResponseSuccess = {
             code: res.status,
             data: res.data,
@@ -22,8 +22,10 @@ const updatePoolApi = async (poolId: string, accessToken: string,
         return pool;
     } catch (err) {
         const errorObj: ResponseError = {
-            code: err.response.status,
-            error: err.response.data.error,
+            data: {
+                code: err.response.status,
+                message: err.response.data.error,
+            }
         };
         return errorObj;
     }

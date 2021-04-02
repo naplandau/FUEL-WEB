@@ -18,8 +18,10 @@ const addTankApi = async (accessToken: string, credentials: AddEditTank) => {
         return tank;
     } catch (err) {
         const errorObj: ResponseError = {
-            code: err.response.status,
-            error: err.response.data.error,
+            data: {
+                code: err.response.status,
+                message: err.response.data.error,
+            }
         };
         return errorObj;
     }

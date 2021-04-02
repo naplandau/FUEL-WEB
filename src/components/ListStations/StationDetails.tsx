@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect, ConnectedProps } from 'react-redux';
 import SideBar from '../Home/SideBar';
-import { Paper, Grid, Typography, InputLabel } from '@material-ui/core';
+import { Paper, Grid, Typography } from '@material-ui/core';
 import { Button, TextField } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 
@@ -90,7 +90,7 @@ const StationDetail = ({
         return () => {
             resetStation();
         }
-    }, [stationId, accessToken]);
+    }, [stationId, accessToken, fetchStationDetails, resetStation]);
 
     useEffect(() => {
         if (history.location.pathname.split('/')[2]) {
@@ -157,7 +157,6 @@ const StationDetail = ({
                                         className="StationDetail__text-field"
                                         type="number"
                                         label="Kinh độ"
-                                        required
                                         value={long}
                                         onChange={(e) => setLong(parseFloat(e.target.value))}
                                     />
@@ -168,7 +167,6 @@ const StationDetail = ({
                                         className="StationDetail__text-field"
                                         type="number"
                                         label="Vĩ độ"
-                                        required
                                         value={lat}
                                         onChange={(e) => setLat(parseFloat(e.target.value))}
                                     />
@@ -177,9 +175,11 @@ const StationDetail = ({
                                     <TextField
                                         variant="outlined"
                                         className="StationDetail__text-field "
-                                        type="number"
+                                        type="time"
                                         label="Hoạt động từ"
-                                        required
+                                        InputLabelProps={{
+                                            shrink: true
+                                        }}
                                         value={workingHourFrom}
                                         onChange={(e) => setWorkingHourFrom(e.target.value)}
                                     />
@@ -188,9 +188,11 @@ const StationDetail = ({
                                     <TextField
                                         variant="outlined"
                                         className="StationDetail__text-field"
-                                        type="number"
+                                        type="time"
                                         label="Hoạt động đến"
-                                        required
+                                        InputLabelProps={{
+                                            shrink: true
+                                        }}
                                         value={workingHourTo}
                                         onChange={(e) => setWorkingHourTo(e.target.value)}
                                     />
