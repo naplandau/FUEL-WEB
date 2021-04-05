@@ -7,6 +7,7 @@ import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import HistoryIcon from '@material-ui/icons/History';
 import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import { setSelected, setSideBarSelected } from '../../reducers/sidebar.reducer';
 import HistoryProps from "../../types/HistoryProps.type";
 import { getMe } from "../../reducers/user.reducer";
@@ -93,6 +94,16 @@ const SideBar = ({
                     height: '5vh'
                 }, selected === 4 ? { color: '#e73e3e' } : {})} className='icon' />
                 <p style={selected === 4 ? { color: '#e73e3e' } : {}} className='text'>Quản lý thẻ quà tặng</p>
+            </div>
+            <div style={selected === 4 ? { borderColor: '#e73e3e' } : {}} onClick={() => {
+                history.push(`/prices`);
+                setSideBarSelected(5);
+            }} className='sideOptions'>
+                <LocalOfferIcon style={Object.assign({}, {
+                    width: '5vh',
+                    height: '5vh'
+                }, selected === 5 ? { color: '#e73e3e' } : {})} className='icon' />
+                <p style={selected === 5 ? { color: '#e73e3e' } : {}} className='text'>Quản lý lịch sử giá</p>
             </div>
 
             <div className='Home__buttons-custom'>

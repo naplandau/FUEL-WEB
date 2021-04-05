@@ -20,7 +20,8 @@ const endpoints = {
     getUserDetails: (userId: string) => `${base}/users/detail/${userId}`,
     getListVouchers: () => `${base}/promo/all`,
     getFuelPrices: () => `${base}/fuels/price`,
-    getUserListTransactions: (userId: string) => `${base}/users/transactions/${userId}`
+    getUserListTransactions: (userId: string) => `${base}/users/transactions/${userId}`,
+    getListHistoryPrices: () => `${base}/fuelPrices`,
 };
 
 export default endpoints;

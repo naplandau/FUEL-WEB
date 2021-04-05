@@ -103,6 +103,8 @@ const ListStations = ({
         };
     }
 
+    const [searchPattern, changeSearchPattern] = useState('');
+
     return (
         <div className='container'>
             <SideBar history={history} />
@@ -113,8 +115,8 @@ const ListStations = ({
                             variant="outlined"
                             label="Tìm cây xăng theo tên"
                             className="ListStations__search-stations"
-                        // value={searchPattern}
-                        // onChange={(e) => changeSearchPattern(e.target.value)}
+                            value={searchPattern}
+                            onChange={(e) => changeSearchPattern(e.target.value)}
                         />
 
                     </div>
@@ -137,39 +139,42 @@ const ListStations = ({
                             </TableRow>
                         </TableHead>
                         {stations.length > 0 && <TableBody>
-                            {stations.map((station) => (
-                                <TableRow key={station._id}>
-                                    <TableCell align="center">{station.name}</TableCell>
-                                    <TableCell align="center">{station.isActive ? "Hoạt động" : "Không hoạt động"}</TableCell>
-                                    <TableCell align="center">{station.address}</TableCell>
-                                    <TableCell align="center">{station.total_tank}</TableCell>
-                                    <TableCell align="center">Từ {station.working_hour_from} đến {station.working_hour_to} (GMT+7)</TableCell>
-                                    <TableCell align="center">
-                                        <IconButton
-                                            onClick={() => openEditStationDialog(station)}
-                                            color="secondary"
-                                        >
-                                            <EditIcon />
-                                        </IconButton>
-                                        <IconButton
-                                            onClick={() => handleDeleteStation(station)}
-                                            color="default"
-                                        >
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <IconButton
-                                            onClick={() => {
-                                                history.push(`stations/${station._id}`)
-                                            }}
-                                        >
-                                            <NavigateNextIcon />
-                                        </IconButton>
+                            {stations.map((station) => {
+                                if (station.name.toLowerCase().includes(searchPattern.toLowerCase())) {
+                                    return <TableRow key={station._id}>
+                                        <TableCell align="center">{station.name}</TableCell>
+                                        <TableCell align="center">{station.isActive ? "Hoạt động" : "Không hoạt động"}</TableCell>
+                                        <TableCell align="center">{station.address}</TableCell>
+                                        <TableCell align="center">{station.total_tank}</TableCell>
+                                        <TableCell align="center">Từ {station.working_hour_from} đến {station.working_hour_to} (GMT+7)</TableCell>
+                                        <TableCell align="center">
+                                            <IconButton
+                                                onClick={() => openEditStationDialog(station)}
+                                                color="secondary"
+                                            >
+                                                <EditIcon />
+                                            </IconButton>
+                                            <IconButton
+                                                onClick={() => handleDeleteStation(station)}
+                                                color="default"
+                                            >
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <IconButton
+                                                onClick={() => {
+                                                    history.push(`stations/${station._id}`)
+                                                }}
+                                            >
+                                                <NavigateNextIcon />
+                                            </IconButton>
 
-                                    </TableCell>
-                                </TableRow>
-                            )
+                                        </TableCell>
+                                    </TableRow>
+                                }
+                                return null;
+                            }
                             )}
                         </TableBody>}
                     </Table>
