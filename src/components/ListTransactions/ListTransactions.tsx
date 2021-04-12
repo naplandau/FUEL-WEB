@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { TextField, Paper } from "@material-ui/core";
@@ -6,6 +6,7 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
+import TablePagination from '@material-ui/core/TablePagination';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
@@ -37,6 +38,18 @@ const ListTransactions = ({
     fetchListTransactions,
     clearListTransactions
 }: ListTransactionsProps) => {
+
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
 
     const status = (status: number) => {
         if (status === 10) {
@@ -77,7 +90,7 @@ const ListTransactions = ({
                             </TableRow>
                         </TableHead>
                         {listTransactions.length > 0 && <TableBody>
-                            {listTransactions.map((transaction) => {
+                            {listTransactions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((transaction) => {
                                 // if (voucher.phoneNumber.includes(searchPattern)) {
                                 return <TableRow key={transaction._id} >
                                     <TableCell align="center">{transaction.userInfo.phoneNumber}</TableCell>
@@ -102,6 +115,17 @@ const ListTransactions = ({
                         </TableBody>}
                     </Table>
                 </TableContainer>
+                <TablePagination
+                    height="150px"
+                    labelRowsPerPage="Số dòng mỗi trang: "
+                    rowsPerPageOptions={[5, 10, 20]}
+                    component="div"
+                    count={listTransactions.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
             </div>
         </div >
     )

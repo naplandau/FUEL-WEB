@@ -7,10 +7,12 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import BarChartIcon from '@material-ui/icons/BarChart';
 import Add from '@material-ui/icons/Add';
 import { Button, IconButton, TextField } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
@@ -44,6 +46,7 @@ const ListStations = ({
     stations,
     fetchListStations,
     deleteStation }: ListStationsProps) => {
+    const [chartDialog, setChartDialog] = useState(false);
     const [addStationDialog, setAddStationDialog] = useState(false);
     const [editStationDialog, setEditStationDialog] = useState(false);
     const [selectedStation, setSelectedStation] = useState<StationDetails>({
@@ -75,10 +78,30 @@ const ListStations = ({
         updatedAt: '',
     })
 
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+    const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+
     useEffect(() => {
         fetchListStations();
         getUsers();
     }, []);
+
+    const openChartDialog = () => {
+        setChartDialog(true);
+    }
+
+    const closeChartDialog = () => {
+        setChartDialog(false);
+    }
 
     const openAddStationDialog = () => {
         setAddStationDialog(true);
@@ -121,6 +144,9 @@ const ListStations = ({
 
                     </div>
                     <div className="ListStations__buttons-custom">
+                        <Button className='ListStations__buttons' onClick={openChartDialog} ><BarChartIcon /></Button>
+                    </div>
+                    <div className="ListStations__buttons-custom">
                         <Button className='ListStations__buttons' onClick={openAddStationDialog} ><Add /></Button>
                     </div>
                 </div>
@@ -139,7 +165,7 @@ const ListStations = ({
                             </TableRow>
                         </TableHead>
                         {stations.length > 0 && <TableBody>
-                            {stations.map((station) => {
+                            {stations.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((station) => {
                                 if (station.name.toLowerCase().includes(searchPattern.toLowerCase())) {
                                     return <TableRow key={station._id}>
                                         <TableCell align="center">{station.name}</TableCell>
@@ -179,7 +205,19 @@ const ListStations = ({
                         </TableBody>}
                     </Table>
                 </TableContainer>
-                {/* <BarChart /> */}
+                <TablePagination
+                    labelRowsPerPage="Số dòng mỗi trang: "
+                    rowsPerPageOptions={[10, 25, 100]}
+                    component="div"
+                    count={stations.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
+                <div>
+                    <BarChart open={chartDialog} onClose={closeChartDialog} />
+                </div>
             </div>
             <AddStationDialog open={addStationDialog} onClose={closeAddStationDialog} />
             <EditStationDialog open={editStationDialog} station={selectedStation} onClose={closeEditStationDialog} />

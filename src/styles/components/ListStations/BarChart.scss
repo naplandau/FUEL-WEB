@@ -2,6 +2,14 @@
 
 .BarChart {
     background-color: #eeeeee;
-    width: 100%;
     margin-top: 30px;
+}
+
+.BarChart__wrapper {
+    margin: 10px auto !important;
+    width: 150vh;
+}
+.BarChart__title {
+    text-align: center !important;
+    margin-top: 10px !important;
 }

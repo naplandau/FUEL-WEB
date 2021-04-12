@@ -7,6 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 import { withRouter } from "react-router-dom";
 
@@ -35,6 +36,18 @@ const ListUsers = ({
     fetchListHistoryPrices,
     clearListHistoryPrices }: HomeProps) => {
 
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+
     useEffect(() => {
         fetchListHistoryPrices();
     }, [fetchListHistoryPrices]);
@@ -55,6 +68,7 @@ const ListUsers = ({
                     />
 
                 </div> */}
+                {/* <div></div> */}
                 <TableContainer component={Paper}>
                     <Table stickyHeader aria-label="simple table">
                         <TableHead className='header-table'>
@@ -69,7 +83,7 @@ const ListUsers = ({
                             </TableRow>
                         </TableHead>
                         {prices.length > 0 && <TableBody>
-                            {prices.map((price) => {
+                            {prices.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((price) => {
                                 return <TableRow key={price._id} >
                                     <TableCell align="center">{new Date(price.updatedAt).toLocaleString()}</TableCell>
                                     {price.fuels.map((row) => {
@@ -83,6 +97,17 @@ const ListUsers = ({
                         </TableBody>}
                     </Table>
                 </TableContainer>
+                <TablePagination
+                    height="150px"
+                    labelRowsPerPage="Số dòng mỗi trang: "
+                    rowsPerPageOptions={[5, 10, 20]}
+                    component="div"
+                    count={prices.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
             </div>
         </div >
     )
