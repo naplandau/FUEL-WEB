@@ -17,11 +17,18 @@ import deleteTankApi from '../apis/deleteTank.api';
 import updateTankApi from '../apis/updateTank.api';
 import updatePoolApi from '../apis/updatePool.api';
 import getFuelPriceApi from '../apis/getFuelPrices.api';
+import getAccessTokenApi from '../apis/getAccessToken.api';
+import localStorageKeys from '../configs/localStorageKeys.config';
+import { setAccessToken } from './authentication.reducer';
+import { getAccessToken } from './authorization.reducer';
 
 const initialState = {
     station: null as StationDetails,
     listPrices: {},
     listStations: Array<StationDetails>(),
+    isFetchingStation: true,
+    isFetchingTank: true,
+    isFetchingPool: true,
     error_code: 0
 };
 
@@ -35,9 +42,11 @@ const listStationsSlice = createSlice({
         }>) {
             state.station = action.payload.station;
             state.error_code = action.payload.error_code;
+            state.isFetchingStation = false;
         },
         resetStation(state) {
             state.station = null;
+            state.isFetchingStation = true;
         },
         setListStations(state, action: PayloadAction<{
             listStations: Array<StationDetails>,
@@ -94,14 +103,35 @@ export const fetchListStations = (): AppThunk => async (dispatch, getState) => {
     const state = getState();
     const { authenticationReducer } = state;
     const { accessToken } = authenticationReducer;
+    console.log(accessToken)
     if (!accessToken) {
         return;
     }
 
-    const response = await getAllStationsApi(accessToken);
+    let response = await getAllStationsApi(accessToken);
 
     if (isResponseError(response)) {
         return dispatch(clearListStations());
+    }
+
+    if (response.data.code === 401) {
+        console.log(1)
+        const userId = localStorage.getItem(localStorageKeys.userId);
+        dispatch(getAccessToken(userId));
+        console.log(2)
+
+        const state = getState();
+        const { authenticationReducer } = state;
+        const { accessToken } = authenticationReducer;
+        console.log(accessToken)
+
+        dispatch(setAccessToken(accessToken));
+
+        const newResponse = await getAllStationsApi(accessToken);
+        console.log(newResponse)
+        return dispatch(setListStations({
+            listStations: newResponse.data.data,
+        }));
     }
 
     dispatch(setListStations({

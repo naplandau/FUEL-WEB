@@ -12,7 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import { withRouter } from "react-router-dom";
 import { IconButton, TextField } from "@material-ui/core";
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-
+import moment from 'moment';
 
 import { RootState } from "../../reducers/root.reducer";
 import { fetchListVouchers } from "../../reducers/voucher.reducer";
@@ -55,6 +55,16 @@ const ListVouchers = ({
 
     const [searchPattern, changeSearchPattern] = useState('');
 
+    const checkVoucherStatus = (status: number, isOn: boolean) => {
+        if (status === 0 && isOn === true) {
+            return 'Thẻ quà chưa sử dụng'
+        }
+        else if (status === 1 && isOn === true) {
+            return 'Thẻ quà đã sử dụng'
+        }
+        else return 'Thẻ đã hết hiệu lực'
+    }
+
     return (
         <div className='container'>
             <SideBar history={history} />
@@ -73,10 +83,11 @@ const ListVouchers = ({
                     <Table stickyHeader aria-label="simple table">
                         <TableHead className='header-table'>
                             <TableRow>
-                                <TableCell align="center">Người sở hữu</TableCell>
-                                <TableCell align="center">Người tặng</TableCell>
-                                <TableCell align="center">Loại thẻ</TableCell>
-                                <TableCell align="center">Ngày khởi tạo</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Người sở hữu</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Người tặng</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Loại thẻ</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Trạng thái thẻ quà</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Ngày khởi tạo</TableCell>
                                 <TableCell align="center"></TableCell>
                             </TableRow>
                         </TableHead>
@@ -84,10 +95,11 @@ const ListVouchers = ({
                             {vouchers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((voucher) => {
                                 // if (voucher.phoneNumber.includes(searchPattern)) {
                                 return <TableRow key={voucher._id} >
-                                    <TableCell align="center">{voucher.owner.phoneNumber}</TableCell>
-                                    <TableCell align="center">{voucher.type === 0 ? voucher.donator.phoneNumber : ''}</TableCell>
-                                    <TableCell align="center">{voucher.type === 0 ? "Thẻ được tặng" : "Thẻ sở hữu"}</TableCell>
-                                    <TableCell align="center">{(new Date(voucher.createdAt)).toLocaleDateString()}</TableCell>
+                                    <TableCell align="center" className="tableRightBorder">{voucher.owner.phoneNumber}</TableCell>
+                                    <TableCell align="center" className="tableRightBorder">{voucher.type === 0 ? voucher.donator.phoneNumber : ''}</TableCell>
+                                    <TableCell align="center" className="tableRightBorder">{voucher.type === 0 ? "Thẻ được tặng" : "Thẻ sở hữu"}</TableCell>
+                                    <TableCell align="center" className="tableRightBorder">{checkVoucherStatus(voucher.status, voucher.isOn)}</TableCell>
+                                    <TableCell align="center" className="tableRightBorder">{moment(voucher.createdAt).format('L') + ' ' + moment(voucher.createdAt).format('LTS')}</TableCell>
                                     <TableCell align="center">
                                         <IconButton
                                             onClick={() => {

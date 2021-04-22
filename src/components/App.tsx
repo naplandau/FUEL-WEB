@@ -1,8 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../reducers/root.reducer';
+import { getAccessToken } from '../reducers/authorization.reducer';
+import loading from '../assets/loadings/medium.loading.gif';
+import localStorageKeys from '../configs/localStorageKeys.config';
 
 import paths from '../configs/paths.config';
 
@@ -14,29 +17,70 @@ import ListUsers from './ListUsers/ListUsers';
 import StationDetails from './ListStations/StationDetails';
 import UserDetails from './ListUsers/UserDetails';
 import ListStations from './ListStations/ListStations';
-import { getMe } from '../reducers/user.reducer';
-import HistoryProps from "../types/HistoryProps.type";
+import { getMe } from '../reducers/account.reducer';
 import ListTransactions from './ListTransactions/ListTransactions';
 import ListVouchers from './ListVouchers/ListVouchers';
 import ListHistoryPrices from './ListHistoryPrices/ListHistoryPrices';
 
-// const stateToProps = (state: RootState) => ({
-//     accessToken: state.authenticationReducer.accessToken,
-// })
+const stateToProps = (state: RootState) => ({
+    accessToken: state.authenticationReducer.accessToken,
+    isAuthorizing: state.authorizationReducer.isAuthorizing,
+    me: state.accountReducer.me
+})
 
-// const dispatchToProps = {
-//     getMe,
-// };
+const dispatchToProps = {
+    getMe,
+    getAccessToken
+};
 
-// const connector = connect(stateToProps, dispatchToProps);
+const connector = connect(stateToProps, dispatchToProps);
 
-// type AppProps = ConnectedProps<typeof connector> & HistoryProps;
+type AppProps = ConnectedProps<typeof connector>;
 
-const App = () => {
+const App = ({
+    me,
+    accessToken,
+    isAuthorizing,
+    getMe,
+    getAccessToken
+}: AppProps) => {
+    // const [userId, setUserId] = useState('');
 
     // useEffect(() => {
     //     getMe();
+    // }, [])
+
+    // useEffect(() => {
+    //     if (me) {
+    //         setUserId(me.id);
+    //     }
+    // }, [me])
+
+    // useEffect(() => {
+
+    //     getAccessToken(userId);
+    // }, [me]);
+
+    // useEffect(() => {
+    //     let autoFetchAccessToken: NodeJS.Timeout = null;
+    //     getMe();
+    //     if (accessToken) {
+    //         getMe();
+
+    //         autoFetchAccessToken = setInterval(() => {
+    //             getAccessToken(userId);
+    //         }, 43200000) // auto fetch access token every 12 hours
+    //     }
+
+    //     return () => {
+    //         try {
+    //             clearInterval(autoFetchAccessToken);
+    //             autoFetchAccessToken = null;
+    //         }
+    //         catch { /** ignored */ }
+    //     }
     // }, [accessToken])
+
     return (
         <Router basename={paths.base}>
             <Switch>
@@ -54,4 +98,4 @@ const App = () => {
     );
 }
 
-export default App;
+export default connector(App);

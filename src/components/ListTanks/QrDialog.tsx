@@ -46,6 +46,7 @@ const QrDialog = ({
                         flexDirection: 'column'
                     }}>
                         <QrCode
+                            size={300}
                             id="downloadQrCode"
                             value={tankId} />
                     </DialogContent>

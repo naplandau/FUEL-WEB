@@ -3,7 +3,7 @@
 .container {
     display: flex;
     flex: 1;
-    height: 100vh;
+    height: 10vh;
     background-color: #eeeeee;
 }
 
@@ -11,7 +11,6 @@
     width: 20%;
     height: 100%;
     display: flex;
-    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
     background-color: white;
@@ -25,9 +24,9 @@
 }
 
 .logo {
-    width: 8vh;
-    height: 8vh;
-    margin-right: 10px;
+    width: 4vh;
+    height: 4vh;
+    margin-top: 10px;  
 }
 
 .avatar {
@@ -72,6 +71,7 @@
 
 .button {
     color: $primary-color;
+    margin-bottom: 10px;
 }
 
 .search-view {
@@ -111,4 +111,27 @@
     justify-content: flex-end;
     align-items: flex-end;
     margin-bottom: 10px;
+}
+
+.sideOptions {
+    margin-top: 1vh;
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-width: 0;
+    border-left-width: 1vh;
+    border-color: white;
+    border-style: solid;
+    outline: none;
+}
+
+.sideOptions:hover {
+    border-color: $primary-color;
+}
+
+.sideOptions:hover > .text,
+.sideOptions:hover > .icon {
+    color: $primary-color;
 }

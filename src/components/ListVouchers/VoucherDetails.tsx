@@ -7,39 +7,36 @@ import { withRouter } from "react-router-dom";
 import loading from '../../assets/loadings/medium.loading.gif';
 
 import { RootState } from "../../reducers/root.reducer";
-import { fetchStationDetails, resetStation, updateStation } from "../../reducers/station.reducer"
+import {  } from "../../reducers/voucher.reducer"
 import RouterProps from '../../types/RouterProps.type';
 
-import '../../styles/components/ListStations/StationDetail.scss';
+import '../../styles/components/ListVouchers/VoucherDetail.scss';
 
-import ListTanks from '../ListTanks/ListTanks';
-import ListPools from '../ListPools/ListPools';
+import { fetchVoucherDetails, resetVoucher } from '../../reducers/voucher.reducer';
 
 const statesToProps = (state: RootState) => ({
-    station: state.stationReducer.station,
+    voucher: state.voucherReducer.listVouchers,
     accessToken: state.authenticationReducer.accessToken,
-    isFetchingStation: state.stationReducer.isFetchingStation
+    isFetchingVoucher: state.voucherReducer,
 });
 
 const dispatchToProps = {
-    fetchStationDetails,
-    resetStation,
-    updateStation
+    fetchVoucherDetails,
+    resetVoucher
 };
 
 const connector = connect(statesToProps, dispatchToProps);
 
-type StationDetailsProps = ConnectedProps<typeof connector> & RouterProps;
+type VoucherDetailsProps = ConnectedProps<typeof connector> & RouterProps;
 
-const StationDetail = ({
-    station,
-    fetchStationDetails,
-    updateStation,
-    resetStation,
+const VoucherDetail = ({
+    voucher,
     accessToken,
     history,
-    isFetchingStation
-}: StationDetailsProps) => {
+    isFetchingVoucher,
+    fetchVoucherDetails,
+    resetVoucher
+}: VoucherDetailsProps) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [long, setLong] = useState(0);
@@ -47,74 +44,33 @@ const StationDetail = ({
     const [workingHourFrom, setWorkingHourFrom] = useState('');
     const [workingHourTo, setWorkingHourTo] = useState('');
     const [address, setAddress] = useState('');
-    const [stationId, setStationId] = useState('');
+    const [voucherId, setVoucherId] = useState('');
     const [error, setError] = useState('');
 
-    const handleConfirm = () => {
-        const errorMessage = validateData();
-        setError(errorMessage);
-
-        if (errorMessage) {
-            return false;
-        }
-
-        updateStation({
-            name: name,
-            address: address,
-            description: description,
-            long: long,
-            lat: lat,
-            working_hour_from: workingHourFrom,
-            working_hour_to: workingHourTo
-        }, station._id);
-
-        window.alert("Update station success");
-    }
-
-    const validateData = () => {
-
-        if (long < -180 || long > 180) {
-            return "Longitude's value must be between -180 and 180!";
-        }
-
-        if (lat < -90 || lat > 90) {
-            return "Latitude's value must be between -180 and 180!";
-        }
-
-        return '';
-    };
-
-
     useEffect(() => {
-        if (stationId) {
-            fetchStationDetails(stationId);
+        if (voucherId) {
+            fetchVoucherDetails(voucherId);
         }
 
         return () => {
-            resetStation();
+            resetVoucher();
         }
-    }, [stationId, accessToken, fetchStationDetails, resetStation]);
+    }, [voucherId, accessToken, fetchVoucherDetails, resetVoucher]);
 
     useEffect(() => {
         if (history.location.pathname.split('/')[2]) {
-            return setStationId(history.location.pathname.split('/')[2])
+            return setVoucherId(history.location.pathname.split('/')[2])
         }
-        setStationId('');
+        setVoucherId('');
     }, [history.location.pathname]);
 
     useEffect(() => {
-        if (station) {
-            setName(station.name);
-            setDescription(station.description);
-            setLong(station.long);
-            setLat(station.lat);
-            setAddress(station.address);
-            setWorkingHourTo(station.working_hour_to);
-            setWorkingHourFrom(station.working_hour_from);
+        if (voucher) {
+            
         }
-    }, [station]);
+    }, [voucher]);
 
-    if (isFetchingStation) {
+    if (isFetchingVoucher) {
         return (
             <div style={{ width: 150, margin: 'auto' }}>
                 <img src={loading} alt="Loading..." />
@@ -127,14 +83,14 @@ const StationDetail = ({
             <SideBar history={history} />
             <div className="content">
                 <Grid container>
-                    <Grid item xs={12} sm={12} md={12} lg={12} className="stationDetail__wrapper">
+                    <Grid item xs={12} sm={12} md={12} lg={12} className="VoucherDetail__wrapper">
                         {error && <Typography className="error" variant="body1">{error}</Typography>}
-                        <Paper className="stationDetail__paper">
+                        <Paper className="VoucherDetail__paper">
                             <Grid container spacing={2}>
                                 <Grid item xs={6}>
                                     <TextField
                                         variant='outlined'
-                                        className="StationDetail__text-field"
+                                        className="VoucherDetail__text-field"
                                         autoFocus
                                         label="Tên cây xăng"
                                         fullWidth
@@ -145,7 +101,7 @@ const StationDetail = ({
                                 <Grid item xs={6}>
                                     <TextField
                                         variant='outlined'
-                                        className="StationDetail__text-field"
+                                        className="VoucherDetail__text-field"
                                         label="Địa chỉ"
                                         value={address}
                                         fullWidth
@@ -155,7 +111,7 @@ const StationDetail = ({
                             </Grid>
                             <TextField
                                 variant='outlined'
-                                className="StationDetail__text-field"
+                                className="VoucherDetail__text-field"
                                 label="Mô tả"
                                 value={description}
                                 fullWidth
@@ -165,7 +121,7 @@ const StationDetail = ({
                                 <Grid item xs={3}>
                                     <TextField
                                         variant="outlined"
-                                        className="StationDetail__text-field"
+                                        className="VoucherDetail__text-field"
                                         type="number"
                                         label="Kinh độ"
                                         value={long}
@@ -175,7 +131,7 @@ const StationDetail = ({
                                 <Grid item xs={3}>
                                     <TextField
                                         variant="outlined"
-                                        className="StationDetail__text-field"
+                                        className="VoucherDetail__text-field"
                                         type="number"
                                         label="Vĩ độ"
                                         value={lat}
@@ -185,7 +141,7 @@ const StationDetail = ({
                                 <Grid item xs={3}>
                                     <TextField
                                         variant="outlined"
-                                        className="StationDetail__text-field "
+                                        className="VoucherDetail__text-field "
                                         type="time"
                                         label="Hoạt động từ"
                                         InputLabelProps={{
@@ -198,7 +154,7 @@ const StationDetail = ({
                                 <Grid item xs={3}>
                                     <TextField
                                         variant="outlined"
-                                        className="StationDetail__text-field"
+                                        className="VoucherDetail__text-field"
                                         type="time"
                                         label="Hoạt động đến"
                                         InputLabelProps={{
@@ -210,15 +166,6 @@ const StationDetail = ({
                                 </Grid>
                             </Grid>
                         </Paper>
-                        <div className='StationDetail__button-paper'>
-                            <Button className="stationDetail__buttons"
-                                onClick={handleConfirm}
-                                color='primary'>
-                                Cập nhật
-                            </Button>
-                        </div>
-                        <ListTanks station={station} />
-                        <ListPools station={station} />
                     </Grid>
                 </Grid>
             </div>
@@ -226,4 +173,4 @@ const StationDetail = ({
     )
 }
 
-export default withRouter(connector(StationDetail));
+export default withRouter(connector(VoucherDetail));

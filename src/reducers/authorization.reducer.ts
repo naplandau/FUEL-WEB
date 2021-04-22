@@ -5,6 +5,7 @@ import localStorageKeys from '../configs/localStorageKeys.config';
 import { AppThunk } from '../configs/store.config';
 import { isResponseError } from '../types/ResponseError.type';
 import { setAccessToken } from './authentication.reducer';
+import getAccessTokenApi from '../apis/getAccessToken.api';
 
 const initialState = {
   refreshToken: '',
@@ -50,24 +51,25 @@ export const login = (credentials: LoginBody): AppThunk => async (dispatch) => {
 
   localStorage.setItem(localStorageKeys.refreshToken, response.data.data.refreshToken);
   localStorage.setItem(localStorageKeys.accessToken, response.data.data.accessToken);
+  // localStorage.setItem(localStorageKeys.userId, response.data.data.userId);
 
   dispatch(setAccessToken(response.data.data.accessToken));
   dispatch(loginSuccess(response.data.data.refreshToken));
 };
 
-// export const getAccessToken = (): AppThunk => async (dispatch) => {
-//   const refreshToken = localStorage.getItem(localStorageKeys.refreshToken);
-//   const response = await getAccessTokenApi(refreshToken);
-//   if (isResponseError(response)) {
-//     dispatch(loginFailed(''));
-//     dispatch(setAccessToken(''));
-//     return localStorage.clear();
-//   }
+export const getAccessToken = (userId: string): AppThunk => async (dispatch) => {
+  const refreshToken = localStorage.getItem(localStorageKeys.refreshToken);
+  const response = await getAccessTokenApi({ userId: userId, refreshToken: refreshToken });
+  if (isResponseError(response)) {
+    dispatch(loginFailed(0));
+    dispatch(setAccessToken(''));
+    return localStorage.clear();
+  }
 
-//   localStorage.setItem(localStorageKeys.accessToken, response.data.accessToken);
-//   dispatch(setAccessToken(response.data.accessToken));
-//   dispatch(loginSuccess(refreshToken));
-// };
+  localStorage.setItem(localStorageKeys.accessToken, response.data.accessToken);
+  dispatch(setAccessToken(response.data.accessToken));
+  dispatch(loginSuccess(refreshToken));
+};
 
 // export const logout = (): AppThunk => async (dispatch, getState) => {
 //   const state = getState();

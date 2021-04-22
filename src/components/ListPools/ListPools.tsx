@@ -100,16 +100,16 @@ const ListPools = ({
                 <Table stickyHeader className='table' aria-label="simple table">
                     <TableHead className='header-table'>
                         <TableRow>
-                            <TableCell align="center">Loại nhiên liệu</TableCell>
-                            <TableCell align="center">Lượng nhiên liệu trong bồn</TableCell>
+                            <TableCell align="center" className="tableRightBorder">Loại nhiên liệu</TableCell>
+                            <TableCell align="center" className="tableRightBorder">Lượng nhiên liệu trong bồn</TableCell>
                             <TableCell align="center">Tuỳ chỉnh</TableCell>
                         </TableRow>
                     </TableHead>
                     {pools.length > 0 && <TableBody>
                         {pools.map((pool) => (
                             <TableRow key={pool._id}>
-                                <TableCell align="center">{pool.type_name}</TableCell>
-                                <TableCell align="center">{pool.fuel_amount}</TableCell>
+                                <TableCell align="center" className="tableRightBorder">{pool.type_name}</TableCell>
+                                <TableCell align="center" className="tableRightBorder">{pool.fuel_amount}</TableCell>
                                 <TableCell align="center">
                                     <IconButton
                                         onClick={() => openEditPoolDialog(pool)}

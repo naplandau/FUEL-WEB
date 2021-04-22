@@ -12,6 +12,9 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Add from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import { Button, IconButton, Paper, TextField } from "@material-ui/core";
+import { Icon, InlineIcon } from '@iconify/react';
+import qrcodeIcon from '@iconify-icons/mdi/qrcode';
+
 
 import { RootState } from "../../reducers/root.reducer";
 
@@ -128,20 +131,20 @@ const ListTanks = ({
                 <Table stickyHeader className='table' aria-label="simple table">
                     <TableHead className='header-table'>
                         <TableRow>
-                            <TableCell align="center">Vị trí trụ bơm</TableCell>
-                            <TableCell align="center">Loại xăng/dầu</TableCell>
-                            <TableCell align="center">Tình trạng</TableCell>
-                            <TableCell align="center">Tuỳ chỉnh</TableCell>
+                            <TableCell align="center" className="tableRightBorder">Vị trí trụ bơm</TableCell>
+                            <TableCell align="center" className="tableRightBorder">Loại xăng/dầu</TableCell>
+                            <TableCell align="center" className="tableRightBorder">Tình trạng</TableCell>
+                            <TableCell align="center" className="tableRightBorder">Tuỳ chỉnh</TableCell>
                             <TableCell align="center"></TableCell>
                         </TableRow>
                     </TableHead>
                     {tanks.length > 0 && <TableBody>
                         {tanks.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((tank) => (
                             <TableRow key={tank._id}>
-                                <TableCell align="center">{tank.tank_position}</TableCell>
-                                <TableCell align="center">{tank.fuel_type}</TableCell>
-                                <TableCell align="center">{tank.isActive ? "Hoạt động" : "Không hoạt động"}</TableCell>
-                                <TableCell align="center">
+                                <TableCell align="center" className="tableRightBorder">{tank.tank_position}</TableCell>
+                                <TableCell align="center" className="tableRightBorder">{tank.fuel_type}</TableCell>
+                                <TableCell align="center" className="tableRightBorder">{tank.isActive ? "Hoạt động" : "Không hoạt động"}</TableCell>
+                                <TableCell align="center" className="tableRightBorder">
                                     <IconButton
                                         onClick={() => openEditTankDialog(tank)}
                                         color="secondary"
@@ -159,7 +162,7 @@ const ListTanks = ({
                                     <IconButton
                                         onClick={() => openQrDialog(tank._id)}
                                     >
-                                        <NavigateNextIcon />
+                                        <Icon icon={qrcodeIcon} />
                                     </IconButton>
                                 </TableCell>
                             </TableRow>

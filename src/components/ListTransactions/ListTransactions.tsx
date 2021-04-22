@@ -9,6 +9,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import moment from 'moment';
+import formatter from '../../utils/formatter.utils';
 
 import { RootState } from "../../reducers/root.reducer";
 import RouterProps from "../../types/RouterProps.type";
@@ -55,7 +57,7 @@ const ListTransactions = ({
         if (status === 10) {
             return 'Thành công';
         }
-        else if (status % 2 === 1) {
+        else if (status % 10 === 1) {
             return 'Thất bại';
         }
         else return 'Đang tiến hành';
@@ -82,10 +84,10 @@ const ListTransactions = ({
                     <Table stickyHeader aria-label="simple table">
                         <TableHead className='header-table'>
                             <TableRow>
-                                <TableCell align="center">Người sở hữu</TableCell>
-                                <TableCell align="center">Trạng thái</TableCell>
-                                <TableCell align="center">Số tiền thanh toán</TableCell>
-                                <TableCell align="center">Ngày cập nhật</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Người sở hữu</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Trạng thái</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Số tiền thanh toán</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Ngày cập nhật</TableCell>
                                 <TableCell align="center"></TableCell>
                             </TableRow>
                         </TableHead>
@@ -93,10 +95,10 @@ const ListTransactions = ({
                             {listTransactions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((transaction) => {
                                 // if (voucher.phoneNumber.includes(searchPattern)) {
                                 return <TableRow key={transaction._id} >
-                                    <TableCell align="center">{transaction.userInfo.phoneNumber}</TableCell>
-                                    <TableCell align="center">{status(transaction.status)}</TableCell>
-                                    <TableCell align="center">{transaction.amount.payAmount}</TableCell>
-                                    <TableCell align="center">{(new Date(transaction.updatedAt)).toLocaleDateString()}</TableCell>
+                                    <TableCell align="center" className="tableRightBorder">{transaction.userInfo.phoneNumber}</TableCell>
+                                    <TableCell align="center" className="tableRightBorder">{status(transaction.status)}</TableCell>
+                                    <TableCell align="center" className="tableRightBorder">{formatter.format(transaction.amount.payAmount)}</TableCell>
+                                    <TableCell align="center" className="tableRightBorder">{moment(transaction.updatedAt).format('L') + ' ' + moment(transaction.updatedAt).format('LTS')}</TableCell>
                                     <TableCell align="center">
                                         {/* <IconButton
                                             onClick={() => {

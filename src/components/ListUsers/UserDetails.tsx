@@ -9,10 +9,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import loading from '../../assets/loadings/medium.loading.gif';
 
 import { RootState } from "../../reducers/root.reducer";
 import RouterProps from '../../types/RouterProps.type';
 import SideBar from '../Home/SideBar';
+
+import moment from 'moment';
+import formatter from '../../utils/formatter.utils';
 
 import '../../styles/components/ListUsers/UserDetails.scss';
 
@@ -23,6 +27,7 @@ const statesToProps = (state: RootState) => ({
     user: state.userReducer.user,
     accessToken: state.authenticationReducer.accessToken,
     listTransactions: state.transactionReducer.userListTransactions,
+    isFetchingUser: state.userReducer.isFetchingUser,
 });
 
 const dispatchToProps = {
@@ -40,6 +45,7 @@ const UserDetails = ({
     user,
     accessToken,
     listTransactions,
+    isFetchingUser,
     fetchUserDetails,
     fetchUserListTransactions,
     clearUserListTransactions,
@@ -99,6 +105,14 @@ const UserDetails = ({
             setStatus(user.status);
         }
     }, [user])
+
+    if (isFetchingUser) {
+        return (
+            <div style={{ width: 150, margin: 'auto' }}>
+                <img src={loading} alt="Loading..." />
+            </div>
+        );
+    }
 
     return (
         <div className='container'>
@@ -161,31 +175,20 @@ const UserDetails = ({
                             <Table stickyHeader aria-label="simple table">
                                 <TableHead className='header-table'>
                                     <TableRow>
-                                        <TableCell align="center">Người sở hữu</TableCell>
-                                        <TableCell align="center">Trạng thái</TableCell>
-                                        <TableCell align="center">Số tiền thanh toán</TableCell>
-                                        <TableCell align="center">Ngày cập nhật</TableCell>
-                                        <TableCell align="center"></TableCell>
+                                        <TableCell align="center" className="tableRightBorder">Người sở hữu</TableCell>
+                                        <TableCell align="center" className="tableRightBorder">Trạng thái</TableCell>
+                                        <TableCell align="center" className="tableRightBorder">Số tiền thanh toán</TableCell>
+                                        <TableCell align="center" className="tableRightBorder">Ngày cập nhật</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 {listTransactions.length > 0 && <TableBody>
                                     {listTransactions.map((transaction) => {
                                         // if (voucher.phoneNumber.includes(searchPattern)) {
                                         return <TableRow key={transaction._id} >
-                                            <TableCell align="center">{transaction.userInfo.phoneNumber}</TableCell>
-                                            <TableCell align="center">{_status(transaction.status)}</TableCell>
-                                            <TableCell align="center">{transaction.amount.payAmount}</TableCell>
-                                            <TableCell align="center">{(new Date(transaction.updatedAt)).toLocaleDateString()}</TableCell>
-                                            <TableCell align="center">
-                                                {/* <IconButton
-                                            onClick={() => {
-                                                history.push(`vouchers/${voucher._id}`)
-                                            }}
-                                        >
-                                            <NavigateNextIcon />
-                                        </IconButton> */}
-
-                                            </TableCell>
+                                            <TableCell align="center" className="tableRightBorder">{transaction.userInfo.phoneNumber}</TableCell>
+                                            <TableCell align="center" className="tableRightBorder">{_status(transaction.status)}</TableCell>
+                                            <TableCell align="center" className="tableRightBorder">{formatter.format(transaction.amount.payAmount)}</TableCell>
+                                            <TableCell align="center" className="tableRightBorder">{moment(transaction.updatedAt).format('L') + ' ' + moment(transaction.updatedAt).format('LTS')}</TableCell>
                                         </TableRow>
                                         // }
                                         // return null;

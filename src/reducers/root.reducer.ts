@@ -8,6 +8,7 @@ import sidebarReducer from './sidebar.reducer';
 import transactionReducer from './transaction.reducer';
 import voucherReducer from './voucher.reducer';
 import historyPriceReducer from './price.reducer';
+import accountReducer from './account.reducer';
 
 const rootReducer = combineReducers({
     userReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
     transactionReducer,
     voucherReducer,
     historyPriceReducer,
+    accountReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

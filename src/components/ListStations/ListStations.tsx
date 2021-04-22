@@ -155,12 +155,12 @@ const ListStations = ({
                     <Table stickyHeader className='table' aria-label="simple table">
                         <TableHead className='header-table'>
                             <TableRow>
-                                <TableCell align="center">Tên cây xăng</TableCell>
-                                <TableCell align="center">Trạng thái</TableCell>
-                                <TableCell align="center">Địa chỉ</TableCell>
-                                <TableCell align="center">Số lượng trụ xăng</TableCell>
-                                <TableCell align="center">Thời gian hoạt động</TableCell>
-                                <TableCell align="center">Tuỳ chỉnh</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Tên cây xăng</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Trạng thái</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Địa chỉ</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Số lượng trụ xăng</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Thời gian hoạt động</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Tuỳ chỉnh</TableCell>
                                 <TableCell align="center"></TableCell>
                             </TableRow>
                         </TableHead>
@@ -168,12 +168,12 @@ const ListStations = ({
                             {stations.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((station) => {
                                 if (station.name.toLowerCase().includes(searchPattern.toLowerCase())) {
                                     return <TableRow key={station._id}>
-                                        <TableCell align="center">{station.name}</TableCell>
-                                        <TableCell align="center">{station.isActive ? "Hoạt động" : "Không hoạt động"}</TableCell>
-                                        <TableCell align="center">{station.address}</TableCell>
-                                        <TableCell align="center">{station.total_tank}</TableCell>
-                                        <TableCell align="center">Từ {station.working_hour_from} đến {station.working_hour_to} (GMT+7)</TableCell>
-                                        <TableCell align="center">
+                                        <TableCell align="center" className="tableRightBorder">{station.name}</TableCell>
+                                        <TableCell align="center" className="tableRightBorder">{station.isActive ? "Hoạt động" : "Không hoạt động"}</TableCell>
+                                        <TableCell align="center" className="tableRightBorder">{station.address}</TableCell>
+                                        <TableCell align="center" className="tableRightBorder">{station.total_tank}</TableCell>
+                                        <TableCell align="center" className="tableRightBorder">Từ {station.working_hour_from} đến {station.working_hour_to} (GMT+7)</TableCell>
+                                        <TableCell align="center" className="tableRightBorder">
                                             <IconButton
                                                 onClick={() => openEditStationDialog(station)}
                                                 color="secondary"
