@@ -51,7 +51,6 @@ export const getUsers = (): AppThunk => async (dispatch, getState) => {
     }
 
     const response = await getAllUsersApi(accessToken);
-    console.log(response);
 
     if (isResponseError(response)) {
         return dispatch(setUsers([]));

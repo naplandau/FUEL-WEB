@@ -1,6 +1,7 @@
+import { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -8,10 +9,26 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { RootState } from '../../reducers/root.reducer';
 import { createStation } from '../../reducers/station.reducer';
+import SubVn from 'sub-vn';
 
 import '../../styles/components/ListStations/StationDialog.scss';
 
 import { useState } from 'react';
+
+type Province = {
+    name: string,
+    unit: string,
+    code: string
+}
+
+type District = {
+    code: string,
+    name: string,
+    unit: string,
+    province_code: string,
+    province_name: string,
+    full_name: string
+}
 
 const stateToProps = (state: RootState) => ({
 })
@@ -34,6 +51,8 @@ const StationDialog = ({
     onClose,
     createStation,
 }: StationProps) => {
+    const provinces: Array<Province> = SubVn.getProvinces();
+    const [districts, setDistricts] = useState(Array<District>());
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [long, setLong] = useState(0);
@@ -41,6 +60,26 @@ const StationDialog = ({
     const [workingHourFrom, setWorkingHourFrom] = useState('');
     const [workingHourTo, setWorkingHourTo] = useState('');
     const [address, setAddress] = useState('');
+    const [province, setProvince] = useState<Province>({
+        code: '',
+        name: '',
+        unit: ''
+    });
+    const [district, setDistrict] = useState<District>({
+        code: '',
+        name: '',
+        unit: '',
+        province_code: '',
+        province_name: '',
+        full_name: ''
+    });
+
+    useEffect(() => {
+        if (province) {
+           setDistricts(SubVn.getDistrictsByProvinceCode(province.code));
+        }
+    }, [province])
+
     const [error, setError] = useState('');
 
     const handleConfirm = () => {
@@ -53,7 +92,7 @@ const StationDialog = ({
 
         createStation({
             name: name,
-            address: address,
+            address: address + ', ' + district.full_name + ', ' + province.name,
             description: description,
             long: long,
             lat: lat,
@@ -71,8 +110,16 @@ const StationDialog = ({
             return 'Description is required!';
         }
 
+        if (!province) {
+            return 'Province is required!';
+        }
+
         if (!address) {
             return 'Address is required!';
+        }
+
+        if (!district) {
+            return 'District is required!';
         }
 
         if (!long) {
@@ -135,8 +182,36 @@ const StationDialog = ({
                             label="Địa chỉ"
                             fullWidth
                             required
-                            onChange={(e) => setAddress(e.target.value)}
+                            onChange={(e) => setAddress(e.target.value as string)}
                         />
+                        <Grid container spacing={2} style={{ marginTop: '10px' }}>
+                            <Grid item xs={6}>
+                                <FormControl variant="outlined" className="AddPool__text-field" required>
+                                    <InputLabel>Chọn tỉnh thành</InputLabel>
+                                    <Select
+                                        label="Chọn tỉnh thành"
+                                        onChange={(e: React.ChangeEvent<{ value: unknown }>) => setProvince(e.target.value as Province)}
+                                    >
+                                        {provinces.map((province: any) => {
+                                            return <MenuItem value={province}>{province.name}</MenuItem>
+                                        })}
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <FormControl variant="outlined" className="AddPool__text-field" required>
+                                    <InputLabel>Chọn quận huyện</InputLabel>
+                                    <Select
+                                        label="Chọn quận/huyện"
+                                        onChange={(e: React.ChangeEvent<{ value: unknown }>) => setDistrict(e.target.value as District)}
+                                    >
+                                        {districts.map((district: any) => {
+                                            return <MenuItem value={district}>{district.full_name}</MenuItem>
+                                        })}
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                        </Grid>
                         <Grid container spacing={2} style={{ marginTop: '10px' }}>
                             <Grid item xs={6}>
                                 <TextField

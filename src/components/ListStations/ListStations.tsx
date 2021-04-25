@@ -93,7 +93,7 @@ const ListStations = ({
     useEffect(() => {
         fetchListStations();
         getUsers();
-    }, []);
+    }, [fetchListStations]);
 
     const openChartDialog = () => {
         setChartDialog(true);

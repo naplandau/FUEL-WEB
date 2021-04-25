@@ -169,6 +169,7 @@ export const createStation = (station: AddEditStation): AppThunk => async (dispa
 
     const response = await addStationApi(accessToken, station);
 
+    console.log(response);
     if (isResponseError(response)) {
         return dispatch(setError(response.data.code));
     }

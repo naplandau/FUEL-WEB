@@ -1,5 +1,6 @@
 const paths = {
   base: '/',
+  profile: '/profile',
   listUsers: () => '/users',
   listStations: () => '/stations',
   listTransactions: () => '/transactions',

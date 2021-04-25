@@ -5,15 +5,16 @@ import '../../styles/components/Home/SideBar.scss';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
 import ReceiptIcon from '@material-ui/icons/Receipt';
-import HistoryIcon from '@material-ui/icons/History';
 import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
-import { setSelected, setSideBarSelected } from '../../reducers/sidebar.reducer';
+import { setSideBarSelected } from '../../reducers/sidebar.reducer';
 import HistoryProps from "../../types/HistoryProps.type";
 import { getMe } from "../../reducers/account.reducer";
-import { Button, Grid } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import logo from '../../assets/logo200.png';
+import paths from "../../configs/paths.config";
+
 
 const stateToProps = (state: RootState) => ({
     me: state.accountReducer.me,
@@ -41,7 +42,7 @@ const SideBar = ({
 
     useEffect(() => {
         getMe()
-    }, [])
+    }, [getMe])
 
     useEffect(() => {
         if (me) {
@@ -52,11 +53,14 @@ const SideBar = ({
 
     return (
         <div className='sidebar'>
-            <div>
+            <div className='header'>
                 <img src={logo} alt='logo' className='logo' />
                 <p className='title-admin'>Quản trị viên</p>
             </div>
-            <img src={avatar} alt='avatar' className='avatar' />
+            <img src={avatar} alt='avatar' className='avatar'
+                onClick={() => {
+                history.push(paths.profile);
+            }}/>
             <p className='name'>{name ? name : "Họ tên"}</p>
             <div style={selected === 0 ? { borderColor: '#e73e3e' } : {}} onClick={() => {
                 history.push(`/users`);

@@ -101,11 +101,6 @@ const PoolDialog = ({
                                 {Object.keys(listFuelPrice).map((key) => {
                                     return <MenuItem value={key}>{key}</MenuItem>
                                 })}
-
-                                {/* <MenuItem value="Xăng E5 RON 92-II">Xăng E5 RON 92-II</MenuItem>
-                                <MenuItem value="Dầu DO 0,05S-II">Dầu DO 0,05S-II</MenuItem>
-                                <MenuItem value="Dầu KO">Dầu KO</MenuItem> */}
-
                             </Select>
                         </FormControl>
 

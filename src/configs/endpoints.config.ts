@@ -24,6 +24,8 @@ const endpoints = {
     getListHistoryPrices: () => `${base}/fuelPrices`,
     getAccessToken: () => `${base}/admin/refresh`,
     getVoucherDetails: (voucherId: string) => `${base}/promo/detail/${voucherId}`,
+    updateAccount: () => `${base}/users/update`,
+    changeAccountAvatar: () => `${base}/users/avatar`,
 };
 
 export default endpoints;
