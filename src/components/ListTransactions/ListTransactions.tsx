@@ -88,7 +88,6 @@ const ListTransactions = ({
                                 <TableCell align="center" className="tableRightBorder">Trạng thái</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Số tiền thanh toán</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Ngày cập nhật</TableCell>
-                                <TableCell align="center"></TableCell>
                             </TableRow>
                         </TableHead>
                         {listTransactions.length > 0 && <TableBody>
@@ -99,16 +98,6 @@ const ListTransactions = ({
                                     <TableCell align="center" className="tableRightBorder">{status(transaction.status)}</TableCell>
                                     <TableCell align="center" className="tableRightBorder">{formatter.format(transaction.amount.payAmount)}</TableCell>
                                     <TableCell align="center" className="tableRightBorder">{moment(transaction.updatedAt).format('L') + ' ' + moment(transaction.updatedAt).format('LTS')}</TableCell>
-                                    <TableCell align="center">
-                                        {/* <IconButton
-                                            onClick={() => {
-                                                history.push(`vouchers/${voucher._id}`)
-                                            }}
-                                        >
-                                            <NavigateNextIcon />
-                                        </IconButton> */}
-
-                                    </TableCell>
                                 </TableRow>
                                 // }
                                 // return null;

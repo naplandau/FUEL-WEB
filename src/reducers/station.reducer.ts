@@ -103,7 +103,7 @@ export const fetchListStations = (): AppThunk => async (dispatch, getState) => {
     const state = getState();
     const { authenticationReducer } = state;
     const { accessToken } = authenticationReducer;
-    console.log(accessToken)
+
     if (!accessToken) {
         return;
     }
@@ -115,20 +115,16 @@ export const fetchListStations = (): AppThunk => async (dispatch, getState) => {
     }
 
     if (response.data.code === 401) {
-        console.log(1)
         const userId = localStorage.getItem(localStorageKeys.userId);
         dispatch(getAccessToken(userId));
-        console.log(2)
 
         const state = getState();
         const { authenticationReducer } = state;
         const { accessToken } = authenticationReducer;
-        console.log(accessToken)
 
         dispatch(setAccessToken(accessToken));
 
         const newResponse = await getAllStationsApi(accessToken);
-        console.log(newResponse)
         return dispatch(setListStations({
             listStations: newResponse.data.data,
         }));
@@ -169,7 +165,6 @@ export const createStation = (station: AddEditStation): AppThunk => async (dispa
 
     const response = await addStationApi(accessToken, station);
 
-    console.log(response);
     if (isResponseError(response)) {
         return dispatch(setError(response.data.code));
     }
@@ -346,7 +341,7 @@ export const updatePool = (pool = {
 
 export const fetchFuelPrices = (): AppThunk => async (dispatch) => {
     const response = await getFuelPriceApi();
-    console.log(response);
+
     if (isResponseError(response)) {
         return dispatch(setListPrices({}));
     }
