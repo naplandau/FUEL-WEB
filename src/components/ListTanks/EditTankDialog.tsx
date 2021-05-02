@@ -68,6 +68,12 @@ const TankDialog = ({
     }
 
     const validateData = () => {
+        const isTankPos = station.tanks.find(tank => tank.tank_position === tankPos);
+
+        if (isTankPos) {
+            return 'Vị trí trụ bơm đã tồn tại';
+        }
+
         return '';
     };
 

@@ -26,7 +26,8 @@ const endpoints = {
     getVoucherDetails: (voucherId: string) => `${base}/promo/detail/${voucherId}`,
     updateAccount: () => `${base}/users/update`,
     changeAccountAvatar: () => `${base}/users/avatar`,
-    getUserListVouchers: (userId:string) => `${base}/promo/user/${userId}`,
+    getUserListVouchers: (userId: string) => `${base}/promo/user/${userId}`,
+    getAmountChart: () => `${base}/stations/amountChart`,
 };
 
 export default endpoints;

@@ -6,6 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TablePagination from '@material-ui/core/TablePagination';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Add from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
@@ -47,7 +48,19 @@ const ListPools = ({
         station_id: '',
         fuel_amount: null,
         type_name: '',
-    })
+    });
+
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
 
     const openAddPoolDialog = () => {
         setAddPoolDialog(true);
@@ -106,7 +119,7 @@ const ListPools = ({
                         </TableRow>
                     </TableHead>
                     {pools.length > 0 && <TableBody>
-                        {pools.map((pool) => (
+                        {pools.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((pool) => (
                             <TableRow key={pool._id}>
                                 <TableCell align="center" className="tableRightBorder">{pool.type_name}</TableCell>
                                 <TableCell align="center" className="tableRightBorder">{pool.fuel_amount}</TableCell>
@@ -129,6 +142,17 @@ const ListPools = ({
                     </TableBody>}
                 </Table>
             </TableContainer>
+            <TablePagination
+                height="150px"
+                labelRowsPerPage="Số dòng mỗi trang: "
+                rowsPerPageOptions={[5, 10, 20]}
+                component="div"
+                count={pools.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
             <AddPoolDialog open={addPoolDialog} station={station} onClose={closeAddPoolDialog} />
             <EditPoolDialog open={editPoolDialog} pool={selectedPool} onClose={closeEditPoolDialog} />
         </div>

@@ -17,12 +17,14 @@ import deleteTankApi from '../apis/deleteTank.api';
 import updateTankApi from '../apis/updateTank.api';
 import updatePoolApi from '../apis/updatePool.api';
 import getFuelPriceApi from '../apis/getFuelPrices.api';
+import getAmountChartApi from '../apis/getAmountChart.api';
 import getAccessTokenApi from '../apis/getAccessToken.api';
 import localStorageKeys from '../configs/localStorageKeys.config';
 import { setAccessToken } from './authentication.reducer';
 import { getAccessToken } from './authorization.reducer';
 
 const initialState = {
+    amount: {},
     station: null as StationDetails,
     listPrices: {},
     listStations: Array<StationDetails>(),
@@ -85,6 +87,9 @@ const listStationsSlice = createSlice({
         setError(state, action: PayloadAction<number>) {
             state.error_code = action.payload;
         },
+        setAmount(state, action: PayloadAction<Object>) {
+            state.amount = action.payload;
+        }
     }
 });
 
@@ -96,7 +101,8 @@ export const {
     addStation,
     editStation,
     resetStation,
-    setListPrices
+    setListPrices,
+    setAmount
 } = listStationsSlice.actions;
 
 export const fetchListStations = (): AppThunk => async (dispatch, getState) => {
@@ -347,6 +353,23 @@ export const fetchFuelPrices = (): AppThunk => async (dispatch) => {
     }
 
     dispatch(setListPrices(response.data.data));
+}
+
+export const fetchAmountChart = (): AppThunk => async (dispatch, getState) => {
+    const state = getState();
+    const { authenticationReducer } = state;
+    const { accessToken } = authenticationReducer;
+    if (!accessToken) {
+        return;
+    }
+
+    const response = await getAmountChartApi(accessToken);
+
+    if (isResponseError(response)) {
+        return dispatch(setAmount({}));
+    }
+
+    dispatch(setAmount(response.data.data));
 }
 
 export default listStationsSlice.reducer;

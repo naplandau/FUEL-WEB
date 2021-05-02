@@ -67,10 +67,16 @@ const TankDialog = ({
 
     const validateData = () => {
         if (!tankPos) {
-            return "Tank position is required!";
+            return "Điền vào vị trí trụ bơm";
         }
         if (!fuelType) {
-            return 'Fuel_type is required!';
+            return 'Điều vào kiểu nhiên liệu';
+        }
+
+        const isTankPos = station.tanks.find(tank => tank.tank_position === tankPos);
+
+        if (isTankPos) {
+            return 'Vị trí trụ bơm đã tồn tại';
         }
 
         return '';

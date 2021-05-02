@@ -8,13 +8,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
 import DeleteIcon from '@material-ui/icons/Delete';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Add from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import { Button, IconButton, Paper, TextField } from "@material-ui/core";
-import { Icon, InlineIcon } from '@iconify/react';
+import { Icon } from '@iconify/react';
 import qrcodeIcon from '@iconify-icons/mdi/qrcode';
-
 
 import { RootState } from "../../reducers/root.reducer";
 
