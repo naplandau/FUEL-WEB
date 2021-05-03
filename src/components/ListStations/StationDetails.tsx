@@ -122,6 +122,8 @@ const StationDetail = ({
         );
     }
 
+    console.log(station);
+
     return (
         <div className="container">
             <SideBar history={history} />

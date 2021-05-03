@@ -45,42 +45,23 @@ const App = ({
     getMe,
     getAccessToken
 }: AppProps) => {
-    // const [userId, setUserId] = useState('');
+    useEffect(() => {
+        let autoFetchAccessToken: NodeJS.Timeout = null;
+        if (accessToken) {
 
-    // useEffect(() => {
-    //     getMe();
-    // }, [])
+            autoFetchAccessToken = setInterval(() => {
+                getAccessToken(me.id);
+            }, 43200000) // auto fetch access token every 12 hours
+        }
 
-    // useEffect(() => {
-    //     if (me) {
-    //         setUserId(me.id);
-    //     }
-    // }, [me])
-
-    // useEffect(() => {
-
-    //     getAccessToken(userId);
-    // }, [me]);
-
-    // useEffect(() => {
-    //     let autoFetchAccessToken: NodeJS.Timeout = null;
-    //     getMe();
-    //     if (accessToken) {
-    //         getMe();
-
-    //         autoFetchAccessToken = setInterval(() => {
-    //             getAccessToken(userId);
-    //         }, 43200000) // auto fetch access token every 12 hours
-    //     }
-
-    //     return () => {
-    //         try {
-    //             clearInterval(autoFetchAccessToken);
-    //             autoFetchAccessToken = null;
-    //         }
-    //         catch { /** ignored */ }
-    //     }
-    // }, [accessToken])
+        return () => {
+            try {
+                clearInterval(autoFetchAccessToken);
+                autoFetchAccessToken = null;
+            }
+            catch { /** ignored */ }
+        }
+    }, [accessToken])
 
     return (
         <Router basename={paths.base}>

@@ -10,6 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { FormControl, Select, InputLabel, MenuItem } from '@material-ui/core';
 import { RootState } from '../../reducers/root.reducer';
 import { createTank } from '../../reducers/station.reducer';
+import Tank from '../../types/Tank.type';
 
 import '../../styles/components/ListTanks/TankDialog.scss';
 import { useState } from 'react';
@@ -73,7 +74,7 @@ const TankDialog = ({
             return 'Điều vào kiểu nhiên liệu';
         }
 
-        const isTankPos = station.tanks.find(tank => tank.tank_position === tankPos);
+        const isTankPos = station.tanks.find((tank: Tank) => tank.tank_position === tankPos);
 
         if (isTankPos) {
             return 'Vị trí trụ bơm đã tồn tại';

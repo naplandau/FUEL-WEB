@@ -165,7 +165,7 @@ const ListStations = ({
                             </TableRow>
                         </TableHead>
                         {stations.length > 0 && <TableBody>
-                            {stations.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((station) => {
+                            {stations.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((station: StationDetails) => {
                                 if (station.name.toLowerCase().includes(searchPattern.toLowerCase())) {
                                     return <TableRow key={station._id}>
                                         <TableCell align="center" className="tableRightBorder">{station.name}</TableCell>

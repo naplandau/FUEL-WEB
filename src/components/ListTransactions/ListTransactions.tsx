@@ -86,6 +86,7 @@ const ListTransactions = ({
                             <TableRow>
                                 <TableCell align="center" className="tableRightBorder">Người sở hữu</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Trạng thái</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Loại giao dịch</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Số tiền thanh toán</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Ngày cập nhật</TableCell>
                             </TableRow>
@@ -95,7 +96,8 @@ const ListTransactions = ({
                                 // if (voucher.phoneNumber.includes(searchPattern)) {
                                 return <TableRow key={transaction._id} >
                                     <TableCell align="center" className="tableRightBorder">{transaction.userInfo.phoneNumber}</TableCell>
-                                    <TableCell align="center" className="tableRightBorder">{status(transaction.status)}</TableCell>
+                                    <TableCell align="center" className="tableRightBorder">{transaction.isComplete ? 'Thành công' : 'Chưa hoàn thành'}</TableCell>
+                                    <TableCell align="center" className="tableRightBorder">{transaction.type === 'VOUCHER' ? 'Thẻ quà tặng': 'Đổ nhiên liệu'}</TableCell>
                                     <TableCell align="center" className="tableRightBorder">{formatter.format(transaction.amount.payAmount)}</TableCell>
                                     <TableCell align="center" className="tableRightBorder">{moment(transaction.updatedAt).format('L') + ' ' + moment(transaction.updatedAt).format('LTS')}</TableCell>
                                 </TableRow>

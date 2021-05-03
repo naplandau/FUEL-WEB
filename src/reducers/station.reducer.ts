@@ -27,7 +27,7 @@ const initialState = {
     amount: {},
     station: null as StationDetails,
     listPrices: {},
-    listStations: Array<StationDetails>(),
+    listStations: new Array<StationDetails>(),
     isFetchingStation: true,
     isFetchingTank: true,
     isFetchingPool: true,
@@ -61,7 +61,7 @@ const listStationsSlice = createSlice({
             state.error_code = 0;
         },
         editStation(state, action: PayloadAction<StationDetails>) {
-            state.listStations = state.listStations.map(station => {
+            state.listStations = state.listStations.map((station: StationDetails) => {
                 if (station._id === action.payload._id) {
                     return {
                         ...station,
@@ -215,7 +215,7 @@ export const deleteStation = (stationId: string): AppThunk => async (dispatch, g
 
     if (!isResponseError(response)) {
         dispatch(setListStations({
-            listStations: stationReducer.listStations.filter(station => station._id !== stationId),
+            listStations: stationReducer.listStations.filter((station: StationDetails) => station._id !== stationId),
         }));
     }
 }

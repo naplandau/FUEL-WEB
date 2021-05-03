@@ -11,6 +11,7 @@ import { FormControl, Select, InputLabel, MenuItem } from '@material-ui/core';
 import { RootState } from '../../reducers/root.reducer';
 import TankDetails from '../../types/Tank.type';
 import { updateTank } from '../../reducers/station.reducer';
+import Tank from '../../types/Tank.type';
 
 import '../../styles/components/ListTanks/TankDialog.scss';
 import { useState } from 'react';
@@ -68,7 +69,7 @@ const TankDialog = ({
     }
 
     const validateData = () => {
-        const isTankPos = station.tanks.find(tank => tank.tank_position === tankPos);
+        const isTankPos = station.tanks.find((tank: Tank) => tank.tank_position === tankPos);
 
         if (isTankPos) {
             return 'Vị trí trụ bơm đã tồn tại';

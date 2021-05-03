@@ -17,6 +17,7 @@ import { TextField } from '@material-ui/core';
 import { RootState } from "../../reducers/root.reducer";
 import { getUsers } from "../../reducers/user.reducer";
 import HistoryProps from "../../types/HistoryProps.type";
+import User from "../../types/User.type";
 
 import '../../styles/components/ListUsers/ListUsers.scss';
 
@@ -80,7 +81,7 @@ const ListUsers = ({
                             </TableRow>
                         </TableHead>
                         {users.length > 0 && <TableBody>
-                            {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user) => {
+                            {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user: User) => {
                                 if (user.phoneNumber.includes(searchPattern)) {
                                     return <TableRow key={user.id} >
                                         <TableCell align="center" className="tableRightBorder">{user.name}</TableCell>
