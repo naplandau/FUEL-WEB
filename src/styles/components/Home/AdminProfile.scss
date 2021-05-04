@@ -61,6 +61,7 @@
 }
 
 .Sidebar__option-title {
+    font-size:small;
     border-radius: 3px;
     padding: auto !important;
     .Option-button {
@@ -69,6 +70,7 @@
 }
 
 .Sidebar__option-title-clicked {
+    font-size:small;
     padding: auto !important;
     background-color: $primary-color;
     border-radius: 3px;

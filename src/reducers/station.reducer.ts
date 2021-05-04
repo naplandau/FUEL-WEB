@@ -289,6 +289,8 @@ export const createPool = (pool: AddEditPool): AppThunk => async (dispatch, getS
 
     const response = await addPoolApi(accessToken, pool);
 
+    console.log(response);
+
     if (isResponseError(response)) {
         return dispatch(setStationDetails({ station: null, error_code: response.data.code }));
     }

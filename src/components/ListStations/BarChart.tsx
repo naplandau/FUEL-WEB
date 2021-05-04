@@ -7,10 +7,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { RootState } from "../../reducers/root.reducer";
-import { fetchAmountChart, setAmount } from '../../reducers/station.reducer';
+import { fetchAmountChart } from '../../reducers/station.reducer';
 
 import "../../styles/components/ListStations/BarChart.scss";
-import { widthScreens } from "../../configs/sizes.config";
 
 const statesToProps = (state: RootState) => ({
     amount: state.stationReducer.amount
@@ -54,7 +53,7 @@ const BarChartView = ({
         categories: stations,
         series: [
             {
-                name: "Amount",
+                name: "Doanh thu",
                 data: amounts
             }
         ]
@@ -63,15 +62,21 @@ const BarChartView = ({
     const options = {
         chart: {
             width: 600,
-            height: 300,
+            height: 500,
         },
         yAxis: {
             title: "Cây xăng"
         },
         xAxis: {
             title: "Doanh thu",
-            widthScreens: "10px"
-        }
+            widthScreens: "50px"
+        },
+        usageStatistics: false,
+    };
+
+    const containerStyle = {
+        width: '20hv',
+        height: '20hv',
     };
 
     // const handleClickButton = () => {
@@ -88,11 +93,12 @@ const BarChartView = ({
         <div className="BarChart">
             <Dialog className="BarChart__wrapper" open={open} onClose={onClose} aria-labelledby="form-dialog-title">
                 <DialogTitle className="BarChart__title" id="form-dialog-title">Biểu đồ doanh thu</DialogTitle>
-                <DialogContent>
+                <DialogContent style={{ overflow: "hidden" }}>
                     <BarChart
                         ref={chartRef}
                         data={data}
                         options={options}
+                        style={containerStyle}
                     />
                     {/* <button onClick={handleClickButton}>test options</button> */}
                 </DialogContent>

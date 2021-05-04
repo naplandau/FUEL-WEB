@@ -72,9 +72,9 @@ const Login = (props: LoginProps) => {
 
     useEffect(() => {
         setIsLogging(false);
-        if (props.loginError === 404) {
+        if (props.loginError === 401 || props.loginError === 404) {
             console.log('aaaaaa')
-            setError('Unable to login!');
+            setError('Thông tin đăng nhập không hợp lệ!');
         }
     }, [props.loginError]);
 

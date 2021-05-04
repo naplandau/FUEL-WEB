@@ -44,55 +44,39 @@ const UserProfile = (props: ProfileProps) => {
     const [error, setError] = useState('');
 
     const validateData = () => {
-        // if (email !== '') {
-        //     if (email.trim().length > 100) {
-        //         return 'Email must not contain more than 100 characters!';
-        //     }
-
-        //     if (!isEmail(email.trim())) {
-        //         return 'Email is not valid!';
-        //     }
-        // }
-
-        if (name !== '') {
+        if (name) {
             if (name.trim().length > 64) {
-                return 'Name must not contain more than 64 characters!';
+                return 'Tên không dài quá 64 ký tự!';
             }
         }
 
-        if (currentPassword !== '') {
-            if (password.trim().length < 8) {
-                return 'Current password must contain at least 8 characters!';
+        if (currentPassword) {
+            if (currentPassword.trim().length < 6) {
+                return 'Mật khẩu hiện tại không ít hơn 6 kí tự!';
             }
         }
 
-        if (password !== '') {
-            if (password.trim().length < 8) {
-                return 'Password must contain at least 8 characters!';
+        if (password) {
+            if (password.trim().length < 6) {
+                return 'Mật khẩu mới không ít hơn 6 kí tự!';
             }
         }
 
-        if (confirmPassword !== '') {
-            if (password.trim().length < 8) {
-                return 'Confirm password must contain at least 8 characters!';
+        if (confirmPassword) {
+            if (confirmPassword !== password) {
+                return 'Mật khẩu mới và mật khẩu xác thực không tương thích nhau!';
             }
         }
 
-        if (password !== '' && confirmPassword === '') {
-            return 'Confirm password is required!'
-        }
-
-        if (password === '' && confirmPassword !== '') {
+        if (!password && confirmPassword) {
             return 'Password is required!'
         }
 
-        if (password !== '' && confirmPassword !== '') {
-            if (confirmPassword !== password) {
-                return 'Confirm password must be the same as password!';
-            }
+        if (password && !confirmPassword) {
+            return 'Confirm password is required!'
         }
 
-        if (password !== '' && confirmPassword !== '' && currentPassword === '') {
+        if (password && confirmPassword && !currentPassword) {
             return 'Current password is required!'
         }
 
@@ -106,7 +90,7 @@ const UserProfile = (props: ProfileProps) => {
         const validateResult = validateData();
         setError(validateResult);
 
-        if (validateResult) {
+        if (validateResult !== "") {
             return setIsUpdating(false);
         }
 
@@ -119,7 +103,7 @@ const UserProfile = (props: ProfileProps) => {
     const onHandleChangePassword = async () => {
         const validateResult = validateData();
         setError(validateResult);
-        if (validateResult) {
+        if (validateResult !== "") {
             return setIsUpdating(false);
         }
 
@@ -143,10 +127,6 @@ const UserProfile = (props: ProfileProps) => {
     }
 
     useEffect(() => {
-        setIsUploadingImage(false);
-    }, [avatar]);
-
-    useEffect(() => {
         if (props.me) {
             changeName(props.me.name);
             changeAvatar(props.me.avatar);
@@ -154,11 +134,15 @@ const UserProfile = (props: ProfileProps) => {
         }
     }, [props.me]);
 
+    useEffect(() => {
+        setIsUploadingImage(false);
+    }, [avatar]);
+
     const links: Array<NavBarLink> = [{
-        name: 'Home',
+        name: 'Trang chủ',
         url: paths.base,
     }, {
-        name: 'Profile',
+        name: 'Trang cá nhân',
         url: paths.profile,
     }];
 
@@ -172,7 +156,7 @@ const UserProfile = (props: ProfileProps) => {
 
     return (
         <PageWrapper links={links} history={props.history}>
-            <div className="Thông tin người dùng">
+            <div className="Thông tin quản trị viên">
                 <Grid container className="Profile__wrapper" justify="center">
                     <Grid item xs={12} lg={2} >
                         <div className="Profile__paper-sidebar">
@@ -213,7 +197,7 @@ const UserProfile = (props: ProfileProps) => {
                             <div className={tab === 0 ? "Sidebar__option-title-clicked" : "Sidebar__option-title"}>
                                 <Button className="Option-button"
                                     onClick={() => setTab(0)}
-                                >Thông tin người dùng</Button>
+                                >Thông tin</Button>
                             </div>
 
                             <div
@@ -229,26 +213,18 @@ const UserProfile = (props: ProfileProps) => {
                     <Grid item xs={12} lg={4}>
                         <div className="Profile__paper-content">
                             <Typography variant="h4" className="title Profile__title">
-                                Thông tin người dùng
+                                Thông tin quản trị viên
                             </Typography>
 
                             {error ?
                                 <Typography className="error" variant="body1">{error}</Typography> :
                                 <div hidden={!isUpdating}>
-                                    <Typography className="error" variant="body1">Cập nhật thành công!</Typography>
+                                    <Typography color="primary" style={{textAlign: "center"}} variant="body1">Cập nhật thành công!</Typography>
                                 </div>
                             }
 
                             {tab === 0 &&
                                 <div>
-                                    {/* <TextField
-                                        className="Profile__text-field"
-                                        label="Email"
-                                        variant="outlined"
-                                        type="Email"
-                                        value={email}
-                                        onChange={(e) => changeEmail(e.target.value)}
-                                        required /> */}
                                     <TextField
                                         className="Profile__text-field"
                                         label="Họ tên"
@@ -261,7 +237,7 @@ const UserProfile = (props: ProfileProps) => {
                                             className="Profile__cancel-button-custom"
                                             variant="contained"
                                             onClick={() => props.history.push(paths.base)}
-                                        >Cancel
+                                        >Huỷ bỏ
                                         </Button>
                                         <Button
                                             className="Profile__update-button-custom"
@@ -303,7 +279,7 @@ const UserProfile = (props: ProfileProps) => {
                                             className="Profile__cancel-button-custom"
                                             variant="contained"
                                             onClick={() => props.history.push(paths.base)}
-                                        >Cancel
+                                        >Huỷ bỏ
                                         </Button>
                                         <Button
                                             className="Profile__update-button-custom"
