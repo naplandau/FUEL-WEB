@@ -74,8 +74,8 @@ const ListUsers = ({
                     <Table stickyHeader aria-label="simple table">
                         <TableHead className='header-table'>
                             <TableRow>
-                                <TableCell align="center" className="tableRightBorder">Họ Tên</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Số điện thoại</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Họ Tên</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Vai trò</TableCell>
                                 <TableCell align="center"></TableCell>
                             </TableRow>
@@ -84,8 +84,8 @@ const ListUsers = ({
                             {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user: User) => {
                                 if (user.phoneNumber.includes(searchPattern)) {
                                     return <TableRow key={user.id} >
-                                        <TableCell align="center" className="tableRightBorder">{user.name}</TableCell>
                                         <TableCell align="center" className="tableRightBorder">{user.phoneNumber}</TableCell>
+                                        <TableCell align="center" className="tableRightBorder">{user.name}</TableCell>
                                         <TableCell align="center" className="tableRightBorder">{user.role === 0 ? "Người dùng" : "Quản trị viên"}</TableCell>
                                         <TableCell align="center">
                                             <IconButton

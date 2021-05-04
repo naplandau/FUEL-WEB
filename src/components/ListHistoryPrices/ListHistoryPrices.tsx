@@ -77,20 +77,18 @@ const ListUsers = ({
                         <TableHead className='header-table'>
                             <TableRow>
                                 <TableCell align="center" className="tableRightBorder">Thời gian cập nhật</TableCell>
-                                <TableCell align="center" className="tableRightBorder">Xăng RON 95-IV</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Xăng RON 95-III</TableCell>
-                                <TableCell align="center" className="tableRightBorder">E5 RON 92-II</TableCell>
-                                <TableCell align="center" className="tableRightBorder">DO 0,001S-V</TableCell>
-                                <TableCell align="center" className="tableRightBorder">DO 0,05S-II</TableCell>
-                                <TableCell align="center">Dầu hỏa 2-K</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Xăng E5 RON 92-II</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Dầu DO 0,05S-II</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Dầu KO</TableCell>
                             </TableRow>
                         </TableHead>
                         {prices.length > 0 && <TableBody>
                             {prices.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((price) => {
                                 return <TableRow key={price._id} >
                                     <TableCell align="center" className="tableRightBorder">{moment(price.updatedAt).format('L') + ' ' + moment(price.updatedAt).format('LTS')}</TableCell>
-                                    {price.fuels.map((row) => {
-                                        return <TableCell align="center" className="tableRightBorder">{formatter.format(row.price)}</TableCell>
+                                    {Object.values(price.fuels).map((row) => {
+                                        return <TableCell align="center" className="tableRightBorder">{formatter.format(row)}</TableCell>
 
                                     })
                                     }

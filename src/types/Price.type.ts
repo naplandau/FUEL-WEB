@@ -1,11 +1,7 @@
 type Price = {
     _id: string;
-    fuels: [{
-        fuel_name: string,
-        price: number,
-        update_at: Date,
-        _id: string
-    }];
+    fuels: object;
+    type: string;
     createdAt: number | string;
     updatedAt: number | string;
 }
