@@ -14,7 +14,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import Add from '@material-ui/icons/Add';
-import { Button, IconButton, TextField } from "@material-ui/core";
+import { Button, IconButton, TextField, Switch, FormControlLabel } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import RouterProps from '../../types/RouterProps.type';
 
@@ -22,19 +22,24 @@ import StationDetails from "../../types/Station.type";
 import { RootState } from "../../reducers/root.reducer";
 import { fetchListStations, deleteStation } from "../../reducers/station.reducer"
 import { getUsers } from "../../reducers/user.reducer";
+import { getPriceFlag, changePriceFlag } from "../../reducers/account.reducer";
 import AddStationDialog from "./AddStationDialog";
 import EditStationDialog from "./EditStationDialog";
 import BarChart from './BarChart';
 
 import '../../styles/components/ListStations/ListStations.scss';
+import { BorderStyle, Label } from "@material-ui/icons";
 
 const statesToProps = (state: RootState) => ({
     stations: state.stationReducer.listStations,
+    priceFlag: state.accountReducer.priceFlag
 });
 
 const dispatchToProps = {
     fetchListStations,
     deleteStation,
+    getPriceFlag,
+    changePriceFlag
 };
 
 const connector = connect(statesToProps, dispatchToProps);
@@ -44,7 +49,10 @@ type ListStationsProps = ConnectedProps<typeof connector> & RouterProps;
 const ListStations = ({
     history,
     stations,
+    priceFlag,
+    getPriceFlag,
     fetchListStations,
+    changePriceFlag,
     deleteStation }: ListStationsProps) => {
     const [chartDialog, setChartDialog] = useState(false);
     const [addStationDialog, setAddStationDialog] = useState(false);
@@ -80,6 +88,7 @@ const ListStations = ({
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [flagChecked, setFlagChecked] = React.useState(null);
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -93,7 +102,18 @@ const ListStations = ({
     useEffect(() => {
         fetchListStations();
         getUsers();
-    }, [fetchListStations]);
+        getPriceFlag();
+    }, []);
+
+
+    useEffect(() => {
+        if (priceFlag) {
+            setFlagChecked(priceFlag === 'FETCH' ? false : true);
+        }
+        return () => {
+            setFlagChecked(null);
+        }
+    }, [priceFlag]);
 
     const openChartDialog = () => {
         setChartDialog(true);
@@ -126,6 +146,19 @@ const ListStations = ({
         };
     }
 
+
+    const onSetFlagChecked = (checked: boolean) => {
+        try {
+            const flag = !checked ? 'FETCH' : 'ADMIN';
+            setFlagChecked(checked);
+            changePriceFlag({
+                flag
+            });
+        } catch (e) {
+            return e.message;
+        }
+    }
+
     const [searchPattern, changeSearchPattern] = useState('');
 
     return (
@@ -141,7 +174,19 @@ const ListStations = ({
                             value={searchPattern}
                             onChange={(e) => changeSearchPattern(e.target.value)}
                         />
-
+                    </div>
+                    <div className="ListStations__flag-buttons">
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={flagChecked}
+                                    onChange={(e) => onSetFlagChecked(e.target.checked)}
+                            />}
+                            label={!flagChecked ? 'Giá tự động' : 'Giá hệ thống'}
+                            labelPlacement="start"
+                        />
+                        
+                        
                     </div>
                     <div className="ListStations__buttons-custom">
                         <Button className='ListStations__buttons' onClick={openChartDialog} ><BarChartIcon /></Button>
@@ -207,7 +252,7 @@ const ListStations = ({
                 </TableContainer>
                 <TablePagination
                     labelRowsPerPage="Số dòng mỗi trang: "
-                    rowsPerPageOptions={[10, 25, 100]}
+                    rowsPerPageOptions={[5, 10, 20]}
                     component="div"
                     count={stations.length}
                     rowsPerPage={rowsPerPage}

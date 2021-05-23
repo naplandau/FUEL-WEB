@@ -6,6 +6,7 @@ import { RootState } from '../reducers/root.reducer';
 import { getAccessToken } from '../reducers/authorization.reducer';
 import loading from '../assets/loadings/medium.loading.gif';
 import localStorageKeys from '../configs/localStorageKeys.config';
+import { getPriceFlag } from "../reducers/account.reducer";
 
 import paths from '../configs/paths.config';
 
@@ -31,7 +32,8 @@ const stateToProps = (state: RootState) => ({
 
 const dispatchToProps = {
     getMe,
-    getAccessToken
+    getAccessToken,
+    getPriceFlag
 };
 
 const connector = connect(stateToProps, dispatchToProps);
@@ -43,11 +45,19 @@ const App = ({
     accessToken,
     isAuthorizing,
     getMe,
-    getAccessToken
+    getAccessToken,
+    getPriceFlag
 }: AppProps) => {
+    useEffect(() => {
+        if (accessToken) {
+            getMe();
+            getPriceFlag();
+        }
+    }, [accessToken]);
+
     // useEffect(() => {
     //     let autoFetchAccessToken: NodeJS.Timeout = null;
-    //     if (accessToken) {
+    //     if (me) {
 
     //         autoFetchAccessToken = setInterval(() => {
     //             getAccessToken(me.id);
@@ -61,7 +71,7 @@ const App = ({
     //         }
     //         catch { /** ignored */ }
     //     }
-    // }, [accessToken])
+    // }, [me])
 
     return (
         <Router basename={paths.base}>

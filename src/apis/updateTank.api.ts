@@ -9,7 +9,7 @@ const updateTankApi = async (tankId: string, accessToken: string,
         tank_position: 0,
     }) => {
     try {
-        const res = await api.patch(endpoints.updateTank(tankId), data, {
+        const res = await api.put(endpoints.updateTank(tankId), data, {
             headers: {
                 'authorization': "Bearer " + accessToken,
             },

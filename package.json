@@ -7,6 +7,8 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@material-ui/pickers": "^3.3.10",
+    "@reach/combobox": "^0.15.1",
+    "@react-google-maps/api": "^2.1.1",
     "@reduxjs/toolkit": "^1.5.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -40,6 +42,7 @@
     "sass": "^1.30.0",
     "sub-vn": "^0.0.2",
     "typescript": "^4.0.3",
+    "use-places-autocomplete": "^1.9.2",
     "validator": "^13.5.2",
     "web-vitals": "^0.2.4"
   },

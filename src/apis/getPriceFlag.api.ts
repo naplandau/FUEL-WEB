@@ -3,28 +3,18 @@ import endpoints from '../configs/endpoints.config';
 import ResponseError from "../types/ResponseError.type";
 import ResponseSuccess from '../types/ResponseSuccess.type';
 
-const updateStationApi = async (stationId: string, accessToken: string,
-    data = {
-        name: '',
-        address: '',
-        description: '',
-        long: 0,
-        lat: 0,
-        working_hour_from: '',
-        working_hour_to: ''
-    }) => {
+const getPriceFlagApi = async (accessToken: string) => {
     try {
-        const res = await api.put(endpoints.updateStation(stationId), data, {
+        const res = await api.get(endpoints.getPriceFlag(), {
             headers: {
                 'authorization': "Bearer " + accessToken,
             },
         });
-
-        const station: ResponseSuccess = {
+        const PriceFlag: ResponseSuccess = {
             code: res.status,
             data: res.data,
         };
-        return station;
+        return PriceFlag;
     } catch (err) {
         const errorObj: ResponseError = {
             data: {
@@ -36,4 +26,4 @@ const updateStationApi = async (stationId: string, accessToken: string,
     }
 }
 
-export default updateStationApi;
+export default getPriceFlagApi;

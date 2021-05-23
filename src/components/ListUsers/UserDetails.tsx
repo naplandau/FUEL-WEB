@@ -159,9 +159,6 @@ const UserDetails = ({
             <SideBar history={history} />
             <div className='content'>
                 <Grid container>
-                    {/* <div className="avatar">
-                        <img src={user.avatar} alt="" />
-                    </div> */}
                     <Grid item xs={12} sm={12} md={12} lg={12} className="UserDetail__wrapper">
                         <Paper className="UserDetail__paper">
                             <TextField
@@ -223,15 +220,12 @@ const UserDetails = ({
                                 </TableHead>
                                 {listTransactions.length > 0 && <TableBody>
                                     {listTransactions.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((transaction) => {
-                                        // if (voucher.phoneNumber.includes(searchPattern)) {
                                         return <TableRow key={transaction._id} >
                                             <TableCell align="center" className="tableRightBorder">{transaction.userInfo.phoneNumber}</TableCell>
                                             <TableCell align="center" className="tableRightBorder">{_status(transaction.status)}</TableCell>
                                             <TableCell align="center" className="tableRightBorder">{formatter.format(transaction.amount.payAmount)}</TableCell>
                                             <TableCell align="center" className="tableRightBorder">{moment(transaction.updatedAt).format('L') + ' ' + moment(transaction.updatedAt).format('LTS')}</TableCell>
                                         </TableRow>
-                                        // }
-                                        // return null;
                                     })
                                     }
                                 </TableBody>}
@@ -262,7 +256,6 @@ const UserDetails = ({
                                 </TableHead>
                                 {vouchers.length > 0 && <TableBody>
                                     {vouchers.map((voucher) => {
-                                        // if (voucher.phoneNumber.includes(searchPattern)) {
                                         return <TableRow key={voucher._id} >
                                             <TableCell align="center" className="tableRightBorder">{voucher.owner.phoneNumber}</TableCell>
                                             <TableCell align="center" className="tableRightBorder">{voucher.type === 0 ? voucher.donator.phoneNumber : ''}</TableCell>
@@ -270,8 +263,6 @@ const UserDetails = ({
                                             <TableCell align="center" className="tableRightBorder">{checkVoucherStatus(voucher.status, voucher.isOn)}</TableCell>
                                             <TableCell align="center" className="tableRightBorder">{moment(voucher.createdAt).format('L') + ' ' + moment(voucher.createdAt).format('LTS')}</TableCell>
                                         </TableRow>
-                                        // }
-                                        // return null;
                                     })
                                     }
                                 </TableBody>}

@@ -28,6 +28,8 @@ const endpoints = {
     changeAccountAvatar: () => `${base}/users/avatar`,
     getUserListVouchers: (userId: string) => `${base}/promo/user/${userId}`,
     getAmountChart: () => `${base}/stations/amountChart`,
+    getPriceFlag: () => `${base}/admin/getFlag`,
+    updatePriceFlag: () => `${base}/admin/changeFlag`,
 };
 
 export default endpoints;

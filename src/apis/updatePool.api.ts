@@ -9,7 +9,7 @@ const updatePoolApi = async (poolId: string, accessToken: string,
         fuel_amount: 0,
     }) => {
     try {
-        const res = await api.patch(endpoints.updatePool(poolId), data, {
+        const res = await api.put(endpoints.updatePool(poolId), data, {
             headers: {
                 'authorization': "Bearer " + accessToken,
             },

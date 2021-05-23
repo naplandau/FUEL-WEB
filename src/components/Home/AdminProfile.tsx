@@ -4,7 +4,8 @@ import { connect, ConnectedProps } from 'react-redux';
 import loading from '../../assets/loadings/medium.loading.gif';
 import paths from "../../configs/paths.config";
 
-import { updateProfile, updateAccountAvatar } from '../../reducers/account.reducer';
+import { updateProfile, updateAccountAvatar, getMe } from '../../reducers/account.reducer';
+import { setSelected } from '../../reducers/sidebar.reducer';
 import HistoryProps from "../../types/HistoryProps.type";
 import isEmail from 'validator/lib/isEmail';
 import "../../styles/components/Home/AdminProfile.scss";
@@ -20,7 +21,9 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = {
     updateProfile,
-    updateAccountAvatar
+    updateAccountAvatar,
+    getMe,
+    setSelected
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -121,16 +124,19 @@ const UserProfile = (props: ProfileProps) => {
 
             props.updateAccountAvatar(data);
         }
-        catch (error) {
-            console.log(error.message);
+        catch (err) {
+            console.log(err.message);
         }
     }
+
+    useEffect(() => {
+        getMe()
+    }, [])
 
     useEffect(() => {
         if (props.me) {
             changeName(props.me.name);
             changeAvatar(props.me.avatar);
-            // changeEmail(props.me.email);
         }
     }, [props.me]);
 
@@ -140,7 +146,7 @@ const UserProfile = (props: ProfileProps) => {
 
     const links: Array<NavBarLink> = [{
         name: 'Trang chủ',
-        url: paths.base,
+        url: paths.listUsers(),
     }, {
         name: 'Trang cá nhân',
         url: paths.profile,
@@ -153,6 +159,8 @@ const UserProfile = (props: ProfileProps) => {
             </div>
         )
     };
+
+    console.log(props.me.avatar);
 
     return (
         <PageWrapper links={links} history={props.history}>
@@ -168,8 +176,11 @@ const UserProfile = (props: ProfileProps) => {
                                 }}
                             >
                                 {
-                                    !isUploadingImage && avatar &&
-                                    <img src={avatar} alt="" />
+                                    !avatar && !isUploadingImage &&
+                                    <>
+                                        <p><i className="fas fa-image" /></p>
+                                        <p style={{ fontSize: '14px' }}>480 x 270 (px)</p>
+                                    </>
                                 }
                                 {
                                     !isUploadingImage &&
@@ -187,6 +198,10 @@ const UserProfile = (props: ProfileProps) => {
                                     <div>
                                         <img className="AddEditCourse__cover-wrapper__loading" src={loading} height={100} width={100} alt="Uploading..." />
                                     </div>
+                                }
+                                {
+                                    !isUploadingImage && avatar &&
+                                    <img src={avatar} alt="" />
                                 }
                             </div>
 
@@ -234,9 +249,12 @@ const UserProfile = (props: ProfileProps) => {
                                         required />
                                     <div className="Profile__content-button">
                                         <Button
-                                            className="Profile__cancel-button-custom"
-                                            variant="contained"
-                                            onClick={() => props.history.push(paths.base)}
+                                        className="Profile__cancel-button-custom"
+                                        variant="contained"
+                                        onClick={() => {
+                                            props.setSelected(0);
+                                            props.history.push(paths.listUsers());
+                                        }}
                                         >Huỷ bỏ
                                         </Button>
                                         <Button
@@ -278,7 +296,10 @@ const UserProfile = (props: ProfileProps) => {
                                         <Button
                                             className="Profile__cancel-button-custom"
                                             variant="contained"
-                                            onClick={() => props.history.push(paths.base)}
+                                        onClick={() => {
+                                            props.setSelected(0);
+                                            props.history.push(paths.listUsers());
+                                        }}
                                         >Huỷ bỏ
                                         </Button>
                                         <Button

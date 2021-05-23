@@ -3,20 +3,23 @@ import endpoints from "../configs/endpoints.config";
 import ResponseError from "../types/ResponseError.type";
 import ResponseSuccess from '../types/ResponseSuccess.type';
 
-const changeAccountAvatarApi = async (data: FormData, accessToken: string) => {
+export type Data = {
+    flag: string
+}
+
+const changePriceFlagApi = async (data: Data, accessToken: string) => {
     try {
-        const response = await api.put(endpoints.changeAccountAvatar(), data, {
+        const response = await api.put(endpoints.updatePriceFlag(), data, {
             headers: {
-                'Content-Type': 'multipart/form-data',
                 'authorization': "Bearer " + accessToken,
             }
         });
 
-        const responseUser: ResponseSuccess = {
+        const changePriceFlag: ResponseSuccess = {
             code: response.status,
             data: response.data,
         };
-        return responseUser;
+        return changePriceFlag;
     }
     catch (error) {
         const errorObj: ResponseError = {
@@ -30,4 +33,4 @@ const changeAccountAvatarApi = async (data: FormData, accessToken: string) => {
     }
 };
 
-export default changeAccountAvatarApi;
+export default changePriceFlagApi;

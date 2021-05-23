@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { connect, ConnectedProps } from 'react-redux';
 import SideBar from '../Home/SideBar';
+import { Button } from '@material-ui/core';
+import Add from '@material-ui/icons/Add';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -21,6 +23,7 @@ import '../../styles/components/ListHistoryPrices/ListHistoryPrices.scss';
 
 const statesToProps = (state: RootState) => ({
     prices: state.historyPriceReducer.listHistoryPrices,
+    priceFlag: state.accountReducer.priceFlag,
 });
 
 const dispatchToProps = {
@@ -35,6 +38,7 @@ type HomeProps = ConnectedProps<typeof connector> & HistoryProps;
 const ListUsers = ({
     history,
     prices,
+    priceFlag,
     fetchListHistoryPrices,
     clearListHistoryPrices }: HomeProps) => {
 
@@ -72,11 +76,16 @@ const ListUsers = ({
 
                 </div> */}
                 {/* <div></div> */}
+                {priceFlag === "ADMIN" && <div className="ListStations__buttons-custom">
+                    <Button className='ListStations__buttons'  ><Add /></Button>
+                </div>}
+                
                 <TableContainer component={Paper}>
                     <Table stickyHeader aria-label="simple table">
                         <TableHead className='header-table'>
                             <TableRow>
                                 <TableCell align="center" className="tableRightBorder">Thời gian cập nhật</TableCell>
+                                <TableCell align="center" className="tableRightBorder">Loại giá xăng</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Xăng RON 95-III</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Xăng E5 RON 92-II</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Dầu DO 0,05S-II</TableCell>
@@ -87,6 +96,7 @@ const ListUsers = ({
                             {prices.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((price) => {
                                 return <TableRow key={price._id} >
                                     <TableCell align="center" className="tableRightBorder">{moment(price.updatedAt).format('L') + ' ' + moment(price.updatedAt).format('LTS')}</TableCell>
+                                    <TableCell align="center" className="tableRightBorder">{price.type === "ADMIN" ? 'Giá hệ thống':'Giá tự động' }</TableCell>
                                     {Object.values(price.fuels).map((row) => {
                                         return <TableCell align="center" className="tableRightBorder">{formatter.format(row)}</TableCell>
 

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { Grid, Typography, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
@@ -9,11 +9,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { RootState } from '../../reducers/root.reducer';
 import { createStation } from '../../reducers/station.reducer';
+import ExploreTwoToneIcon from '@material-ui/icons/ExploreTwoTone';
 import SubVn from 'sub-vn';
 
-import '../../styles/components/ListStations/StationDialog.scss';
+import MapDialog from './MapDialog';
 
-import { useState } from 'react';
+import '../../styles/components/ListStations/StationDialog.scss';
 
 type Province = {
     name: string,
@@ -73,6 +74,15 @@ const StationDialog = ({
         province_name: '',
         full_name: ''
     });
+
+    const [mapDialog, setMapDialog] = useState(false);
+
+    const openMapDialog = () => {
+        setMapDialog(true);
+    }
+    const closeMapDialog = () => {
+        setMapDialog(false);
+    }
 
     useEffect(() => {
         if (province) {
@@ -193,7 +203,7 @@ const StationDialog = ({
                                         onChange={(e: React.ChangeEvent<{ value: unknown }>) => setProvince(e.target.value as Province)}
                                     >
                                         {provinces.map((province: any) => {
-                                            return <MenuItem value={province}>{province.name}</MenuItem>
+                                            return <MenuItem key={province.id} value={province}>{province.name}</MenuItem>
                                         })}
                                     </Select>
                                 </FormControl>
@@ -206,14 +216,14 @@ const StationDialog = ({
                                         onChange={(e: React.ChangeEvent<{ value: unknown }>) => setDistrict(e.target.value as District)}
                                     >
                                         {districts.map((district: any) => {
-                                            return <MenuItem value={district}>{district.full_name}</MenuItem>
+                                            return <MenuItem key={district.id} value={district}>{district.full_name}</MenuItem>
                                         })}
                                     </Select>
                                 </FormControl>
                             </Grid>
                         </Grid>
                         <Grid container spacing={2} style={{ marginTop: '10px' }}>
-                            <Grid item xs={6}>
+                            <Grid item xs={5}>
                                 <TextField
                                     variant="outlined"
                                     className="AddStation__text-field"
@@ -223,7 +233,7 @@ const StationDialog = ({
                                     onChange={(e) => setLong(parseFloat(e.target.value))}
                                 />
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={5}>
                                 <TextField
                                     variant="outlined"
                                     className="AddStation__text-field"
@@ -232,6 +242,11 @@ const StationDialog = ({
                                     required
                                     onChange={(e) => setLat(parseFloat(e.target.value))}
                                 />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <Button onClick={openMapDialog}>
+                                    <ExploreTwoToneIcon/>
+                                </Button>
                             </Grid>
                         </Grid>
                         <Grid container spacing={2} style={{ marginTop: '10px' }}>
@@ -277,6 +292,9 @@ const StationDialog = ({
                     </DialogActions>
                 </Dialog>
             </Grid>
+            <div>
+                <MapDialog open={mapDialog} onClose={closeMapDialog} />
+                </div>
         </div>
     )
 }

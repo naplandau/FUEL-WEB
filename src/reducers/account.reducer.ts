@@ -5,8 +5,11 @@ import { isResponseError } from '../types/ResponseError.type';
 import User from '../types/User.type';
 import updateAccountApi, { UpdateAccountBody } from '../apis/updateAccount.api';
 import changeAccountAvatarApi from '../apis/changeAccountAvatar.api';
+import getPriceFlagApi from '../apis/getPriceFlag.api';
+import changePriceFlagApi, { Data } from '../apis/changePriceFlag.api';
 
 const initialState = {
+    priceFlag: '',
     me: null as User,
     code: 0
 };
@@ -24,6 +27,12 @@ const accountSlice = createSlice({
         },
         setError(state, action: PayloadAction<number>) {
             state.code = action.payload;
+        },
+        setPriceFlag(state, action: PayloadAction<string>) {
+            state.priceFlag = action.payload;
+        },
+        clearPriceFlag(state) {
+            state.priceFlag = '';
         }
     },
 });
@@ -31,7 +40,9 @@ const accountSlice = createSlice({
 export const {
     setMe,
     clearMe,
-    setError
+    setError,
+    setPriceFlag,
+    clearPriceFlag
 } = accountSlice.actions;
 
 export const getMe = (): AppThunk => async (dispatch, getState) => {
@@ -78,13 +89,50 @@ export const updateAccountAvatar = (credentials: FormData): AppThunk => async (d
     }
 
     const response = await changeAccountAvatarApi(credentials, accessToken);
-    console.log(response)
 
     if (isResponseError(response)) {
         return dispatch(setError(response.data.code));
     }
 
     dispatch(setMe(response.data.data));
+}
+
+export const getPriceFlag = (): AppThunk => async (dispatch, getState) => {
+    const state = getState();
+
+    const { authenticationReducer } = state;
+    const { accessToken } = authenticationReducer;
+
+    if (!accessToken) {
+        return;
+    }
+
+    const response = await getPriceFlagApi(accessToken);
+    console.log(response.data);
+
+    if (isResponseError(response)) {
+        return dispatch(setPriceFlag(''));
+    }
+    dispatch(setPriceFlag(response.data.data))
+}
+
+export const changePriceFlag = (data: Data): AppThunk => async (dispatch, getState) => {
+    const state = getState();
+
+    const { authenticationReducer } = state;
+    const { accessToken } = authenticationReducer;
+
+    if (!accessToken) {
+        return;
+    }
+
+    const response = await changePriceFlagApi(data, accessToken);
+    console.log(response.data);
+
+    if (isResponseError(response)) {
+        return dispatch(setPriceFlag(''));
+    }
+    dispatch(setPriceFlag(response.data.data))
 }
 
 export default accountSlice.reducer;

@@ -9,10 +9,9 @@ import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import { setSideBarSelected } from '../../reducers/sidebar.reducer';
 import HistoryProps from "../../types/HistoryProps.type";
-import { getMe } from "../../reducers/account.reducer";
 import { Button } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import logo from '../../assets/logo200.png';
+import logo from '../../assets/logo.png';
 import paths from "../../configs/paths.config";
 
 
@@ -23,7 +22,6 @@ const stateToProps = (state: RootState) => ({
 
 const dispatchToProps = {
     setSideBarSelected,
-    getMe
 };
 
 const connector = connect(stateToProps, dispatchToProps);
@@ -34,15 +32,10 @@ const SideBar = ({
     me,
     history,
     selected,
-    getMe,
     setSideBarSelected }: SideBarProps) => {
     
     const [name, setName] = useState('');
     const [avatar, setAvatar] = useState('');
-
-    useEffect(() => {
-        getMe()
-    }, [getMe])
 
     useEffect(() => {
         if (me) {
@@ -55,8 +48,8 @@ const SideBar = ({
         <div className='sidebar'>
             <div className='header'>
                 <img src={logo} alt='logo' className='logo' />
-                <p className='title-admin'>Quản trị viên</p>
             </div>
+            <p className='title-admin'>Quản trị viên</p>
             <img src={avatar} alt='avatar' className='avatar'
                 onClick={() => {
                 history.push(paths.profile);
