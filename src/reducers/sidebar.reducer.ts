@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '../configs/store.config';
 
 const initialState = {
-    selected: 0
+    selected: parseInt(localStorage.getItem("selected")) || 0,
 };
 
 const sidebarAction = createSlice({
@@ -11,12 +11,17 @@ const sidebarAction = createSlice({
     reducers: {
         setSelected(state, action: PayloadAction<number>) {
             state.selected = action.payload;
+            localStorage.setItem("selected", action.payload.toString());
+        },
+        clearSelected(state) {
+            state.selected = 0
         }
     }
 })
 
 export const {
-    setSelected
+    setSelected,
+    clearSelected
 } = sidebarAction.actions;
 
 export const setSideBarSelected = (num: number): AppThunk => async (dispatch) => {

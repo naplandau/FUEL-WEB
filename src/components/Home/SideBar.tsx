@@ -13,6 +13,7 @@ import { Button } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import logo from '../../assets/logo.png';
 import paths from "../../configs/paths.config";
+import { logout } from '../../reducers/authorization.reducer';
 
 
 const stateToProps = (state: RootState) => ({
@@ -22,6 +23,7 @@ const stateToProps = (state: RootState) => ({
 
 const dispatchToProps = {
     setSideBarSelected,
+    logout
 };
 
 const connector = connect(stateToProps, dispatchToProps);
@@ -32,7 +34,9 @@ const SideBar = ({
     me,
     history,
     selected,
-    setSideBarSelected }: SideBarProps) => {
+    setSideBarSelected,
+    logout,
+}: SideBarProps) => {
     
     const [name, setName] = useState('');
     const [avatar, setAvatar] = useState('');
@@ -46,10 +50,10 @@ const SideBar = ({
 
     return (
         <div className='sidebar'>
-            <div className='header'>
+            {/* <div className='header'>
                 <img src={logo} alt='logo' className='logo' />
             </div>
-            <p className='title-admin'>Quản trị viên</p>
+            <p className='title-admin'>Quản trị viên</p> */}
             <img src={avatar} alt='avatar' className='avatar'
                 onClick={() => {
                 history.push(paths.profile);
@@ -107,7 +111,12 @@ const SideBar = ({
             </div>
 
             <div className='Home__buttons-custom'>
-                <Button className='Home__buttons'>
+                <Button className='Home__buttons'
+                    onClick={() => {
+                        logout();
+                        history.push(`/`);
+                        localStorage.clear();
+                    }}>
                     <ExitToAppIcon />
                     Đăng xuất
                 </Button>

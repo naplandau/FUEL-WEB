@@ -6,6 +6,13 @@ import { AppThunk } from '../configs/store.config';
 import { isResponseError } from '../types/ResponseError.type';
 import { setAccessToken } from './authentication.reducer';
 import getAccessTokenApi from '../apis/getAccessToken.api';
+import { clearMe } from './account.reducer';
+import { clearListStations } from './station.reducer';
+import { clearListTransactions } from './transaction.reducer';
+import { clearListHistoryPrices } from './price.reducer';
+import { clearListVouchers } from './voucher.reducer';
+import { resetUser } from './user.reducer';
+import { clearSelected } from './sidebar.reducer';
 
 const initialState = {
   refreshToken: '',
@@ -72,12 +79,19 @@ export const getAccessToken = (userId: string): AppThunk => async (dispatch) => 
   dispatch(loginSuccess(refreshToken));
 };
 
-// export const logout = (): AppThunk => async (dispatch, getState) => {
-//   const state = getState();
-//   const { authorizationReducer } = state;
-//   //await logoutApi(authorizationReducer.refreshToken);
-//   dispatch(loginFailed(''));
-//   dispatch(setAccessToken(''));
-// };
+export const logout = (): AppThunk => async (dispatch, getState) => {
+  const state = getState();
+  const { authorizationReducer } = state;
+
+  dispatch(loginFailed(0));
+  dispatch(setAccessToken(''));
+  dispatch(clearMe());
+  dispatch(clearListStations());
+  dispatch(clearListTransactions());
+  dispatch(clearListHistoryPrices());
+  dispatch(clearListVouchers());
+  dispatch(resetUser());
+  dispatch(clearSelected());
+};
 
 export default authorizationSlice.reducer;

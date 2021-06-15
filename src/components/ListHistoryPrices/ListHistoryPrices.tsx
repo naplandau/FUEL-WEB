@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { connect, ConnectedProps } from 'react-redux';
 import SideBar from '../Home/SideBar';
-import { Button } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import Add from '@material-ui/icons/Add';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -14,7 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import { withRouter } from "react-router-dom";
 import moment from 'moment';
 import formatter from '../../utils/formatter.utils';
-
+import AddPriceDialog from './AddPriceDialog';
 import { RootState } from "../../reducers/root.reducer";
 import { fetchListHistoryPrices, clearListHistoryPrices } from "../../reducers/price.reducer";
 import HistoryProps from "../../types/HistoryProps.type";
@@ -44,6 +44,8 @@ const ListUsers = ({
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [addPriceDialog, setAddPriceDialog] = useState(false);
+
     moment.locale('vi');
 
     const handleChangePage = (event: unknown, newPage: number) => {
@@ -59,27 +61,34 @@ const ListUsers = ({
         fetchListHistoryPrices();
     }, [fetchListHistoryPrices]);
 
+    const openAddPriceDialog = () => {
+        setAddPriceDialog(true);
+    }
+
+    const closeAddPriceDialog = () => {
+        setAddPriceDialog(false);
+    }
     // const [searchPattern, changeSearchPattern] = useState('');
 
     return (
         <div className='container'>
             <SideBar history={history} />
             <div className='content'>
-                {/* <div className="search-view">
-                    <TextField
-                        variant="outlined"
-                        label="Tìm người dùng theo số điện thoại"
-                        className="ListUsers__search-users"
-                        value={searchPattern}
-                        onChange={(e) => changeSearchPattern(e.target.value)}
-                    />
+                <div className='ListHistoryPrices__header'>
+                    <div className="search-view">
+                        <TextField
+                            variant="outlined"
+                            // label="Tìm người dùng theo số điện thoại"
+                            className="ListHistoryPrices__search"
+                            // value={searchPattern}
+                            // onChange={(e) => changeSearchPattern(e.target.value)}
+                        />
 
-                </div> */}
-                {/* <div></div> */}
-                {priceFlag === "ADMIN" && <div className="ListStations__buttons-custom">
-                    <Button className='ListStations__buttons'  ><Add /></Button>
-                </div>}
-                
+                    </div>
+                    {priceFlag === "ADMIN" && <div className="ListHistoryPricess__buttons-custom">
+                        <Button className='ListHistoryPricess__buttons' onClick={openAddPriceDialog} ><Add /></Button>
+                    </div>}
+                </div>
                 <TableContainer component={Paper}>
                     <Table stickyHeader aria-label="simple table">
                         <TableHead className='header-table'>
@@ -120,6 +129,7 @@ const ListUsers = ({
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                 />
             </div>
+            <AddPriceDialog open={addPriceDialog} onClose={closeAddPriceDialog} />
         </div >
     )
 }

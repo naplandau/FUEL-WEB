@@ -32,6 +32,8 @@ type District = {
 }
 
 const stateToProps = (state: RootState) => ({
+    lat: state.stationReducer.lat,
+    lng: state.stationReducer.lng
 })
 
 const dispatchToProps = {
@@ -51,13 +53,13 @@ const StationDialog = ({
     open,
     onClose,
     createStation,
+    lat,
+    lng,
 }: StationProps) => {
     const provinces: Array<Province> = SubVn.getProvinces();
     const [districts, setDistricts] = useState(Array<District>());
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [long, setLong] = useState(0);
-    const [lat, setLat] = useState(0);
     const [workingHourFrom, setWorkingHourFrom] = useState('');
     const [workingHourTo, setWorkingHourTo] = useState('');
     const [address, setAddress] = useState('');
@@ -104,7 +106,7 @@ const StationDialog = ({
             name: name,
             address: address + ', ' + district.full_name + ', ' + province.name,
             description: description,
-            long: long,
+            long: lng,
             lat: lat,
             working_hour_from: workingHourFrom,
             working_hour_to: workingHourTo
@@ -132,14 +134,6 @@ const StationDialog = ({
             return 'District is required!';
         }
 
-        if (!long) {
-            return 'Longitude is required!';
-        }
-
-        if (!lat) {
-            return 'Latitude is required!';
-        }
-
         if (!workingHourTo) {
             return 'Working Hour To is required!';
         }
@@ -148,7 +142,7 @@ const StationDialog = ({
             return 'Working Hour From is required!';
         }
 
-        if (long < -180 || long > 180) {
+        if (lng < -180 || lng > 180) {
             return "Longitude's value must be between -180 and 180!";
         }
 
@@ -229,8 +223,9 @@ const StationDialog = ({
                                     className="AddStation__text-field"
                                     type="number"
                                     label="Kinh độ"
+                                    value={lng}
                                     required
-                                    onChange={(e) => setLong(parseFloat(e.target.value))}
+                                    //onChange={(e) => setLong(parseFloat(e.target.value))}
                                 />
                             </Grid>
                             <Grid item xs={5}>
@@ -239,8 +234,9 @@ const StationDialog = ({
                                     className="AddStation__text-field"
                                     type="number"
                                     label="Vĩ độ"
+                                    value={lat}
                                     required
-                                    onChange={(e) => setLat(parseFloat(e.target.value))}
+                                    //onChange={(e) => setLat(parseFloat(e.target.value))}
                                 />
                             </Grid>
                             <Grid item xs={2}>
@@ -282,12 +278,12 @@ const StationDialog = ({
                         <Button className="AddStation__buttons AddStation__buttons--secondary"
                             onClick={onClose}
                             color='secondary'>
-                            Cancel
+                            Huỷ bỏ
                         </Button>
                         <Button className="AddStation__buttons"
                             onClick={handleConfirm}
                             color='primary'>
-                            Confirm
+                            Xác nhận
                         </Button>
                     </DialogActions>
                 </Dialog>

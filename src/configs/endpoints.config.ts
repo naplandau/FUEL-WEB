@@ -30,6 +30,7 @@ const endpoints = {
     getAmountChart: () => `${base}/stations/amountChart`,
     getPriceFlag: () => `${base}/admin/getFlag`,
     updatePriceFlag: () => `${base}/admin/changeFlag`,
+    adminAddPrice: () => `${base}/admin/addPrice`,
 };
 
 export default endpoints;

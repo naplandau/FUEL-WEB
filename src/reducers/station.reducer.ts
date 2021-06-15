@@ -31,7 +31,9 @@ const initialState = {
     isFetchingStation: true,
     isFetchingTank: true,
     isFetchingPool: true,
-    error_code: 0
+    error_code: 0,
+    lng: 0.0,
+    lat: 0.0,
 };
 
 const listStationsSlice = createSlice({
@@ -89,6 +91,12 @@ const listStationsSlice = createSlice({
         },
         setAmount(state, action: PayloadAction<Object>) {
             state.amount = action.payload;
+        },
+        setLng(state, action: PayloadAction<number>) {
+            state.lng = action.payload;
+        },
+        setLat(state, action: PayloadAction<number>) {
+            state.lat = action.payload;
         }
     }
 });
@@ -102,7 +110,9 @@ export const {
     editStation,
     resetStation,
     setListPrices,
-    setAmount
+    setAmount,
+    setLng,
+    setLat
 } = listStationsSlice.actions;
 
 export const fetchListStations = (): AppThunk => async (dispatch, getState) => {

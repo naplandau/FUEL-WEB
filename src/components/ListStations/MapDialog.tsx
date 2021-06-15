@@ -1,6 +1,5 @@
 import { connect, ConnectedProps } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import usePlacesAutoComplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { Grid } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -11,6 +10,8 @@ import { GoogleMap, LoadScript, Marker, useLoadScript, InfoWindow } from '@react
 import { useState, useCallback, memo, useRef } from 'react';
 import { RootState } from '../../reducers/root.reducer';
 import googleConfig from '../../configs/googleApi.config';
+import { Libraries } from '@react-google-maps/api/dist/utils/make-load-script-url';
+import { setLng, setLat } from '../../reducers/station.reducer'
 
 import '../../styles/components/ListStations/MapDialog.scss';
 
@@ -24,10 +25,14 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 
+const libraries: Libraries = ["places"];
+
 const stateToProps = (state: RootState) => ({
 })
 
 const dispatchToProps = {
+    setLng,
+    setLat
 };
 
 const connector = connect(stateToProps, dispatchToProps);
@@ -42,65 +47,83 @@ type StationProps = ConnectedProps<typeof connector> & BasicProps;
 const StationDialog = ({
     open,
     onClose,
+    setLng,
+    setLat,
 }: StationProps) => {
+    
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: googleConfig.googleApiKey,
-        libraries: ["places"]
+        libraries,
     });
-    const [curLocation, getCurLocation] = useState({});
+
+    const [curLocation, getCurLocation] = useState({
+        lat: 0.0,
+        lng: 0.0,
+    });
+    const [selected, setSelected] = useState({
+        lat: 0.0,
+        lng: 0.0,
+    });
+
+    const handleConfirm = () => {
+        setLat(selected.lat);
+        setLng(selected.lng);
+        onClose();
+    }
+
     navigator?.geolocation.getCurrentPosition(({ coords: { latitude: lat, longitude: lng } }) => {
         const pos = { lat, lng };
         getCurLocation(pos);
     }); 
 
-    const mapRef = useRef();
+    const mapRef = useRef(null);
     const onMapLoad = useCallback((map) => {
         mapRef.current = map;
-    },[])
+    }, []);
 
-    const Search = () => {
-        const { ready, value, suggestions: { status, data }, setValue, clearSuggestions } = usePlacesAutoComplete({
-            requestOptions: {
-                location: curLocation,
-                radius: 200 * 1000
-            }
-        });
-        return (
-            <div className="search">
-                <Combobox onSelect={(address) =>
-                    console.log(address)}>
-                    <ComboboxInput
-                        value={value}
-                        onChange={(e) => {
-                            setValue(e.target.value);
-                        }}
-                        disabled={!ready}
-                        placeholder="Nhập địa chỉ"
-                    />
-                    <ComboboxPopover>
-                        {status === "OK" && data.map(({ id, description }) =>
-                            <ComboboxOption id={id} value={description} />
-                        )}
-                    </ComboboxPopover>
-                </Combobox>
-            </div>
-        );
-    };
+    const options = {
+        zoomControl: true
+    }
+
     return (
         <div className="AddStation">
             <Grid container>
                 <Dialog className="AddStation__wrapper" open={open} onClose={onClose} aria-labelledby="form-dialog-title">
                     <DialogActions>
-                        <Search/>
                         <GoogleMap
                             mapContainerStyle={{ height: '70vh', width: '100vw' }}
                             onLoad={onMapLoad}
                             zoom={17}
                             center={curLocation}
+                            options={options}
+                            onClick={(e) => {
+                                setSelected({
+                                    lat: e.latLng.lat(),
+                                    lng: e.latLng.lng(),
+                                });
+                            }}
                         >
-                            <Marker position={curLocation} />
+                            <Marker
+                                position={{ lat: curLocation.lat, lng: curLocation.lng }}
+                            />
+                            <Marker
+                                position={{ lat: selected.lat, lng: selected.lng }}
+                            />
+
+                            {/* {selected ? (<InfoWindow
+                                position={{ lat: selected.lat, lng: selected.lng }}
+                            >
+                                <h2>Toạ độ: ({selected.lat}, {selected.lng})</h2>
+                            </InfoWindow>)
+                                : null
+                            } */}
                         </GoogleMap>
                     </DialogActions>
+                    <Button className="AddStation__buttons"
+                        onClick={handleConfirm}
+                        color='primary'>
+                        Chọn toạ độ
+                        </Button>
                 </Dialog>
             </Grid>
         </div>

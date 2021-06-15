@@ -98,7 +98,7 @@ const TankDialog = ({
                             variant='outlined'
                             className="AddTank__text-field"
                             label="Vị trí trụ xăng"
-                            value={tankPos}
+                            value={tankPos ? tankPos: 0}
                             fullWidth
                             onChange={(e) => setTankPos(parseInt(e.target.value))}
                         />

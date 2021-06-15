@@ -2181,6 +2181,18 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
+"@types/google-maps@^3.2.3":
+  "integrity" "sha512-+GR/7sMvo2bENS26H4t2QqoCqE4FE5qhsG8aaDM9mJAlsorkLyaFdTQra8VkmS1RNE09fx9c1kac+GKG0RtA2A=="
+  "resolved" "https://registry.npmjs.org/@types/google-maps/-/google-maps-3.2.3.tgz"
+  "version" "3.2.3"
+  dependencies:
+    "@types/google.maps" "*"
+
+"@types/google.maps@*":
+  "integrity" "sha512-tYOUspQbwa1ndYSTgK5EVmM6DaqVbpeizBJH7a8Yp9B/7tnrBRhADMkQgW+yb75tPb4DQ/vnVAX4lK+Ob3ME+w=="
+  "resolved" "https://registry.npmjs.org/@types/google.maps/-/google.maps-3.44.6.tgz"
+  "version" "3.44.6"
+
 "@types/graceful-fs@^4.1.2":
   "integrity" "sha512-mWA/4zFQhfvOA8zWkXobwJvBD7vzcxgrOQ0J5CH1votGqdq9m7+FwtGaqyCZqC3NyyBkc9z4m+iry4LlqcMWJg=="
   "resolved" "https://registry.npmjs.org/@types/graceful-fs/-/graceful-fs-4.1.4.tgz"

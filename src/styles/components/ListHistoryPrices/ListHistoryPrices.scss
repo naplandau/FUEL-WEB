@@ -79,24 +79,31 @@
     padding: 0px !important;
 }
 
-.Home__buttons {
+.ListHistoryPricess__buttons {
     width: 100% !important;
-    background-color: $primary-color !important;
+    background-color: #1e90ff  !important;
     color: white !important;
     padding: 10px !important;
 }
 
-.Home__buttons-custom {
-    margin-top: 5px;
+.ListHistoryPricess__buttons-custom {
+   margin-bottom: 2px;
+    margin-left: 10px;
 }
 
 .ListHistoryPrices__header {
     display: flex;
-    width: auto;
-    justify-content: center;
-    margin-bottom: 3px;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .ListHistoryPrices__search-HistoryPrices {
     flex-grow: 1;
+}
+
+.ListHistoryPrices__search {
+    width: 265px;
+    margin: 2px 3px 2px 0;
+    padding: 5px;
 }

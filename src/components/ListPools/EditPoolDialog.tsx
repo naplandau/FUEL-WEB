@@ -93,7 +93,7 @@ const PoolDialog = ({
                             variant='outlined'
                             className="AddPool__text-field"
                             label="Số lượng nhiên liệu (lít)"
-                            value={fuelAmount}
+                            value={fuelAmount ? fuelAmount : 0}
                             fullWidth
                             onChange={(e) => setFuelAmount(parseFloat(e.target.value))}
                         />
