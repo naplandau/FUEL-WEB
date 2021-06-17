@@ -60,7 +60,8 @@ const StationDialog = ({
         lat: 0.0,
         lng: 0.0,
     });
-    const [selected, setSelected] = useState({
+    const [selected, setSelected] = useState(null);
+    const [marker, setMarker] = useState({
         lat: 0.0,
         lng: 0.0,
     });
@@ -97,7 +98,7 @@ const StationDialog = ({
                             center={curLocation}
                             options={options}
                             onClick={(e) => {
-                                setSelected({
+                                setMarker({
                                     lat: e.latLng.lat(),
                                     lng: e.latLng.lng(),
                                 });
@@ -107,16 +108,22 @@ const StationDialog = ({
                                 position={{ lat: curLocation.lat, lng: curLocation.lng }}
                             />
                             <Marker
-                                position={{ lat: selected.lat, lng: selected.lng }}
+                                position={{ lat: marker.lat, lng: marker.lng }}
+                                onClick={(e) => {
+                                    setSelected(marker);
+                                }}
                             />
 
-                            {/* {selected ? (<InfoWindow
+                            {selected ? (<InfoWindow
                                 position={{ lat: selected.lat, lng: selected.lng }}
+                                onCloseClick={() => {
+                                    setSelected(null);
+                                }}
                             >
                                 <h2>Toạ độ: ({selected.lat}, {selected.lng})</h2>
                             </InfoWindow>)
                                 : null
-                            } */}
+                            }
                         </GoogleMap>
                     </DialogActions>
                     <Button className="AddStation__buttons"
