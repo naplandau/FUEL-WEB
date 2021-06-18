@@ -12,6 +12,7 @@ import { RootState } from '../../reducers/root.reducer';
 import googleConfig from '../../configs/googleApi.config';
 import { Libraries } from '@react-google-maps/api/dist/utils/make-load-script-url';
 import { setLng, setLat } from '../../reducers/station.reducer'
+import currentIcon from '../../assets/current-location.svg';
 
 import '../../styles/components/ListStations/MapDialog.scss';
 
@@ -106,6 +107,7 @@ const StationDialog = ({
                         >
                             <Marker
                                 position={{ lat: curLocation.lat, lng: curLocation.lng }}
+                                
                             />
                             <Marker
                                 position={{ lat: marker.lat, lng: marker.lng }}
@@ -120,7 +122,7 @@ const StationDialog = ({
                                     setSelected(null);
                                 }}
                             >
-                                <h2>Toạ độ: ({selected.lat}, {selected.lng})</h2>
+                                <h4>Toạ độ: ({selected.lat}, {selected.lng})</h4>
                             </InfoWindow>)
                                 : null
                             }
