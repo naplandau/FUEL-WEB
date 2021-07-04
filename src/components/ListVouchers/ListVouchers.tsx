@@ -88,7 +88,6 @@ const ListVouchers = ({
                                 <TableCell align="center" className="tableRightBorder">Loại thẻ</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Trạng thái thẻ quà</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Ngày khởi tạo</TableCell>
-                                <TableCell align="center"></TableCell>
                             </TableRow>
                         </TableHead>
                         {vouchers.length > 0 && <TableBody>
@@ -100,16 +99,6 @@ const ListVouchers = ({
                                     <TableCell align="center" className="tableRightBorder">{voucher.type === 0 ? "Thẻ được tặng" : "Thẻ sở hữu"}</TableCell>
                                     <TableCell align="center" className="tableRightBorder">{checkVoucherStatus(voucher.status, voucher.isOn)}</TableCell>
                                     <TableCell align="center" className="tableRightBorder">{moment(voucher.createdAt).format('L') + ' ' + moment(voucher.createdAt).format('LTS')}</TableCell>
-                                    <TableCell align="center">
-                                        <IconButton
-                                            onClick={() => {
-                                                history.push(`vouchers/${voucher._id}`)
-                                            }}
-                                        >
-                                            <NavigateNextIcon />
-                                        </IconButton>
-
-                                    </TableCell>
                                 </TableRow>
                                 // }
                                 // return null;

@@ -206,7 +206,7 @@ const ListStations = ({
                                 <TableCell align="center" className="tableRightBorder">Số lượng trụ xăng</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Thời gian hoạt động</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Tuỳ chỉnh</TableCell>
-                                <TableCell align="center"></TableCell>
+                                <TableCell align="center">Chi tiết</TableCell>
                             </TableRow>
                         </TableHead>
                         {stations.length > 0 && <TableBody>

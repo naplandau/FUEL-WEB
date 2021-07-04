@@ -133,7 +133,7 @@ const ListTanks = ({
                             <TableCell align="center" className="tableRightBorder">Loại xăng/dầu</TableCell>
                             <TableCell align="center" className="tableRightBorder">Tình trạng</TableCell>
                             <TableCell align="center" className="tableRightBorder">Tuỳ chỉnh</TableCell>
-                            <TableCell align="center"></TableCell>
+                            <TableCell align="center">Tuỳ chỉnh</TableCell>
                         </TableRow>
                     </TableHead>
                     {tanks.length > 0 && <TableBody>

@@ -77,7 +77,7 @@ const ListUsers = ({
                                 <TableCell align="center" className="tableRightBorder">Số điện thoại</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Họ Tên</TableCell>
                                 <TableCell align="center" className="tableRightBorder">Vai trò</TableCell>
-                                <TableCell align="center"></TableCell>
+                                <TableCell align="center">Chi tiết</TableCell>
                             </TableRow>
                         </TableHead>
                         {users.length > 0 && <TableBody>
